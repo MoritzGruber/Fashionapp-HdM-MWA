@@ -1,5 +1,5 @@
 <ion-view view-title="Dashboard">
-  <ion-content class="padding">
+  <ion-content class="padding" ng-controller="DashCtrl">
     <h2>Welcome to Ionic</h2>
     <p>
     This is the Ionic starter for tabs-based apps. For other starters and ready-made templates, check out the <a href="http://market.ionic.io/starters" target="_blank">Ionic Market</a>.
@@ -13,5 +13,10 @@
     <p>
       For help sending push notifications, join the <a href="https://apps.ionic.io/signup" target="_blank">Ionic Platform</a> and check out <a href="http://docs.ionic.io/docs/push-overview" target="_blank">Ionic Push</a>. We also have other services available.
     </p>
+
+    <!-- // adding a Button, that calls the getPhoto function. -->
+    <button ng-click="getPhoto()" class="button button-block button-primary">Take Photo</button>
+    <!-- // The url of the image is saved in the scope by the controller and is displayd on the screen -->
+    <img ng-src="{{lastPhoto}}" style="max-width: 100%">
   </ion-content>
 </ion-view>

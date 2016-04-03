@@ -1,5 +1,37 @@
 angular.module('starter.services', [])
 
+//creating a factory to save constants, and a global debugging state
+//this makes it easy to en/disable debugging console logs
+.factory('Constants', function() {
+  return {
+    debugging: true
+  };
+})
+
+.factory('Camera', ['$q', function($q) {
+ // creating camera factory calls codova plugin to load native camera app
+ //$q is used to give the controller a promise, check out the promise Api of angular for more details
+ //$q and deferred is asynchronous programing and try, catch, throw is synchronous programming
+ //== A service that helps you run functions asynchronously, and use their return values (or exceptions) when they are done processing
+  return {
+    getPicture: function(options) {
+      var deferred = $q.defer();
+
+      navigator.camera.getPicture(function(result) {
+        //calling codova plugin
+        deferred.resolve(result);
+      }, function(err) {
+        deferred.reject(err);
+      }, options);
+      //handling the results
+
+      return deferred.promise;
+      //return a promise
+    }
+  }
+}])
+
+
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 

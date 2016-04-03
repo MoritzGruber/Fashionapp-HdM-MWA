@@ -1,6 +1,31 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
+.controller('DashCtrl', function($scope, Camera, Constants) {
+
+  $scope.getPhoto = function() {
+    //creating new getPhoto funciton in the scope of the controller
+   Camera.getPicture().then(function(imageURI) {
+     //use Camera plugin, which was added in dependencies
+     if (Constants.debugging) {
+       console.log(imageURI);
+     }
+     //logging uri of the image, if debugging is enabeld in the Constants factory
+     $scope.lastPhoto = imageURI;
+     //save the uri to the scope
+   }, function(err) {
+     console.err(err);
+     //logging error to console
+     //TODO: Show an error massage on screen
+   }, {
+     quality: 75,
+     targetWidth: 320,
+     targetHeight: 320,
+     saveToPhotoAlbum: false
+     //settings for image quality, etc..
+   });
+ };
+
+})
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
