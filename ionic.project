@@ -1,6 +1,6 @@
 {
-  "name": "Fashionapp",
-  "app_id": "",
+  "name": "Dress2",
+  "app_id": "b52e8848",
   "gulpStartupTasks": [
     "sass",
     "watch"
