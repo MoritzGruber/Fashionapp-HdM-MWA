@@ -9730,3 +9730,50 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+#bg1 {
+  background: url("../img/Modeapp1.png") no-repeat center center fixed; }
+
+#bg2 {
+  background: url("../img/Modeapp2.png") no-repeat center center fixed; }
+
+#bg3 {
+  background: url("../img/Modeapp3.png") no-repeat center center fixed; }
+
+#bg4 {
+  background: url("../img/Modeapp4.png") no-repeat center center fixed; }
+
+#bg5 {
+  background: url("../img/Modeapp5.png") no-repeat center center fixed; }
+
+#bg6 {
+  background: url("../img/Modeapp6.png") no-repeat center center fixed; }
+
+#bg1, #bg2, #bg3, #bg4, #bg5, #bg6 {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+
+.tabbar {
+  position: absolute;
+  bottom: 0;
+  height: 9.5%;
+  width: 100%; }
+
+.tap1, .tap2, .tap3, .tap4 {
+  width: 25%;
+  height: 100%;
+  float: left; }
+
+.ausloeserdiv {
+  position: absolute;
+  bottom: 9.5%;
+  height: 15%;
+  width: 100%; }
+
+.detaillink {
+  position: absolute;
+  top: 0;
+  height: 35%;
+  width: 100%; }
