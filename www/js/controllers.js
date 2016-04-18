@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ChatsCtrl', function($scope, Chats, socket) {
+.controller('ChatsCtrl', function($scope, Chats, socket, Constants) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -41,6 +41,18 @@ angular.module('starter.controllers', [])
     console.log('The party is going on!');
   });
 
+  //function called when user hits the send button
+  // sends the data in $scope.message to the server with our websocket
+  $scope.sendMessage=function(){
+  		socket.emit('chat message', $scope.message);
+  		$scope.message = "";
+      if (Constants.debugging) {
+        //logging for debugging
+        console.log('Send button was clicked, and send function was called!');
+      }
+  };
+
+  //starter template code below.....
   $scope.chats = Chats.all();
   $scope.remove = function(chat) {
     Chats.remove(chat);
