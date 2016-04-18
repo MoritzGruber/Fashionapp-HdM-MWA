@@ -8,6 +8,19 @@ angular.module('starter.services', [])
   };
 })
 
+//this factory is used to establish a socketio connect to our server
+//returning the socket
+.factory('socket',function(socketFactory){
+	//Create socket and connect to (serverip)
+ 	var myIoSocket = io.connect('http://192.168.99.100:3000'); //<-- place your ip in here if you docker/etc is running on a diffrent one
+  	mySocket = socketFactory({
+    	ioSocket: myIoSocket
+  	});
+
+	return mySocket;
+})
+
+
 .factory('Camera', ['$q', function($q) {
  // creating camera factory calls codova plugin to load native camera app
  //$q is used to give the controller a promise, check out the promise Api of angular for more details
