@@ -1,1 +1,20 @@
-/* Empty. Add your own CSS if you like */
+/* tab-collection */
+.ion-plus-circled {
+  float: right;
+  color: red;
+}
+/* tab-camera */
+div.imagePicked{
+  height: auto;
+  width:500px;
+  display: block;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.cameraImage {
+  height: 50%;
+  width:50%;
+  display: block;
+  margin-left: 10px;
+  margin-right: 10px;
+}

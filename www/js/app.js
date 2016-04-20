@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova' ])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -24,38 +24,38 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
-
+//setting up route
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-  // setup an abstract state for the tabs directive
+  // setup an abstract state for the tabs directive, template for tabs
     .state('tab', {
-    url: '/tab',
+    url: '/tab', // to navigate from browser
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
 
   // Each tab has its own nav history stack:
-
-  .state('tab.dash', {
-    url: '/dash',
+  //child template of tabs
+  .state('tab.enquires', {
+    url: '/enquires',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-enquires': {
+        templateUrl: 'templates/tab-enquires.html',
+        controller: 'EnquiresCtrl'
       }
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.collection', {
+      url: '/collection',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-collection': {
+          templateUrl: 'templates/tab-collection.html',
+          controller: 'CollectionCtrl'
         }
       }
     })
@@ -69,17 +69,61 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
 
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.camera', {
+    url: '/camera',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-camera': {
+        templateUrl: 'templates/tab-camera.html',
+        controller: 'CameraCtrl'
       }
     }
-  });
+  })
+  .state('tab.profile', {
+      url: '/profile',
+      views: {
+        'tab-profile': {
+          templateUrl: 'templates/tab-profile.html',
+          controller: 'ProfileCtrl'
+        }
+      }
+    });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/enquires');
 
+});
+
+
+
+
+app.controller('PictureControl', function($scope, $cordovaCamera){
+  // function which takes as a parameter source of the photo
+   $scope.takeImage = function(source) {
+     //var to hold the source of photo
+
+    switch (source) {
+      case 1:
+        source = Camera.PictureSourceType.CAMERA;
+        break;
+      case 2:
+        source = Camera.PictureSourceType.PHOTOLIBRARY;
+        break;
+    }
+    var options = {
+      quality: 50,
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: source,
+      encodingType: Camera.EncodingType.JPEG,
+      mediaType: Camera.MediaType.PICTURE,
+      allowEdit: false,
+      saveToPhotoAlbum: false,
+    //  correctOrientation: true  //Corrects Android orientation quirks
+    };
+    $cordovaCamera.getPicture(options).then(function(imageData) {
+      $scope.srcImage = "data:image/jpeg;base64," + imageData;
+      $scope.srcImage = imageData;
+    }, function(err) {
+      console.log(err);
+    });
+  }
 });

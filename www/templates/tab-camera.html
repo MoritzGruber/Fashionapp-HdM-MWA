@@ -1,0 +1,26 @@
+<ion-view view-title="Camera">
+
+  <ion-pane>
+
+    <ion-content ng-controller="PictureControl">
+
+      <div class="description">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Brand</span>
+          <input type="text" placeholder="Brand">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Price</span>
+          <input type="number" placeholder="Price">
+        </label>
+      </div>
+      <div class="imagePicked" ng-show="srcImage != null">
+        <img class="cameraImage" ng-show="srcImage" ng-src="{{srcImage}}">
+      </div>
+      <button class="button button-full button-positive " ng-click="takeImage(1) ">Take Image</button>
+      <button class="button button-full button-positive " ng-click="takeImage(2) ">Get Image</button><br/>
+
+    </ion-content>
+</ion-pane>
+
+</ion-view>

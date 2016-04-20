@@ -1,12 +1,4 @@
 {
-  "name": "Fashionapp",
-  "app_id": "",
-  "gulpStartupTasks": [
-    "sass",
-    "watch"
-  ],
-  "watchPatterns": [
-    "www/**/*",
-    "!www/lib/**/*"
-  ]
+  "name": "fashion",
+  "app_id": ""
 }
