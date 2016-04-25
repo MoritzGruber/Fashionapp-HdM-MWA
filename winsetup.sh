@@ -1,8 +1,8 @@
 #adding dependencies
 npm install
-bower install --allow-root
+bower install
 #installing plugins
 cordova plugin add cordova-plugin-whitelist
 cordova plugin add cordova-plugin-camera
 #adding platfroms
-ionic platform add ios android
+ionic platform add android

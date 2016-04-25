@@ -35,7 +35,7 @@ angular.module('starter.services', [])
         deferred.resolve(result);
       }, function(err) {
         deferred.reject(err);
-      }, options);
+      }, options.destinationType=FILE_URI);
       //handling the results
 
       return deferred.promise;

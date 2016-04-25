@@ -10,6 +10,7 @@ angular.module('starter.controllers', [])
 
 
   $scope.getPhoto = function() {
+     $scope.AAAAAAAAAAAAAAAAAAAA = "debugtestscopelocation";
     //creating new getPhoto funciton in the scope of the controller
    Camera.getPicture().then(function(imageURI) {
      //use Camera plugin, which was added in dependencies
@@ -21,6 +22,7 @@ angular.module('starter.controllers', [])
      //save the uri to the scope
    }, function(err) {
      console.err(err);
+    //this function dosnt even get called, have to make a cetch outside before
      //logging error to console
      //TODO: Show an error massage on screen
    }, {
