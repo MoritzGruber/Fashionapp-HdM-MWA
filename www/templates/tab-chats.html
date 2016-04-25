@@ -11,6 +11,12 @@
         </ion-option-button>
       </ion-item>
     </ion-list>
+    
+    <!-- // adding a Button, that calls the getPhoto function. -->
+    <button ng-click="getPhoto()" class="button button-block button-primary">Take Photo</button>
+    <!-- // The url of the image is saved in the scope by the controller and is displayd on the screen -->
+    <img ng-src="{{lastPhoto}}" style="max-width: 100%">
+
     <div class="item item-input-inset light-grey">
 		  <label  class="item-input-wrapper line-light-grey nopadtop">
         <!--Using $parent.function and $parent.varable here insted of $scope.function and $scope.varable
