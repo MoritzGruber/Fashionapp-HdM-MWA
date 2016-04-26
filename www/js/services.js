@@ -1,13 +1,4 @@
 angular.module('starter.services', [])
-
-//creating a factory to save constants, and a global debugging state
-//this makes it easy to en/disable debugging console logs
-.factory('Constants', function() {
-  return {
-    debugging: true
-  };
-})
-
 //this factory is used to establish a socketio connect to our server
 //returning the socket
 .factory('socket',function(socketFactory){
@@ -35,9 +26,8 @@ angular.module('starter.services', [])
         deferred.resolve(result);
       }, function(err) {
         deferred.reject(err);
-      }, options.destinationType=FILE_URI);
+      }, options);
       //handling the results
-
       return deferred.promise;
       //return a promise
     }
