@@ -5,6 +5,7 @@
     "ionic": "driftyco/ionic-bower#1.2.4"
   },
   "dependencies": {
-    "angular-socket-io": "^0.7.0"
+    "angular-socket-io": "^0.7.0",
+    "angular-base64": "^2.0.5"
   }
 }
