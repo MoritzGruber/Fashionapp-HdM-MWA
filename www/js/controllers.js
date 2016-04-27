@@ -32,7 +32,7 @@ angular.module('starter.controllers', [])
   });
 
   socket.on('incoming_image', function (data) {
-    $scope.lastPhoto = $base64.decode(data);
+    $scope.data = data;
   });
 
   //function called when user hits the send button

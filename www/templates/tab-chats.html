@@ -11,9 +11,10 @@
         </ion-option-button>
       </ion-item>
     </ion-list>
-    
+
     <!-- // adding a Button, that calls the getPhoto function. -->
     <button ng-click="getPhoto()" class="button button-block button-primary">Take Photo</button>
+    <img src="data:image/jpeg;base64,{{data}}" />
     <!-- // The url of the image is saved in the scope by the controller and is displayd on the screen -->
     <img ng-src="{{lastPhoto}}" style="max-width: 100%">
 
