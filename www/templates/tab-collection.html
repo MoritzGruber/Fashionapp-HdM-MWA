@@ -1,27 +1,28 @@
 <ion-view view-title="Collection">
+
   <ion-content  ng-controller="PictureControl" >
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/chats/{{chat.id}}">
+<button class="button button-block button-outline button-light ion-plus-round" ng-click="takeImage(1)"></button>
 
-        <img ng-src="{{chat.face}}">
+    <ion-list ng-controller="CollectionCtrl">
 
-        <h2>{{chat.name}}</h2>
-        <p>{{chat.lastText}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
+      <ion-item class="item-thumbnail-left" ng-repeat="item in collection" type="item-text-wrap">
 
-        <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
-        </ion-option-button>
+              <img class="collectionPic" ng-src="img/{{item.item}}.jpg">
+              <h2>{{item.up}}</h2>
+              <h2>{{item.down}}</h2>
+
+              <ion-option-button class="button-assertive" ng-click="remove(item)">
+                Delete
+              </ion-option-button>
+
       </ion-item>
-
-          </ion-list>
-
-
+      </ion-list>
 
         <img ng-show="srcImage !== undefined" ng-src="{{srcImage}}">
-<!--        <img ng-show="srcImage === undefined" ng-src="http://placehold.it/300x300">
--->
-        <a href ="#/tab/camera" button class="button button-icon button-large ion-plus-circled" href="#/tab/camera"></button>
-        </a>
+
+
+  <!--            <a href ="#/tab/camera"   </a>
+  -->
+
   </ion-content>
 </ion-view>

@@ -1,29 +1,21 @@
 angular.module('starter.controllers', [])
 
 .controller('EnquiresCtrl', function($scope) {})
+// tab-enquires
+.controller('ItemsController', ['$scope', '$http',  function($scope, $http){
+  //http service to get a json file
+  $http.get('js/data.json').success(function(data){
+    //pass along data from http service to scope items
+    $scope.items = data.items;
+  });
+}])
 
-.controller('CollectionCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('CameraCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-})
-.controller('ProfileCtrl', function($scope) {});
+.controller('CollectionCtrl', ['$scope', '$http',  function($scope, $http){
+  $http.get('js/data.json').success(function(data){
+    //pass along data from http service to scope items
+    $scope.collection = data.collection;
+              $scope.remove = function(item) {
+                $scope.collection.splice($scope.collection.indexOf(item), 1);
+              };
+      });
+  }]);

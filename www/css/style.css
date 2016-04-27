@@ -1,8 +1,23 @@
+/* tab-enquires */
+
 /* tab-collection */
+.row {
+  width: auto;
+  height: : 200px;
+  display: inline-block;
+}
+
+.votes {
+  float:right;
+}
+
+
 .ion-plus-circled {
   float: right;
   color: red;
 }
+
+
 /* tab-camera */
 div.imagePicked{
   height: auto;

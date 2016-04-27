@@ -1,12 +1,22 @@
 <ion-view view-title="Enquires">
-  <ion-content class="padding">
+  <ion-content ng-controller="ItemsController" class="padding">
 
     <ion-list>
-      <ion-item class="item-thumbnail-left">
-        <img src="http://placehold.it/100x100" alt="Photo">
-        <h2>Name</h2>
-        <h3>Like</h3>
-        <h3>Do not like</h3>
+      <!-- list items and current one in var item -->
+      <ion-item ng-repeat='item in items'>
+
+        <div class="item card">
+          <div class="user item-avatar">
+              <img src="img/{{item.profilepic}}.jpg"
+              <h3>{{item.name}}</h1>
+          </div>
+          <div class="picture">
+              <img src="img/{{item.item}}.jpg"
+          </div>
+          <div class="vote">
+
+          </div>
+        </div>
       </ion-item>
     </ion-list>
 

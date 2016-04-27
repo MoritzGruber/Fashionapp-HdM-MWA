@@ -96,6 +96,7 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
 
 
 
+//tab-collection
 app.controller('PictureControl', function($scope, $cordovaCamera){
   // function which takes as a parameter source of the photo
    $scope.takeImage = function(source) {
@@ -119,11 +120,28 @@ app.controller('PictureControl', function($scope, $cordovaCamera){
       saveToPhotoAlbum: false,
     //  correctOrientation: true  //Corrects Android orientation quirks
     };
-    $cordovaCamera.getPicture(options).then(function(imageData) {
+    $cordovaCamera.getPicture(options).then(function(){
+        $state.go('tab.camera')
+    }, function(imageData) {
       $scope.srcImage = "data:image/jpeg;base64," + imageData;
       $scope.srcImage = imageData;
-    }, function(err) {
+
+    },
+      function(err) {
       console.log(err);
     });
+  }
+});
+
+app.controller('PopupCtrl',function($scope, $ionicPopup, $timeout, $state) {
+  $scope.showPopup = function(){
+            var popup = $ionicPopup.prompt({
+                title:'title',
+                template: 'It might taste good'
+              });
+              popup.then(function(res){
+                console.log("clicked", res)
+              })
+
   }
 });
