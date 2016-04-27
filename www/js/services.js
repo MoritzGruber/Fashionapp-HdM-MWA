@@ -19,14 +19,15 @@ angular.module('starter.services', [])
  //== A service that helps you run functions asynchronously, and use their return values (or exceptions) when they are done processing
   return {
     getPicture: function(options) {
+      // this is the same as try and catch, just asynchronous
       var deferred = $q.defer();
-
       navigator.camera.getPicture(function(result) {
         //calling codova plugin
         deferred.resolve(result);
       }, function(err) {
         deferred.reject(err);
       }, options);
+
       //handling the results
       return deferred.promise;
       //return a promise

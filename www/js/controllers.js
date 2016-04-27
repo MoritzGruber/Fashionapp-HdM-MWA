@@ -6,40 +6,26 @@ angular.module('starter.controllers', [])
 
 
   $scope.getPhoto = function() {
-    //creating new getPhoto funciton in the scope of the controller
-   Camera.getPicture().then(function(dataURL) {
-     //use Camera plugin, which was added in dependencies
-      console.log ($base64.encode(dataURL) +"log3");
-      socket.on('connection',function(){
-        socket.emit('new_image', $base64.encode(dataURL));
-        console.log("is connected");
-      });
-      $scope.upload = $base64.encode(dataURL);
-     //logging uri of the image, if debugging is enabeld in the Constants factory
-     //save the uri to the scope
+    //first we define a var to set the settings we use calling the cordova camera,
+    var cameraSettings = {
+      sourceType: navigator.camera.PictureSourceType.CAMERA,
+      destinationType: navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
+      quality: 75,
+      targetWidth: 320,
+      targetHeight: 320,
+      saveToPhotoAlbum: false,
+    };
+    //calling our service with asynchronously runs the cordova camera plugin
+   Camera.getPicture(cameraSettings).then(function(dataURL) {
+      //store the returned bas64 string in the scope
+      $scope.upload = dataURL;
    }, function(err) {
      console.log(err);
     //this function dosnt even get called, have to make a cetch outside before
-   }, {
-     //destinationType: navigator.camera.DestinationType.DATA_URL, //desttype is to rease the base64 string
-     quality: 75,
-     targetWidth: 320,
-     targetHeight: 320,
-     saveToPhotoAlbum: false,
-     //settings for image quality, etc..
-   })
+  });
  };
 
-
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  //here we call the socket factory/service and log sth. for debugging
+  //catching socket events
   socket.on('connection',function(){
     console.log('The party is going on!');
 
@@ -55,6 +41,7 @@ angular.module('starter.controllers', [])
   		socket.emit('chat message', $scope.message);
   		$scope.message = "";
       socket.emit('new_image', $scope.upload);
+      $scope.upload = "";
   };
 
   //starter template code below.....
