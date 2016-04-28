@@ -24,7 +24,7 @@
         because, ******* ionic creates automatic child scopes for the "ion-content" container....
         but the function i wrote for sendeing the socket messages is binded to the scope in the view,
         so i need to use the parent to accsess it   -->
-		    <input class="line-light-grey" type="text"  placeholder="Message" ng-enter="$parent.sendMessage()" ng-model="$parent.message">
+		    <input class="line-light-grey" type="text"  placeholder="Message" ng-model="$parent.message">
 		  </label>
 		  <div class="divsend">
 			    <button class="button button-clear ion-android-send iconsend" ng-click="$parent.sendMessage()"></button>

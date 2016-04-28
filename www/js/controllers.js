@@ -1,8 +1,11 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
+.controller('DashCtrl', function($scope, storage) {
+  //passing in the storage service in the scope
+$scope.storage = storage;
+})
 
-.controller('ChatsCtrl', function($scope, $base64, Chats, socket, Camera) {
+.controller('ChatsCtrl', function($scope, $base64, Chats, socket, Camera, storage) {
 
 
   $scope.getPhoto = function() {
@@ -55,8 +58,10 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope, storage) {
   $scope.settings = {
     enableFriends: true
   };
+  //pass over the service to use in html tap
+  $scope.storage = storage;
 });

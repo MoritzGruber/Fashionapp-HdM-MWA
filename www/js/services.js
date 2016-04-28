@@ -11,6 +11,21 @@ angular.module('starter.services', [])
 	return mySocket;
 })
 
+//this is servie is to storage variables globally and share them between tabs/controllers
+//TODO: Later we have to save this data to the phone memory to make it persist when closing and reopen the app
+.service('storage', function () {
+  var number = "number isn't set yet";
+
+  return {
+      getNumber: function () {
+          return number;
+      },
+      setNumber: function(value) {
+          number = value;
+      }
+  };
+})
+
 
 .factory('Camera', ['$q', function($q) {
  // creating camera factory calls codova plugin to load native camera app
@@ -32,7 +47,7 @@ angular.module('starter.services', [])
       return deferred.promise;
       //return a promise
     }
-  
+
   }
 }])
 
