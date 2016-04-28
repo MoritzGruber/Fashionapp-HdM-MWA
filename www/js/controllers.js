@@ -25,4 +25,6 @@ angular.module('starter.controllers', [])
   });
 }])
 
-.controller('CollectionDetailCtrl', function($scope) {} )
+.controller('CollectionDetailCtrl', function($scope, $stateParams, Collection) {
+  $scope.collection = Collection.get($stateParams.collectionId);
+})

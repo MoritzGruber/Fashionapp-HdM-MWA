@@ -14,7 +14,7 @@
           <progress value="0" max="100"></progress>
       </ion-item>
       <!-- CollectionCtrl - retrieve content from JSON, adding to scope and display it as a list -->
-      <ion-item ng-controller="CollectionCtrl" class="item-thumbnail-left" ng-repeat="item in collection" type="item-text-wrap">
+      <ion-item ng-controller="CollectionCtrl" class="item-thumbnail-left" ng-repeat="item in collection" type="item-text-wrap" href="#/tab/collection-detail/{{collection.id}}">
 
               <img class="collectionPic" ng-src="img/{{item.item}}.jpg">
               <h2>{{item.item}}</h2>
