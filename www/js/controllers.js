@@ -13,7 +13,7 @@ angular.module('starter.controllers', [])
 
 .controller('CollectionCtrl', ['$scope', '$http',  function($scope, $http){
   $http.get('js/data.json').success(function(data){
-    
+
     //pass along data from http service to scope items
     $scope.collection = data.collection;
 
@@ -24,3 +24,5 @@ angular.module('starter.controllers', [])
 
   });
 }])
+
+.controller('CollectionDetailCtrl', function($scope) {} )

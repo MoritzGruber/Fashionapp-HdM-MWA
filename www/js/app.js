@@ -59,16 +59,16 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.collection-detail', {
+      url: '/collection-detail/:id',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'collection-detail': {
+          templateUrl: 'templates/collection-detail.html',
+          controller: 'CollectionDetailCtrl'
         }
       }
     })
-
+/* 3rd tab
   .state('tab.camera', {
     url: '/camera',
     views: {
@@ -78,6 +78,7 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
       }
     }
   })
+*/
   .state('tab.profile', {
       url: '/profile',
       views: {
@@ -122,12 +123,11 @@ app.controller('PictureControl', function($scope, $cordovaCamera, $ionicPopup, $
     $cordovaCamera.getPicture(options).then(function(imageData){
       $scope.srcImage = "data:image/jpeg;base64," + imageData;
       $scope.srcImage = imageData;
-
-
     }, function(err) {
       console.log(err);
     });
   }
+  // showing popup with prompt for item name and price
   $scope.showPopup = function(){
       $scope.data = {};
             var popup = $ionicPopup.show({
@@ -149,19 +149,4 @@ app.controller('PictureControl', function($scope, $cordovaCamera, $ionicPopup, $
                 console.log("clicked", res)
               })
           }
-});
-
-
-app.controller('PopupCtrl',function($scope, $ionicPopup, $timeout, $state) {
-
-  $scope.showPopup = function(){
-            var popup = $ionicPopup.prompt({
-                title:'title',
-                price: 'price'
-              });
-              popup.then(function(res){
-                console.log("clicked", res)
-              })
-
-  }
 });
