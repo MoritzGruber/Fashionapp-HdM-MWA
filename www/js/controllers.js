@@ -30,13 +30,7 @@ $scope.storage = storage;
   });
  };
 })
-.controller('CommunityCtrl', function($scope) {})
-.controller('ProfileCtrl', function($scope) {})
-
-// tab-community
-.controller('ItemsController', ['$scope', '$http',  function($scope, $http){
-  //http service to get a json file
-
+.controller('CommunityCtrl', function($scope, socket) {
     //catching socket events
     socket.on('connection',function(){
       console.log('The party is going on!');
@@ -50,27 +44,29 @@ $scope.storage = storage;
     //function called when user hits the send button
     // sends the data in $scope.message to the server with our websocket
     $scope.sendMessage=function(){
-    		socket.emit('chat message', $scope.message);
-    		$scope.message = "";
+        socket.emit('chat message', $scope.message);
+        $scope.message = "";
         socket.emit('new_image', $scope.upload);
         $scope.upload = "";
     };
+})
+.controller('ProfileCtrl', function($scope) {})
 
+// tab-community
+.controller('ItemsController', ['$scope', '$http',  function($scope, $http, socket, storage){
+  //http service to get a json file
     //starter template code below.....
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-      Chats.remove(chat);
-    };
   $http.get('js/data.json').success(function(data){
     //pass along data from http service to scope items
     $scope.items = data.items;
   });
 }])
 
-.controller('CollectionCtrl', ['$scope', '$http', storage,  function($scope, $http){
+.controller('CollectionCtrl', ['$scope', '$http', function($scope, $http, socket, storage){
   $http.get('js/data.json').success(function(data){
     // http://angular-js.in/svg-round-progressbar/
-    $scope.images = storage.images();
+    //$scope.images = storage.images();
+    // get the data out of images.json
     //pass along data from http service to scope items
     $scope.collection = data.collection;
 
