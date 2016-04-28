@@ -26,5 +26,5 @@ angular.module('starter.controllers', [])
 }])
 
 .controller('CollectionDetailCtrl', function($scope, $stateParams, Collection) {
-  $scope.collection = Collection.get($stateParams.collectionId);
+  $scope.collection = Collection.get($stateParams.itemId);
 })

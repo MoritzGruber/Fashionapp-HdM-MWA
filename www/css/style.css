@@ -1,13 +1,16 @@
 /* tab-enquires */
-
+.full-image {
+    width: 100%;
+}
 /* tab-collection */
 progress{
   background: none;
   border: none;
   display: block;
+  color: #E8CA99;
 }
 progress::-webkit-progress-bar {
-	background: #E8CA99;
+	background: #DDDCD7;
   -moz-border-radius: 25px;
 	-webkit-border-radius: 25px;
 	border-radius: 25px;
@@ -20,7 +23,7 @@ progress::-webkit-progress-bar {
 progress::-webkit-progress-value {
 	border-radius: 50px;
 	box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
-	background: #fff;
+	background: #E8E098;
 }
 
 
