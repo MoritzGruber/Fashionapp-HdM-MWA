@@ -1,0 +1,56 @@
+{
+"items": [
+    {
+      "name": "Julia26",
+      "item": "Coat",
+      "picture": "coat",
+      "profilepic": "julie",
+      "price": "50"
+    },{
+      "name": "BarotBellingham",
+      "item": "Dress",
+      "picture": "dress",
+      "profilepic": "vanessa",
+      "price": "74"
+    },{
+      "name": "Vanessa_Green",
+      "item": "Glasses",
+      "picture": "glasses",
+      "profilepic": "vanessa",
+      "price": "80"
+    },{
+      "name": "MarrySnow",
+      "item": "Shorts",
+      "picture": "shorts",
+      "profilepic": "adam",
+      "price": "10"
+    }
+  ],
+  "collection": [
+    {
+      "item": "Coat",
+      "picture": "coat",
+      "price": "70",
+      "up": "50",
+      "down": "50"
+    },{
+      "item": "Dress",
+      "picture": "dress",
+      "price": "120",
+      "up": "70",
+      "down": "30"
+    },{
+      "item": "Glasses",
+      "picture": "glasses",
+      "price": "15",
+      "up": "40",
+      "down": "60"
+    },{
+      "item": "Shorts",
+      "picture": "shorts",
+      "price": "20",
+      "up": "50",
+      "down": "50"
+    }
+  ]
+}

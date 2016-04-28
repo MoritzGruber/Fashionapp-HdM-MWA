@@ -1,0 +1,27 @@
+<ion-view view-title="Community">
+  <ion-content ng-controller="ItemsController" class="padding">
+
+    <ion-list>
+      <!-- list items and current one in var item -->
+      <ion-item ng-repeat='item in items'>
+
+        <div class="item card">
+          <div class="item item-avatar">
+              <img src="img/{{item.profilepic}}.jpg"
+              <h2>{{item.item}} {{item.price}}&euro;</h2>
+              <h4>{{item.name}}</h4>
+
+          </div>
+          <div class="item item-body">
+              <img class="full-image" src="img/{{item.picture}}.jpg"
+          </div>
+          <div class="item item-footer button-bar">
+            <button class="button button-outline button-stable">Ugly</button>
+            <button  class="button button-outline button-stable">Nice</button>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+</ion-view>
