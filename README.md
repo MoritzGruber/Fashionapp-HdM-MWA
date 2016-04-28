@@ -15,9 +15,10 @@ cordova
 ```bash
 $ npm install -g cordova ionic
 ```
-
+!!upadted:
 Live preview of the app in the web browser:
 ```bash
+$ bash setup.sh
 $ ionic serve  
 ```
 
