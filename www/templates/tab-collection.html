@@ -4,6 +4,10 @@
     <!-- take picture button -->
     <button class="button button-block button-outline button-light ion-plus-round" ng-click="getPhoto()"></button>
     <ion-list>
+      <ion-item class="item-thumbnail-left">
+          <!-- picture from camera -->
+          <img src="{{$scope.data}}" />
+      </ion-item>
       <ion-item ng-show="srcImage !== undefined" class="item-thumbnail-left">
           <!-- picture from camera -->
           <img src="{{srcImage}}" />

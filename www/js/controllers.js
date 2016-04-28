@@ -30,16 +30,29 @@ $scope.storage = storage;
   });
  };
 })
-.controller('CommunityCtrl', function($scope, socket) {
-    //catching socket events
-    socket.on('connection',function(){
-      console.log('The party is going on!');
+.controller('CommunityCtrl', function($scope, socket, $ionicPlatform) {
 
+    $ionicPlatform.ready(function() {
+      socket.on('incoming_image', function (data) {
+        $scope.lastImage = "data:image/jpeg;base64," + data;
+      });
+      cordova.plugins.backgroundMode.setDefaults({
+          title:  'Lapica',
+          text:   'Waiting from friends to post new image'
+      });
+      // Enable background mode
+      cordova.plugins.backgroundMode.enable();
+
+      // Called when background mode has been activated
+      cordova.plugins.backgroundMode.onactivate = function () {
+
+          // Set an interval of 3 seconds (3000 milliseconds)
+          socket.on('incoming_image', function (data) {
+            $scope.lastImage = "data:image/jpeg;base64," + data;
+          });
+      }
     });
 
-    socket.on('incoming_image', function (data) {
-      $scope.data = data;
-    });
 
     //function called when user hits the send button
     // sends the data in $scope.message to the server with our websocket
