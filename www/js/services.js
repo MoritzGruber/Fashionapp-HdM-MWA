@@ -16,16 +16,16 @@ angular.module('starter.services', [])
 //TODO: Later we have to save this data to the phone memory to make it persist when closing and reopen the app
 .service('storage', function () {
   var number = "number isn't set yet";
-  
+
   return {
       getNumber: function () {
           return number;
       },
       setNumber: function(value) {
           number = value;
-      }
+      },
       getImages: function () {
-          return images
+          return images;
       }
   };
 })
