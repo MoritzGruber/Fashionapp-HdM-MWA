@@ -1,6 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('EnquiresCtrl', function($scope) {})
+
 // tab-enquires
 .controller('ItemsController', ['$scope', '$http',  function($scope, $http){
   //http service to get a json file
@@ -12,10 +13,14 @@ angular.module('starter.controllers', [])
 
 .controller('CollectionCtrl', ['$scope', '$http',  function($scope, $http){
   $http.get('js/data.json').success(function(data){
+    
     //pass along data from http service to scope items
     $scope.collection = data.collection;
-              $scope.remove = function(item) {
-                $scope.collection.splice($scope.collection.indexOf(item), 1);
-              };
-      });
-  }]);
+
+    // delete function
+      $scope.remove = function(item) {
+        $scope.collection.splice($scope.collection.indexOf(item), 1);
+      };
+
+  });
+}])

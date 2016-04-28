@@ -97,11 +97,10 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
 
 
 //tab-collection
-app.controller('PictureControl', function($scope, $cordovaCamera){
+app.controller('PictureControl', function($scope, $cordovaCamera, $ionicPopup, $timeout, $state){
   // function which takes as a parameter source of the photo
    $scope.takeImage = function(source) {
      //var to hold the source of photo
-
     switch (source) {
       case 1:
         source = Camera.PictureSourceType.CAMERA;
@@ -120,24 +119,45 @@ app.controller('PictureControl', function($scope, $cordovaCamera){
       saveToPhotoAlbum: false,
     //  correctOrientation: true  //Corrects Android orientation quirks
     };
-    $cordovaCamera.getPicture(options).then(function(){
-        $state.go('tab.camera')
-    }, function(imageData) {
+    $cordovaCamera.getPicture(options).then(function(imageData){
       $scope.srcImage = "data:image/jpeg;base64," + imageData;
       $scope.srcImage = imageData;
 
-    },
-      function(err) {
+
+    }, function(err) {
       console.log(err);
     });
   }
+  $scope.showPopup = function(){
+      $scope.data = {};
+            var popup = $ionicPopup.show({
+              template: ' Item <input type="text" ng-model="data.itemName">   <br> Price <input type="price" ng-model="data.itemPrice" > ',
+              title: 'Description',
+              scope: $scope,
+              buttons: [
+                { text:'Cancel' },
+                { text: 'Save',
+                  type: 'button-positive',
+                  onTap: function(e){
+                    return $scope.data;
+                  }}
+              ]
+              });
+              popup.then(function(res){
+                console.log("clicked", res)
+                console.log("clicked", popup)
+                console.log("clicked", res)
+              })
+          }
 });
 
+
 app.controller('PopupCtrl',function($scope, $ionicPopup, $timeout, $state) {
+
   $scope.showPopup = function(){
             var popup = $ionicPopup.prompt({
                 title:'title',
-                template: 'It might taste good'
+                price: 'price'
               });
               popup.then(function(res){
                 console.log("clicked", res)

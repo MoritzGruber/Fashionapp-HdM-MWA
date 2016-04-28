@@ -1,28 +1,32 @@
 <ion-view view-title="Collection">
 
   <ion-content  ng-controller="PictureControl" >
-<button class="button button-block button-outline button-light ion-plus-round" ng-click="takeImage(1)"></button>
 
+
+    <button class="button button-block button-outline button-light ion-plus-round" ng-click="takeImage(1); showPopup()"></button>
     <ion-list ng-controller="CollectionCtrl">
+      <ion-item ng-show="srcImage !== undefined" class="item-thumbnail-left">
+          <img ng-src="{{srcImage}}">
+          <h2>{{data.itemName}}</h2>
+          <h2>{{data.itemPrice}}&euro;</h2>
+      </ion-item>
 
       <ion-item class="item-thumbnail-left" ng-repeat="item in collection" type="item-text-wrap">
 
               <img class="collectionPic" ng-src="img/{{item.item}}.jpg">
-              <h2>{{item.up}}</h2>
-              <h2>{{item.down}}</h2>
+              <h2>{{item.item}}</h2>
+              <h2>{{item.price}}&euro;</h2>
+              <progress value="{{item.up}}" max="100"></progress>
+
 
               <ion-option-button class="button-assertive" ng-click="remove(item)">
                 Delete
               </ion-option-button>
 
       </ion-item>
-      </ion-list>
-
-        <img ng-show="srcImage !== undefined" ng-src="{{srcImage}}">
+    </ion-list>
 
 
-  <!--            <a href ="#/tab/camera"   </a>
-  -->
 
   </ion-content>
 </ion-view>

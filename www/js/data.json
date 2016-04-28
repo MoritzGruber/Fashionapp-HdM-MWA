@@ -28,22 +28,22 @@
   ],
   "collection": [
     {
-      "item": "coat",
+      "item": "Coat",
       "price": "70",
       "up": "50",
       "down": "50"
     },{
-      "item": "dress",
+      "item": "Dress",
       "price": "120",
       "up": "70",
       "down": "30"
     },{
-      "item": "glasses",
+      "item": "Glasses",
       "price": "15",
       "up": "40",
       "down": "60"
     },{
-      "item": "shorts",
+      "item": "Shorts",
       "price": "20",
       "up": "50",
       "down": "50"
