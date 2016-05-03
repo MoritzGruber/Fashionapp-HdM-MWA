@@ -7,21 +7,21 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-background-mode": {
+            "PACKAGE_NAME": "com.moritzgruber.ios"
+        },
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.moritzgruber.ios"
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.moritzgruber.ios"
-        },
-        "cordova-plugin-background-mode": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
         }
     },
     "dependent_plugins": {
-        "cordova-plugin-compat": {
+        "cordova-plugin-device": {
             "PACKAGE_NAME": "com.moritzgruber.ios"
         },
-        "cordova-plugin-device": {
+        "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.moritzgruber.ios"
         }
     }

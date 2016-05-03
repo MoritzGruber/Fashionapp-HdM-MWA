@@ -21,7 +21,9 @@ $scope.storage = storage;
     //calling our service with asynchronously runs the cordova camera plugin
    Camera.getPicture(cameraSettings).then(function(imageData) {
       //upload the image with our open socket connection
-      socket.emit('new_image', imageData);
+      //adding the phone number and pasing the object to json
+      var image= {imageData:imageData, number:storage.getNumber()};
+      socket.emit('new_image', JSON.stringify(image));
       //save the image in the scope to display it in the tapview
       $scope.srcImage = "data:image/jpeg;base64," + imageData;
    }, function(err) {
@@ -30,27 +32,37 @@ $scope.storage = storage;
   });
  };
 })
-.controller('CommunityCtrl', function($scope, socket, $ionicPlatform) {
+.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage) {
 
     $ionicPlatform.ready(function() {
-      socket.on('incoming_image', function (data) {
-        $scope.lastImage = "data:image/jpeg;base64," + data;
+        //on startup load iamges from storage, if there is sth to load
+        if (storage.getImages()!=undefined) {
+            $scope.lastImage = "data:image/jpeg;base64," + storage.getImages().imageData;
+            $scope.number = storage.getImages().number;
+            console.log("storage was loaded");
+        }
+        //saving reciving images to scope and storage
+      socket.on('incoming_image', function (image) {
+        $scope.lastImage = "data:image/jpeg;base64," + image.imageData;
+        $scope.number = image.number;
+        storage.setImages(image);
+        console.log("image(" + image + ") recived and stored");
       });
-      cordova.plugins.backgroundMode.setDefaults({
-          title:  'Lapica',
-          text:   'Waiting from friends to post new image'
-      });
-      // Enable background mode
-      cordova.plugins.backgroundMode.enable();
-
-      // Called when background mode has been activated
-      cordova.plugins.backgroundMode.onactivate = function () {
-
-          // Set an interval of 3 seconds (3000 milliseconds)
-          socket.on('incoming_image', function (data) {
-            $scope.lastImage = "data:image/jpeg;base64," + data;
-          });
-      }
+    //   cordova.plugins.backgroundMode.setDefaults({
+    //       title:  'Lapica',
+    //       text:   'Waiting from friends to post new image'
+    //   });
+    //   // Enable background mode
+    //   cordova.plugins.backgroundMode.enable();
+      //
+    //   // Called when background mode has been activated
+    //   cordova.plugins.backgroundMode.onactivate = function () {
+      //
+    //       // Set an interval of 3 seconds (3000 milliseconds)
+    //       socket.on('incoming_image', function (data) {
+    //         $scope.lastImage = "data:image/jpeg;base64," + data;
+    //       });
+    //   }
     });
 
 

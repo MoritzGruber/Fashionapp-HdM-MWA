@@ -14,18 +14,23 @@ angular.module('starter.services', [])
 
 //this is servie is to storage variables globally and share them between tabs/controllers
 //TODO: Later we have to save this data to the phone memory to make it persist when closing and reopen the app
-.service('storage', function () {
-  var number = "number isn't set yet";
-
+.service('storage', function ($localStorage) {
   return {
       getNumber: function () {
-          return number;
+          if ($localStorage.number == "undefined"){
+              return "no number defined yet";
+          } else {
+              return $localStorage.number;
+          }
       },
       setNumber: function(value) {
-          number = value;
+          $localStorage.number = value;
+      },
+      setImages: function (images) {
+          return $localStorage.images;
       },
       getImages: function () {
-          return images;
+          return $localStorage.images;
       }
   };
 })
