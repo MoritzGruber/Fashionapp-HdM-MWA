@@ -34,8 +34,13 @@ $scope.storage = storage;
   });
  };
 })
-.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage) {
+.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage, voteservice) {
     console.log("platform: " + ionic.Platform.platform());
+
+    //this function is called when you hit a vote button
+    $scope.vote= function (voting, indexofvotedimage) {
+            voteservice.vote(voting, indexofvotedimage);
+    }
     $ionicPlatform.ready(function() {
         $scope.local = $localStorage.images;
         //on startup load iamges from storage, if there is sth to load

@@ -2,6 +2,8 @@
   <ion-content ng-controller="ItemsController" class="padding">
     <div ng-repeat="image in local track by $index">
         <img ng-src="data:image/jpeg;base64, {{image.imageData}}">
+        <button ng-click="vote(false, $index)" class="button button-dark">NO</button>
+        <button ng-click="vote(true, $index)" class="button button-dark">YES</button>
         <h3>From: {{image.transmitternumber}}</h3>
     </div>
   </ion-content>

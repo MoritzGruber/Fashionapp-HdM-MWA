@@ -42,7 +42,21 @@ angular.module('starter.services', [])
       }
   };
 })
-
+//service for voting
+.service('voteservice', function ($localStorage) {
+  return {
+      vote: function (voting, indexofvotedimage) {
+            //send vote
+                //succsess:
+                    //destory object
+                    $localStorage.images.splice(indexofvotedimage, 1);
+                //error:
+                    //show error message
+            //end of send vote
+            console.log("Bob likes this image == " + voting);
+      }
+  };
+})
 
 .factory('Camera', ['$q', function($q) {
  // creating camera factory calls codova plugin to load native camera app
