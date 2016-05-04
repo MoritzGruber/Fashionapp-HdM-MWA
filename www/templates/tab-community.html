@@ -1,35 +1,8 @@
 <ion-view view-title="Community">
   <ion-content ng-controller="ItemsController" class="padding">
-    <div class="fullimage">
-        <img src="{{lastImage}}">
+    <div ng-repeat="image in local track by $index">
+        <img ng-src="data:image/jpeg;base64, {{image.imageData}}">
+        <h3>From: {{image.transmitternumber}}</h3>
     </div>
-    <div class="">
-        <h3>{{$scope}}</h3>
-    </div>
-    <div class="contactlabel">
-        <h3>{{local.recipients}}</h3>
-    </div>
-    <div>
-        <p>
-            {{local.transmitternumber}}
-        </p>
-    </div>
-    <ion-list>
-      <!-- list items and current one in var item -->
-      <ion-item ng-repeat='item in $scope.images'>
-          <div class="item item-body">
-              <img class="full-image" src="lastImage">
-          </div>
-          <div class="show number">
-              <h3>Nici Chander</h3>
-          </div>
-          <div class="item item-footer button-bar">
-            <button class="button button-outline button-stable">Ugly</button>
-            <button  class="button button-outline button-stable">Nice</button>
-          </div>
-        </div>
-      </ion-item>
-    </ion-list>
-
   </ion-content>
 </ion-view>

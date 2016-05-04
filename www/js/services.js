@@ -21,7 +21,7 @@ angular.module('starter.services', [])
               console.log("number unknown provided");
               return "no number defined yet";
           } else {
-              console.log("number provided");
+              console.log("stored number provided");
               return $localStorage.ownnumber;
           }
       },
@@ -29,9 +29,12 @@ angular.module('starter.services', [])
           console.log("number saved to localStorage");
           $localStorage.ownnumber = value;
       },
-      setImages: function (images) {
-          console.log("image stored");
-          $localStorage.images = images;
+      addImage: function (image) {
+          console.log($localStorage);
+          if ($localStorage.images == undefined) {
+              $localStorage.images= [];
+          }
+          $localStorage.images.push(image);
       },
       getImages: function () {
           console.log("image loaded");

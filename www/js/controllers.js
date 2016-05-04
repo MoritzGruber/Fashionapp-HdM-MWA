@@ -34,37 +34,42 @@ $scope.storage = storage;
   });
  };
 })
-.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage) {
+.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage) {
+    console.log("platform: " + ionic.Platform.platform());
     $ionicPlatform.ready(function() {
-        $scope.local = storage.getImages();
+        $scope.local = $localStorage.images;
         //on startup load iamges from storage, if there is sth to load
-        if (storage.getImages()!=undefined) {
-            $scope.lastImage = "data:image/jpeg;base64," + storage.getImages().imageData;
-            $scope.ownnumber = storage.getImages().ownnumber;
-            console.log("storage was loaded");
-        }
+        // if (storage.getImages()!=undefined) {
+        //     $scope.lastImage = "data:image/jpeg;base64," + storage.getImages().imageData;
+        //     $scope.ownnumber = storage.getImages().ownnumber;
+        //     console.log("storage was loaded");
+        // }
         //saving reciving images to scope and storage
       socket.on('incoming_image', function (image) {
-        storage.setImages(image);
-        $scope.local=image;
-        console.log(image + " ::::: recived and stored");
+        storage.addImage(image);
+        $scope.local=$localStorage.images;
         $scope.$apply();
       });
-    //   cordova.plugins.backgroundMode.setDefaults({
-    //       title:  'Lapica',
-    //       text:   'Waiting from friends to post new image'
-    //   });
-    //   // Enable background mode
-    //   cordova.plugins.backgroundMode.enable();
-      //
-    //   // Called when background mode has been activated
-    //   cordova.plugins.backgroundMode.onactivate = function () {
-      //
-    //       // Set an interval of 3 seconds (3000 milliseconds)
-    //       socket.on('incoming_image', function (data) {
-    //         $scope.lastImage = "data:image/jpeg;base64," + data;
-    //       });
-    //   }
+      if (ionic.Platform.platform() == "android" || ionic.Platform.platform() == "ios") {
+            cordova.plugins.backgroundMode.setDefaults({
+                title:  'Lapica',
+                text:   'Waiting from friends to post new image'
+            });
+            // Enable background mode
+            cordova.plugins.backgroundMode.enable();
+
+            // Called when background mode has been activated
+            cordova.plugins.backgroundMode.onactivate = function () {
+
+                // Set an interval of 3 seconds (3000 milliseconds)
+                socket.on('incoming_image', function (image) {
+                  storage.addImage(image);
+                  $scope.local=$localStorage.images;
+                  console.log(image + " ::::: recived and stored in background");
+                  $scope.$apply();
+                });
+            }
+      }
     });
 })
 .controller('ProfileCtrl', function($scope) {})
