@@ -53,7 +53,7 @@ angular.module('starter.services', [])
                 //error:
                     //show error message
             //end of send vote
-            console.log("Bob likes this image == " + voting);
+            console.log("Bob liked this image == " + voting);
       }
   };
 })
