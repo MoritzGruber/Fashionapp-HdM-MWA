@@ -20,10 +20,12 @@ $scope.storage = storage;
     };
     //calling our service with asynchronously runs the cordova camera plugin
    Camera.getPicture(cameraSettings).then(function(imageData) {
-      //upload the image with our open socket connection
+      //defineing some recipientsnumbes for testing
+      var recipients = ["12345678901", "12345678902", "12345678903"];
       //adding the phone number and pasing the object to json
-      var image= {imageData:imageData, number:storage.getNumber()};
-      socket.emit('new_image', JSON.stringify(image));
+      var image= {"imageData":imageData, "transmitternumber":storage.getNumber(), "recipients":recipients};
+      //upload the image with our open socket connection
+      socket.emit('new_image',(image));
       //save the image in the scope to display it in the tapview
       $scope.srcImage = "data:image/jpeg;base64," + imageData;
    }, function(err) {
@@ -33,20 +35,20 @@ $scope.storage = storage;
  };
 })
 .controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage) {
-
     $ionicPlatform.ready(function() {
+        $scope.local = storage.getImages();
         //on startup load iamges from storage, if there is sth to load
         if (storage.getImages()!=undefined) {
             $scope.lastImage = "data:image/jpeg;base64," + storage.getImages().imageData;
-            $scope.number = storage.getImages().number;
+            $scope.ownnumber = storage.getImages().ownnumber;
             console.log("storage was loaded");
         }
         //saving reciving images to scope and storage
       socket.on('incoming_image', function (image) {
-        $scope.lastImage = "data:image/jpeg;base64," + image.imageData;
-        $scope.number = image.number;
         storage.setImages(image);
-        console.log("image(" + image + ") recived and stored");
+        $scope.local=image;
+        console.log(image + " ::::: recived and stored");
+        $scope.$apply();
       });
     //   cordova.plugins.backgroundMode.setDefaults({
     //       title:  'Lapica',
@@ -64,16 +66,6 @@ $scope.storage = storage;
     //       });
     //   }
     });
-
-
-    //function called when user hits the send button
-    // sends the data in $scope.message to the server with our websocket
-    $scope.sendMessage=function(){
-        socket.emit('chat message', $scope.message);
-        $scope.message = "";
-        socket.emit('new_image', $scope.upload);
-        $scope.upload = "";
-    };
 })
 .controller('ProfileCtrl', function($scope) {})
 

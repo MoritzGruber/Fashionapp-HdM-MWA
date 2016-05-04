@@ -17,19 +17,24 @@ angular.module('starter.services', [])
 .service('storage', function ($localStorage) {
   return {
       getNumber: function () {
-          if ($localStorage.number == "undefined"){
+          if ($localStorage.ownnumber == undefined){
+              console.log("number unknown provided");
               return "no number defined yet";
           } else {
-              return $localStorage.number;
+              console.log("number provided");
+              return $localStorage.ownnumber;
           }
       },
       setNumber: function(value) {
-          $localStorage.number = value;
+          console.log("number saved to localStorage");
+          $localStorage.ownnumber = value;
       },
       setImages: function (images) {
-          return $localStorage.images;
+          console.log("image stored");
+          $localStorage.images = images;
       },
       getImages: function () {
+          console.log("image loaded");
           return $localStorage.images;
       }
   };

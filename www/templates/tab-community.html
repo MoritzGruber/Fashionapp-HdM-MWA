@@ -3,10 +3,17 @@
     <div class="fullimage">
         <img src="{{lastImage}}">
     </div>
-    <div class="contactlabel">
-        <h3>{{number}}</h3>
+    <div class="">
+        <h3>{{$scope}}</h3>
     </div>
-
+    <div class="contactlabel">
+        <h3>{{local.recipients}}</h3>
+    </div>
+    <div>
+        <p>
+            {{local.transmitternumber}}
+        </p>
+    </div>
     <ion-list>
       <!-- list items and current one in var item -->
       <ion-item ng-repeat='item in $scope.images'>
