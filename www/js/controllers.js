@@ -112,4 +112,29 @@ $scope.storage = storage;
 })
 .controller('CollectionDetailCtrl', function($scope, $stateParams, Collection) {
   $scope.collection = Collection.get($stateParams.itemId);
+})
+.controller('FriendSelectCtrl', function ($scope, $localStorage, $ionicPlatform) {
+//selected friends in local storage
+//all contacts are loaded from the phone
+
+    $ionicPlatform.ready(function() {
+        console.log(navigator.contacts);
+        $scope.contacts = navigator.contacts;
+        //when a friend is selected he has to be hilighted in the list (check function)
+        // for(friend of $localStorage.friends)
+        //     {
+        //         for(contact of $scope.contacts)
+        //         if (contact.number == friend.number) {
+        //             contact.selected= true;
+        //         }
+        //     }
+    });
+    //save contact to localStorage
+    $scope.addFriend = function () {
+            console.log("friend added");
+    };
+    //remove contact from localStorage
+    $scope.removeFriend = function () {
+            console.log("friend removed");
+    };
 });

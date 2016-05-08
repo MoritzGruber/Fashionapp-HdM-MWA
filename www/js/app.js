@@ -69,17 +69,15 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
         }
       }
     })
-/* 3rd tab
-  .state('tab.camera', {
-    url: '/camera',
-    views: {
-      'tab-camera': {
-        templateUrl: 'templates/tab-camera.html',
-        controller: 'CameraCtrl'
+    .state('tab.profile-select', {
+      url: '/profile/select',
+      views: {
+        'tab-profile': {
+          templateUrl: 'templates/profile-select.html',
+          controller: 'FriendSelectCtrl'
+        }
       }
-    }
-  })
-*/
+    })
   .state('tab.profile', {
       url: '/profile',
       views: {

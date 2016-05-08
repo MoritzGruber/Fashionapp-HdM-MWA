@@ -15,6 +15,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.moritzgruber.ios"
+        },
+        "cordova-plugin-contacts": {
+            "PACKAGE_NAME": "com.moritzgruber.ios"
         }
     },
     "dependent_plugins": {

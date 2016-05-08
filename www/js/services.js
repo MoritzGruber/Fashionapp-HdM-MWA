@@ -43,10 +43,11 @@ angular.module('starter.services', [])
   };
 })
 //service for voting
-.service('voteservice', function ($localStorage) {
+.service('voteservice', function ($localStorage, socket, storage) {
   return {
       vote: function (voting, indexofvotedimage) {
             //send vote
+            socket.emit('vote',($localStorage.images[indexofvotedimage].imageId, storage.getNumber(), voting));
                 //succsess:
                     //destory object
                     $localStorage.images.splice(indexofvotedimage, 1);
