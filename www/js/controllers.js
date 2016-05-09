@@ -5,7 +5,7 @@ angular.module('starter.controllers', [])
 $scope.storage = storage;
 })
 
-.controller('PhotoCtrl', function($scope, $base64, Chats, socket, Camera, storage) {
+.controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage) {
 
 
   $scope.getPhoto = function() {
@@ -21,7 +21,7 @@ $scope.storage = storage;
     //calling our service with asynchronously runs the cordova camera plugin
    Camera.getPicture(cameraSettings).then(function(imageData) {
       //defineing some recipientsnumbes for testing
-      var recipients = ["12345678901", "12345678902", "12345678903"];
+      var recipients = getFriends();
       //adding the phone number and pasing the object to json
       var image= {"imageData":imageData, "transmitternumber":storage.getNumber(), "recipients":recipients};
       //upload the image with our open socket connection
@@ -77,7 +77,9 @@ $scope.storage = storage;
       }
     });
 })
-.controller('ProfileCtrl', function($scope) {})
+.controller('ProfileCtrl', function($scope, $localStorage) {
+    $scope.friends = $localStorage.friends;
+})
 
 // tab-community
 .controller('ItemsController', ['$scope', '$http',  function($scope, $http, socket, storage){
@@ -113,28 +115,17 @@ $scope.storage = storage;
 .controller('CollectionDetailCtrl', function($scope, $stateParams, Collection) {
   $scope.collection = Collection.get($stateParams.itemId);
 })
-.controller('FriendSelectCtrl', function ($scope, $localStorage, $ionicPlatform) {
-//selected friends in local storage
-//all contacts are loaded from the phone
-
+.controller('FriendSelectCtrl', function ($scope, storage, $ionicPlatform) {
     $ionicPlatform.ready(function() {
-        console.log(navigator.contacts);
-        $scope.contacts = navigator.contacts;
-        //when a friend is selected he has to be hilighted in the list (check function)
-        // for(friend of $localStorage.friends)
-        //     {
-        //         for(contact of $scope.contacts)
-        //         if (contact.number == friend.number) {
-        //             contact.selected= true;
-        //         }
-        //     }
+        $scope.contacts = storage.getContacts();
     });
-    //save contact to localStorage
-    $scope.addFriend = function () {
-            console.log("friend added");
-    };
-    //remove contact from localStorage
-    $scope.removeFriend = function () {
-            console.log("friend removed");
-    };
+    //  save/delete contact to localStorage
+    $scope.checkFriend = function(index, number, value) {
+        storage.editFriend(index, number, value);
+    }
+    //fetch all data from the phone again
+    $scope.updateContacts = function () {
+        console.log("updated");
+        $scope.contacts = storage.loadContacts();
+    }
 });

@@ -39,7 +39,58 @@ angular.module('starter.services', [])
       getImages: function () {
           console.log("image loaded");
           return $localStorage.images;
-      }
+      },
+      //retun array of friends(phonenumbers)
+      getFriends: function () {
+          //create if undefined
+          if($localStorage.friends == undefined){
+              $localStorage.friends = [];
+          }
+          return $localStorage.friends;
+      },
+      editFriend: function (index, number, value) {
+          console.log("edited");
+          //  save/delete contact to localStorage
+          //check if the phone number slot of the contact is acutal filled, without storing makes no sense
+          if (number == undefined) {
+              alert("Sry, this contact has no phonenumber");
+          } else {
+              if (value) {
+                  //value == ture, toggel is postive now
+                  //push the toggeld contact
+                  $localStorage.friends.push(number);
+              } else {
+                  //loop throgh local array and remove the selected contact
+                  for (var i = 0; i < $localStorage.friends.length; i++) {
+                      if ($localStorage.friends[i] == number) {
+                          $localStorage.friends.splice(i,1);
+                      }
+                  }
+              }
+          }
+      },
+      loadContacts: function () {
+          //synchronise the contacts between phone and local storage
+          navigator.contacts.find(
+          [navigator.contacts.fieldType.displayName],
+          gotContacts,
+          null);
+          function gotContacts(result) {
+              $localStorage.contacts = result;
+
+          }
+          return $localStorage.contacts;
+      },
+      //Contact is anybody in your native phonecontactlist and friends are the selected once
+      getContacts: function () {
+          //retun the contacts from local storage
+          //or fetch them again from phone , TODO: error handling
+          if($localStorage.contacts == undefined || $localStorage.contacts.length < 2){
+              $localStorage.contacts = this.loadContacts();
+          }
+          return $localStorage.contacts;
+      },
+
   };
 })
 //service for voting
@@ -81,54 +132,4 @@ angular.module('starter.services', [])
     }
 
   }
-}])
-
-
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
-    }
-  };
-});
+}]);

@@ -4,12 +4,11 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="title">
+<ion-view view-title="My voters">
   <ion-content class="padding">
-    Halllooooooooo!
     <div ng-repeat="contact in contacts track by $index">
-        <h3>{{contact.name}}</h3>
-        <ion-toggle ng-model="contact.selected" toggle-class="toggle-calm"></ion-toggle>
+        <ion-toggle ng-change="checkFriend($index, contact.phoneNumbers[0].value, contact.selected)" ng-model="contact.selected" toggle-class="toggle-calm">{{contact.displayName}}</ion-toggle>
     </div>
+    <button type="button" ng-click="updateContacts()" name="button">update contacts</button>
   </ion-content>
 </ion-view>
