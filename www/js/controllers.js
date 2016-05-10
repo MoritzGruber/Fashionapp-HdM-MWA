@@ -1,32 +1,50 @@
 angular.module('starter.controllers', [])
-.controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage) {
-  $scope.getPhoto = function() {
-    //first we define a var to set the settings we use calling the cordova camera,
-    var cameraSettings = {
-      sourceType: navigator.camera.PictureSourceType.CAMERA,
-      destinationType: navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
-      quality: 75,
-      targetWidth: 320,
-      targetHeight: 320,
-      saveToPhotoAlbum: false,
-    };
-    //calling our service with asynchronously runs the cordova camera plugin
-   Camera.getPicture(cameraSettings).then(function(imageData) {
-      //adding the phone number and pasing the object to json
-      var image= {"imageData":imageData, "transmitternumber":storage.getNumber(), "recipients":storage.getFriends()};
-      //upload the image with our open socket connection
-      socket.emit('new_image',(image));
-      //store localy now
-      storage.addOwnImage(image);
-   }, function(err) {
-     console.log(err);
-    //this function dosnt even get called, have to make a cetch outside before
-  });
- };
- if ($localStorage.ownImages == undefined) {
-     $localStorage.ownImages = [];
- }
- $scope.ownImages = $localStorage.ownImages;
+.controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage, voteservice) {
+      $scope.getPhoto = function() {
+        //first we define a var to set the settings we use calling the cordova camera,
+        var cameraSettings = {
+          sourceType: navigator.camera.PictureSourceType.CAMERA,
+          destinationType: navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
+          quality: 75,
+          targetWidth: 320,
+          targetHeight: 320,
+          saveToPhotoAlbum: false,
+        };
+        //calling our service with asynchronously runs the cordova camera plugin
+       Camera.getPicture(cameraSettings).then(function(imageData) {
+          //adding the phone number and pasing the object to json
+          var image= {"imageData":imageData, "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits()};
+          //upload the image with our open socket connection
+          socket.emit('new_image',(image));
+          //store localy now
+          storage.addOwnImage(image);
+       }, function(err) {
+         console.log(err);
+        //this function dosnt even get called, have to make a cetch outside before
+      });
+     };
+     if ($localStorage.ownImages == undefined) {
+         $localStorage.ownImages = [];
+     }
+     $scope.ownImages = $localStorage.ownImages;
+     //calling the calculate percentage function for each image
+     for (var i = 0; i < $scope.ownImages.length; i++) {
+         $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].recipients);
+     }
+     //TODO: replace the image data with an id
+     socket.on('vote_sent_from_server', function (imageData, number, rating) {
+         for (var i = 0; i < $localStorage.ownImages.length; i++) {
+             if ($localStorage.ownImages[i].imageData == imageData) {
+                 console.log("imageData same");
+                 for (var j = 0; i < $localStorage.ownImages[i].recipients.length; j++) {
+                    if ($localStorage.ownImages[i].recipients[j].number == number){
+                        $localStorage.ownImages[i].recipients[j].state = rating;
+                        console.log("number found and vote set");
+                    }
+                 }
+             }
+         }
+     });
 })
 
 .controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage, voteservice) {
@@ -75,20 +93,7 @@ angular.module('starter.controllers', [])
     $scope.friends = $localStorage.friends;
 })
 
-.controller('CollectionCtrl', ['$scope', '$http', function($scope, $http, socket, storage){
-  $http.get('js/data.json').success(function(data){
-    // http://angular-js.in/svg-round-progressbar/
-    //$scope.images = storage.images();
-    // get the data out of images.json
-    //pass along data from http service to scope items
-    $scope.collection = data.collection;
-
-    // delete function
-      $scope.remove = function(item) {
-        $scope.collection.splice($scope.collection.indexOf(item), 1);
-      };
-    });
-  }])
+.controller('CollectionCtrl', [ function(){}])
 
 .controller('CollectionDetailCtrl', function($scope, $stateParams, Collection) {
   $scope.collection = Collection.get($stateParams.itemId);

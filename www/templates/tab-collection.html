@@ -8,7 +8,7 @@
       <ion-item ng-show="ownImage.imageData !== undefined" class="item-thumbnail-left" ng-repeat="ownImage in ownImages" type="item-text-wrap" href="#/tab/collection-detail/{{ownImage.id}}">
           <!-- picture from camera -->
           <img ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
-          <progress value="0" max="100"></progress>
+          <progress value="{{ownImage.percantag}}" max="100"></progress>
       </ion-item>
     </ion-list>
   </ion-content>

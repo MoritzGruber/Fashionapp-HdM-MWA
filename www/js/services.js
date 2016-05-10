@@ -67,6 +67,24 @@ angular.module('starter.services', [])
           }
           return $localStorage.friends;
       },
+      //retun friends with benefits
+      getFriendswithbenefits: function () {
+          //create if undefined
+          if($localStorage.friends == undefined){
+              $localStorage.friends = [];
+          }
+          var friendswithbenefits = [];
+          //copy array and add state
+          for (var i = 0; i < $localStorage.friends.length; i++) {
+              friendswithbenefits[i] = {};
+              friendswithbenefits[i].number = $localStorage.friends[i];
+              friendswithbenefits[i].state = 0;
+              //the benefit is that these friends have a voting state
+              //this state is used for calculating the persentage
+              //0 = not voted 1 = positive 2 = negative
+          }
+          return friendswithbenefits;
+      },
       //add or remove a friend
       editFriend: function (index, number, value) {
           console.log("edited");
@@ -118,17 +136,35 @@ angular.module('starter.services', [])
 //service for voting
 .service('voteservice', function ($localStorage, socket, storage) {
   return {
+      //this is the basic voting function, called in the community tab
       vote: function (voting, indexofvotedimage) {
             //send vote
-            socket.emit('vote',($localStorage.images[indexofvotedimage].imageId, storage.getNumber(), voting));
+            socket.emit('vote',($localStorage.images[indexofvotedimage].imageData, storage.getNumber(), voting));
                 //succsess:
                     //destory object
                     $localStorage.images.splice(indexofvotedimage, 1);
                 //error:
                     //show error message
             //end of send vote
-            console.log("Bob liked this image == " + voting);
+      },
+      //calculate the percentage of positive votes # just math
+      getPercentage: function (recipenctsarry) {
+
+          var counter_positive = 0;
+          var counter_negative = 0;
+          if (recipenctsarry == undefined) {
+              return 0;
+          }
+          for (var i = 0; i < recipenctsarry.length; i++) {
+              if (recipenctsarry[i].state == 1) {
+                  counter_positive++;
+              }else if (recipenctsarry[i].state == 2 ) {
+                  counter_negative++;
+              }
+          }
+          return (((counter_positive) / (counter_negative + counter_positive))*100);
       }
+
   };
 })
 
