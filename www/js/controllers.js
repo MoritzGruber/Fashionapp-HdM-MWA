@@ -1,10 +1,4 @@
 angular.module('starter.controllers', [])
-
-.controller('DashCtrl', function($scope, storage) {
-  //passing in the storage service in the scope
-$scope.storage = storage;
-})
-
 .controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage) {
   $scope.getPhoto = function() {
     //first we define a var to set the settings we use calling the cordova camera,
@@ -81,16 +75,6 @@ $scope.storage = storage;
     $scope.friends = $localStorage.friends;
 })
 
-// tab-community
-.controller('ItemsController', ['$scope', '$http',  function($scope, $http, socket, storage){
-  //http service to get a json file
-    //starter template code below.....
-  $http.get('js/data.json').success(function(data){
-    //pass along data from http service to scope items
-    $scope.items = data.items;
-  });
-}])
-
 .controller('CollectionCtrl', ['$scope', '$http', function($scope, $http, socket, storage){
   $http.get('js/data.json').success(function(data){
     // http://angular-js.in/svg-round-progressbar/
@@ -105,16 +89,11 @@ $scope.storage = storage;
       };
     });
   }])
-.controller('AccountCtrl', function($scope, storage) {
-  $scope.settings = {
-    enableFriends: true
-  };
-  //pass over the service to use in html tap
-  $scope.storage = storage;
-})
+
 .controller('CollectionDetailCtrl', function($scope, $stateParams, Collection) {
   $scope.collection = Collection.get($stateParams.itemId);
 })
+
 .controller('FriendSelectCtrl', function ($scope, storage, $ionicPlatform) {
     $ionicPlatform.ready(function() {
         $scope.contacts = storage.getContacts();
