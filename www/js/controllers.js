@@ -5,9 +5,7 @@ angular.module('starter.controllers', [])
 $scope.storage = storage;
 })
 
-.controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage) {
-
-
+.controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage) {
   $scope.getPhoto = function() {
     //first we define a var to set the settings we use calling the cordova camera,
     var cameraSettings = {
@@ -20,20 +18,23 @@ $scope.storage = storage;
     };
     //calling our service with asynchronously runs the cordova camera plugin
    Camera.getPicture(cameraSettings).then(function(imageData) {
-      //defineing some recipientsnumbes for testing
-      var recipients = getFriends();
       //adding the phone number and pasing the object to json
-      var image= {"imageData":imageData, "transmitternumber":storage.getNumber(), "recipients":recipients};
+      var image= {"imageData":imageData, "transmitternumber":storage.getNumber(), "recipients":storage.getFriends()};
       //upload the image with our open socket connection
       socket.emit('new_image',(image));
-      //save the image in the scope to display it in the tapview
-      $scope.srcImage = "data:image/jpeg;base64," + imageData;
+      //store localy now
+      storage.addOwnImage(image);
    }, function(err) {
      console.log(err);
     //this function dosnt even get called, have to make a cetch outside before
   });
  };
+ if ($localStorage.ownImages == undefined) {
+     $localStorage.ownImages = [];
+ }
+ $scope.ownImages = $localStorage.ownImages;
 })
+
 .controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage, voteservice) {
     console.log("platform: " + ionic.Platform.platform());
 
@@ -41,42 +42,41 @@ $scope.storage = storage;
     $scope.vote= function (voting, indexofvotedimage) {
             voteservice.vote(voting, indexofvotedimage);
     }
+
     $ionicPlatform.ready(function() {
         $scope.local = $localStorage.images;
         //on startup load iamges from storage, if there is sth to load
-        // if (storage.getImages()!=undefined) {
-        //     $scope.lastImage = "data:image/jpeg;base64," + storage.getImages().imageData;
-        //     $scope.ownnumber = storage.getImages().ownnumber;
-        //     console.log("storage was loaded");
-        // }
         //saving reciving images to scope and storage
       socket.on('incoming_image', function (image) {
-        storage.addImage(image);
-        $scope.local=$localStorage.images;
-        $scope.$apply();
+          //only call this part if the app is not running the background task
+          if (!(cordova.plugins.backgroundMode.isActive())) {
+              storage.addImage(image);
+              $scope.local=$localStorage.images;
+              $scope.$apply();
+          }
       });
       if (ionic.Platform.platform() == "android" || ionic.Platform.platform() == "ios") {
-            cordova.plugins.backgroundMode.setDefaults({
-                title:  'Lapica',
-                text:   'Waiting from friends to post new image'
-            });
+            // cordova.plugins.backgroundMode.setDefaults({
+            //     title:  'Lapica',
+            //     text:   'Waiting from friends to post new image'
+            // });
             // Enable background mode
             cordova.plugins.backgroundMode.enable();
 
             // Called when background mode has been activated
             cordova.plugins.backgroundMode.onactivate = function () {
 
-                // Set an interval of 3 seconds (3000 milliseconds)
                 socket.on('incoming_image', function (image) {
                   storage.addImage(image);
+                  $scope.bgmode = true;
                   $scope.local=$localStorage.images;
-                  console.log(image + " ::::: recived and stored in background");
                   $scope.$apply();
                 });
             }
       }
     });
 })
+
 .controller('ProfileCtrl', function($scope, $localStorage) {
     $scope.friends = $localStorage.friends;
 })

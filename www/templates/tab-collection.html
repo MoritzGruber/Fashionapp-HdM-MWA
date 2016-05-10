@@ -4,29 +4,11 @@
     <!-- take picture button -->
     <button class="button button-block button-outline button-light ion-plus-round" ng-click="getPhoto()"></button>
     <ion-list>
-      <ion-item class="item-thumbnail-left">
+    <!-- show array of own pictures and there voting -->
+      <ion-item ng-show="ownImage.imageData !== undefined" class="item-thumbnail-left" ng-repeat="ownImage in ownImages" type="item-text-wrap" href="#/tab/collection-detail/{{ownImage.id}}">
           <!-- picture from camera -->
-          <img src="{{$scope.data}}" />
-      </ion-item>
-      <ion-item ng-show="srcImage !== undefined" class="item-thumbnail-left">
-          <!-- picture from camera -->
-          <img src="{{srcImage}}" />
+          <img ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
           <progress value="0" max="100"></progress>
-      </ion-item>
-      <!-- CollectionCtrl - retrieve content from JSON, adding to scope and display it as a list -->
-      <ion-item ng-controller="CollectionCtrl" class="item-thumbnail-left" ng-repeat="item in collection" type="item-text-wrap" href="#/tab/collection-detail/{{item.id}}">
-
-              <img class="collectionPic" ng-src="img/{{item.picture}}.jpg">
-              <h2>{{item.item}}</h2>
-              <h2>{{item.price}}&euro;</h2>
-              <!-- progress bar representing % of like -->
-              <progress value="{{item.up}}" max="100"></progress>
-
-              <!-- remove button -->
-              <ion-option-button class="button-assertive" ng-click="remove(item)">
-                Delete
-              </ion-option-button>
-
       </ion-item>
     </ion-list>
   </ion-content>

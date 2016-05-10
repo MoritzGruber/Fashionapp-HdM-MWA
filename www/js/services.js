@@ -13,9 +13,9 @@ angular.module('starter.services', [])
 })
 
 //this is servie is to storage variables globally and share them between tabs/controllers
-//TODO: Later we have to save this data to the phone memory to make it persist when closing and reopen the app
 .service('storage', function ($localStorage) {
   return {
+      //get your own number
       getNumber: function () {
           if ($localStorage.ownnumber == undefined){
               console.log("number unknown provided");
@@ -25,22 +25,41 @@ angular.module('starter.services', [])
               return $localStorage.ownnumber;
           }
       },
+      //set your own number
       setNumber: function(value) {
           console.log("number saved to localStorage");
           $localStorage.ownnumber = value;
       },
+      //Own images are the images where you recive your votings
+      //save own images
+      addOwnImage: function (image) {
+          if ($localStorage.ownImages == undefined){
+             $localStorage.ownImages= [];
+          }
+          $localStorage.ownImages.unshift(image);
+      },
+      //load own images
+      getOwnImages: function () {
+          if ($localStorage.ownImages == undefined){
+             $localStorage.ownImages= [];
+          }
+          return $localStorage.ownImages;
+      },
+      //adding a image in the community storage
       addImage: function (image) {
-          console.log($localStorage);
           if ($localStorage.images == undefined) {
               $localStorage.images= [];
           }
           $localStorage.images.push(image);
       },
+      //retun the stored community images
       getImages: function () {
-          console.log("image loaded");
+          if ($localStorage.images == undefined) {
+              $localStorage.images= [];
+          }
           return $localStorage.images;
       },
-      //retun array of friends(phonenumbers)
+      //return friendlist / array of friends(phonenumbers)
       getFriends: function () {
           //create if undefined
           if($localStorage.friends == undefined){
@@ -48,6 +67,7 @@ angular.module('starter.services', [])
           }
           return $localStorage.friends;
       },
+      //add or remove a friend
       editFriend: function (index, number, value) {
           console.log("edited");
           //  save/delete contact to localStorage
@@ -58,6 +78,9 @@ angular.module('starter.services', [])
               if (value) {
                   //value == ture, toggel is postive now
                   //push the toggeld contact
+                  if($localStorage.friends == undefined){
+                      $localStorage.friends = [];
+                  }
                   $localStorage.friends.push(number);
               } else {
                   //loop throgh local array and remove the selected contact
@@ -69,8 +92,8 @@ angular.module('starter.services', [])
               }
           }
       },
+      //synchronise the contacts between native phone and local storage of the App
       loadContacts: function () {
-          //synchronise the contacts between phone and local storage
           navigator.contacts.find(
           [navigator.contacts.fieldType.displayName],
           gotContacts,
@@ -81,7 +104,7 @@ angular.module('starter.services', [])
           }
           return $localStorage.contacts;
       },
-      //Contact is anybody in your native phonecontactlist and friends are the selected once
+      //return Contact == anybody in your native phonecontactlist and friends are the selected once
       getContacts: function () {
           //retun the contacts from local storage
           //or fetch them again from phone , TODO: error handling
@@ -89,8 +112,7 @@ angular.module('starter.services', [])
               $localStorage.contacts = this.loadContacts();
           }
           return $localStorage.contacts;
-      },
-
+      }
   };
 })
 //service for voting
