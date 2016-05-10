@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io','ngCordova'])
+angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io','ngCordova', 'angular-progress-arc'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -63,7 +63,7 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
     .state('tab.collection-detail', {
       url: '/collection-detail/:id',
       views: {
-        'collection-detail': {
+        'tab-collection': {
           templateUrl: 'templates/collection-detail.html',
           controller: 'CollectionDetailCtrl'
         }

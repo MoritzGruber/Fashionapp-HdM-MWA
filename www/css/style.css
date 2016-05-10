@@ -3,37 +3,38 @@
     width: 100%;
 }
 /* tab-collection */
-progress{
-  background: none;
-  border: none;
+.wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
   display: block;
-  color: #E8CA99;
+  margin-left: auto;
+  margin-right: auto;
 }
-progress::-webkit-progress-bar {
-	background: #DDDCD7;
-  -moz-border-radius: 25px;
-	-webkit-border-radius: 25px;
-	border-radius: 25px;
-	padding: 2px;
-	box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.2);
-  border: none;
+.wrapper > .bar, .wrapper > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
-
-/* Now the value part */
-progress::-webkit-progress-value {
-	border-radius: 50px;
-	box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
-	background: #E8E098;
+.wrapper > img {
+    /* Needs appropriate vendor prefixes */
+    box-sizing: border-box;
+    /* This needs to be equal to strokeWidth */
+    padding: 4%;
 }
-
-
-
-
-
-
-
-
-
+.wrapper > img {
+    border-radius: 50%;
+}
+.circle {
+  width: 300px;
+	height: 300px;
+	border-radius: 150px;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	background: url(http://link-to-your/image.jpg) no-repeat;
+}
 
 
 
