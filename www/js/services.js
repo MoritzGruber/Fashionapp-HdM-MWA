@@ -165,7 +165,11 @@ angular.module('starter.services', [])
                   counter_negative++;
               }
           }
-          return (((counter_positive) / (counter_negative + counter_positive))*100);
+          //if the are no positive votes, we devide throu 0 , that is NaN #illegal
+          if (isNaN(((((counter_positive) / (counter_negative + counter_positive)))))) {
+              return 0.0;
+          }
+          return ((((counter_positive) / (counter_negative + counter_positive))));
       }
 
   };

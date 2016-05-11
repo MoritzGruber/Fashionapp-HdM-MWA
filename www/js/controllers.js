@@ -37,13 +37,13 @@ angular.module('starter.controllers', [])
              if ($localStorage.ownImages[i].imageData == package.imageData) {
                  console.log("imageData same");
                  //this double loop is to masure out the exact image and then the exact recipient
-                 for (var j = 0; j < $localStorage.ownImages[j].recipients.length; j++) {
+                 for (var j = 0; j < $localStorage.ownImages[i].recipients.length; j++) {
                     if ($localStorage.ownImages[i].recipients[j].number == package.number){
                         //saving the revied vote to local storage and scope
                         $localStorage.ownImages[i].recipients[j].state = package.rating;
                         $scope.ownImages[i].recipients[j].state = package.rating;
                         //calling calculation again
-                        $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].recipients);
+                        $scope.ownImages[i].percantag = (voteservice.getPercentage($scope.ownImages[i].recipients));
                         console.log("number found and vote set");
                     }
                  }
@@ -97,6 +97,7 @@ angular.module('starter.controllers', [])
 .controller('ProfileCtrl', function($scope, $localStorage, storage) {
     $scope.friends = $localStorage.friends;
     $scope.storage = storage;
+    $scope.number = $localStorage.ownnumber;
 })
 
 .controller('CollectionCtrl', [ function(){}])
