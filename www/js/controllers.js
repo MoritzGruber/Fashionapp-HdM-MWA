@@ -32,13 +32,18 @@ angular.module('starter.controllers', [])
          $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].recipients);
      }
      //TODO: replace the image data with an id
-     socket.on('vote_sent_from_server', function (imageData, number, rating) {
+     socket.on('vote_sent_from_server', function (package) {
          for (var i = 0; i < $localStorage.ownImages.length; i++) {
-             if ($localStorage.ownImages[i].imageData == imageData) {
+             if ($localStorage.ownImages[i].imageData == package.imageData) {
                  console.log("imageData same");
-                 for (var j = 0; i < $localStorage.ownImages[i].recipients.length; j++) {
-                    if ($localStorage.ownImages[i].recipients[j].number == number){
-                        $localStorage.ownImages[i].recipients[j].state = rating;
+                 //this double loop is to masure out the exact image and then the exact recipient
+                 for (var j = 0; j < $localStorage.ownImages[j].recipients.length; j++) {
+                    if ($localStorage.ownImages[i].recipients[j].number == package.number){
+                        //saving the revied vote to local storage and scope
+                        $localStorage.ownImages[i].recipients[j].state = package.rating;
+                        $scope.ownImages[i].recipients[j].state = package.rating;
+                        //calling calculation again
+                        $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].recipients);
                         console.log("number found and vote set");
                     }
                  }
@@ -89,8 +94,9 @@ angular.module('starter.controllers', [])
     });
 })
 
-.controller('ProfileCtrl', function($scope, $localStorage) {
+.controller('ProfileCtrl', function($scope, $localStorage, storage) {
     $scope.friends = $localStorage.friends;
+    $scope.storage = storage;
 })
 
 .controller('CollectionCtrl', [ function(){}])

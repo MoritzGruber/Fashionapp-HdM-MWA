@@ -18,10 +18,8 @@ angular.module('starter.services', [])
       //get your own number
       getNumber: function () {
           if ($localStorage.ownnumber == undefined){
-              console.log("number unknown provided");
               return "no number defined yet";
           } else {
-              console.log("stored number provided");
               return $localStorage.ownnumber;
           }
       },
@@ -139,7 +137,12 @@ angular.module('starter.services', [])
       //this is the basic voting function, called in the community tab
       vote: function (voting, indexofvotedimage) {
             //send vote
-            socket.emit('vote',($localStorage.images[indexofvotedimage].imageData, storage.getNumber(), voting));
+            var package = {
+                "imageData":$localStorage.images[indexofvotedimage].imageData,
+                "number": storage.getNumber(),
+                "rating": voting
+            }
+            socket.emit('vote', package);
                 //succsess:
                     //destory object
                     $localStorage.images.splice(indexofvotedimage, 1);
