@@ -3,7 +3,7 @@
     width: 100%;
 }
 /* tab-collection */
-.wrapper {
+.wrapper, .wrapperProfileImg {
   position: relative;
   width: 200px;
   height: 200px;
@@ -28,19 +28,27 @@
     border-radius: 50%;
 }
 .circle {
-  width: 300px;
-	height: 300px;
+/*  width: 300px;
+  height: 300px; */
 	border-radius: 150px;
 	-webkit-border-radius: 150px;
 	-moz-border-radius: 150px;
 	background: url(http://link-to-your/image.jpg) no-repeat;
 }
-
-
-
-
-
-/* tab-camera */
+/*profile tab*/
+.row{
+  border-radius: 15px;
+  text-align: center;
+  background: #F8F8F8;
+}
+.col-border{
+   border-right: 2px solid #5AE8C1;
+}
+.list{
+  margin: 2%;
+  text-align: center;
+}
+/* tab-camera
 div.imagePicked{
   height: auto;
   width:500px;
@@ -55,3 +63,4 @@ div.imagePicked{
   margin-left: 10px;
   margin-right: 10px;
 }
+*/

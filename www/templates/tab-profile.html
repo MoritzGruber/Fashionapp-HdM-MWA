@@ -1,22 +1,54 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
-
-    <p>
-      Put down any number below for testing the user identification:
-    </p>
-    <input class="line-light-grey" type="text" placeholder="Phone number"
-    ng-model="number" ng-change="storage.setNumber(number)">
-    <p>
-      Number is: {{number}}
-    </p>
-    <a href="#/tab/profile/select">
-        <button type="button" name="SelectFriends" > SelectFriends</button>
-    </a>
-    <p>
-        <br>
-        Your current friends are:
-        <br>
-        {{friends | json}}
-    </p>
-  </ion-content>
+    <div class="wrapperProfileImg">
+      <img class="circle" src="../img/julie.jpg">
+    </div>
+    <div class="row">
+      <div class="col col-border">my pics num</div>
+      <div class="col col-border">friends num</div>
+      <div class="col">score </div>
+    </div>
+    <div class="list">
+      <a class="item item-icon" href="#">
+        <i class="icon ion-email"></i>
+        Messages
+      </a>
+      <a class="item item-icon" href="#">
+        <i class="icon ion-person-stalker"></i>
+        Friends
+        <span class="badge badge-assertive">0</span>
+      </a>
+      <a class="item item-icon" href="#">
+        <i class="icon ion-email"></i>
+        Messages
+      </a>
+      <a class="item item-icon" href="#/tab/profile/select">
+          <i class="icon ion-person-add"></i>
+          SelectFriends
+      </a>
+      <div class="item item-text-wrap">
+          <p>
+            Put down any number below for testing the user identification:
+          </p>
+          <input class="line-light-grey" type="text" placeholder="Phone number"
+          ng-model="number" ng-change="storage.setNumber(number)">
+          <p>
+            Number is: {{number}}
+          </p>
+          <a href="#/tab/profile/select">
+              <button type="button" name="SelectFriends" > SelectFriends</button>
+          </a>
+          <p>
+              <br>
+              Your current friends are:
+              <br>
+              {{friends | json}}
+          </p>
+        </div>
+        <a class="item item-icon" href="#">
+          <i class="icon ion-gear-a"></i>
+          Settings
+        </a>
+      </div>
+    </ion-content>
 </ion-view>
