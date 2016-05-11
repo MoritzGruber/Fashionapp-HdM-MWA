@@ -44,6 +44,7 @@ angular.module('starter.controllers', [])
                         $scope.ownImages[i].recipients[j].state = package.rating;
                         //calling calculation again
                         $scope.ownImages[i].percantag = (voteservice.getPercentage($scope.ownImages[i].recipients));
+                        $localStorage.ownImages[i].percantag = (voteservice.getPercentage($scope.ownImages[i].recipients));
                         console.log("number found and vote set");
                     }
                  }
@@ -102,8 +103,9 @@ angular.module('starter.controllers', [])
 
 .controller('CollectionCtrl', [ function(){}])
 
-.controller('CollectionDetailCtrl', function($scope, $stateParams, Collection) {
-  $scope.collection = Collection.get($stateParams.itemId);
+.controller('CollectionDetailCtrl', function($scope, $stateParams, storage) {
+  $scope.image = storage.getOwnImage($stateParams.imageId);
+  console.log($scope.image);
 })
 
 .controller('FriendSelectCtrl', function ($scope, storage, $ionicPlatform) {

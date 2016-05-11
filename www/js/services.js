@@ -43,6 +43,12 @@ angular.module('starter.services', [])
           }
           return $localStorage.ownImages;
       },
+      getOwnImage: function (index) {
+          if ($localStorage.ownImages == undefined){
+             $localStorage.ownImages= [];
+          }
+          return $localStorage.ownImages[index];
+      },
       //adding a image in the community storage
       addImage: function (image) {
           if ($localStorage.images == undefined) {

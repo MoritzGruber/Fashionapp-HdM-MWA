@@ -61,9 +61,9 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
       }
     })
     .state('tab.collection-detail', {
-      url: '/collection-detail/:id',
+      url: '/collection/:imageId',
       views: {
-        'collection-detail': {
+        'tab-collection': {
           templateUrl: 'templates/collection-detail.html',
           controller: 'CollectionDetailCtrl'
         }
