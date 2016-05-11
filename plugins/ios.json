@@ -13,10 +13,10 @@
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.moritzgruber.ios"
         },
-        "cordova-plugin-whitelist": {
+        "cordova-plugin-contacts": {
             "PACKAGE_NAME": "com.moritzgruber.ios"
         },
-        "cordova-plugin-contacts": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.moritzgruber.ios"
         }
     },
