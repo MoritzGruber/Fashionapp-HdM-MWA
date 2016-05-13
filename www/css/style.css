@@ -36,10 +36,6 @@
 	background: url(http://link-to-your/image.jpg) no-repeat;
 }
 
-
-
-
-
 /* tab-camera */
 div.imagePicked{
   height: auto;
@@ -55,3 +51,5 @@ div.imagePicked{
   margin-left: 10px;
   margin-right: 10px;
 }
+
+/**/

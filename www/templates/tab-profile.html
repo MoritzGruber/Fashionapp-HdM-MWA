@@ -2,20 +2,21 @@
   <ion-content class="padding">
 
     <p>
-      Put down any number below for testing the user identification:
+      Voting is <b>only working</b> if your partner has this number in his <b>Friendlist:</b>
+
     </p>
-    <input class="line-light-grey" type="text" placeholder="Phone number"
-    ng-model="number" ng-change="storage.setNumber(number)">
-    <p>
-      Number is: {{number}}
-    </p>
+    <div class="profile_number">
+        <label for="profile_phonenumber">Number</label>
+        <input class="line-light-grey profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Phone number"
+        ng-model="number" ng-change="storage.setNumber(number)">
+    </div>
+
     <a href="#/tab/profile/select">
-        <button type="button" name="SelectFriends" > SelectFriends</button>
+        <button type="button" name="SelectFriends"> SelectFriends </button>
     </a>
     <p>
         <br>
-        Your current friends are:
-        <br>
+        Buddys:
         {{friends | json}}
     </p>
   </ion-content>
