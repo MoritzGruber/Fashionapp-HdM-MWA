@@ -18,7 +18,7 @@ angular.module('starter.services', [])
       //get your own number
       getNumber: function () {
           if ($localStorage.ownnumber == undefined){
-              return "no number defined yet";
+              return "Unknown";
           } else {
               return $localStorage.ownnumber;
           }

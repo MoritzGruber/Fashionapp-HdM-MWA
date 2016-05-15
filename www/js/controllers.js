@@ -1,5 +1,15 @@
 angular.module('starter.controllers', [])
-.controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage, voteservice) {
+.controller('StartCtrl', function(){
+    console.log("StartCtrl got called");
+})
+.controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage, $state, voteservice) {
+    console.log(storage.getNumber());
+      if (storage.getNumber() == "Unknown") {
+          //app opend the first time ==> go to welcome page
+          console.log("trollol");
+          $state.go('tab.collectionstart');
+      }
+
       $scope.getPhoto = function() {
         //first we define a var to set the settings we use calling the cordova camera,
         var cameraSettings = {
@@ -13,7 +23,8 @@ angular.module('starter.controllers', [])
         //calling our service with asynchronously runs the cordova camera plugin
        Camera.getPicture(cameraSettings).then(function(imageData) {
           //adding the phone number and pasing the object to json
-          var image= {"imageData":imageData, "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits()};
+          var votes = [];
+          var image= {"imageData":imageData, "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits(), "votes":votes};
           //upload the image with our open socket connection
           socket.emit('new_image',(image));
           //store localy now
@@ -35,22 +46,30 @@ angular.module('starter.controllers', [])
      socket.on('vote_sent_from_server', function (package) {
          for (var i = 0; i < $localStorage.ownImages.length; i++) {
              if ($localStorage.ownImages[i].imageData == package.imageData) {
-                 console.log("imageData same");
-                 //this double loop is to masure out the exact image and then the exact recipient
-                 for (var j = 0; j < $localStorage.ownImages[i].recipients.length; j++) {
-                    if ($localStorage.ownImages[i].recipients[j].number == package.number){
-                        //saving the revied vote to local storage and scope
-                        $localStorage.ownImages[i].recipients[j].state = package.rating;
-                        $scope.ownImages[i].recipients[j].state = package.rating;
-                        //calling calculation again
-                        $scope.ownImages[i].percantag = (voteservice.getPercentage($scope.ownImages[i].recipients));
-                        $localStorage.ownImages[i].percantag = (voteservice.getPercentage($scope.ownImages[i].recipients));
-                        console.log("number found and vote set");
-                    }
-                 }
+                 var vote={"name":package.number, "vote":package.rating};
+                 $localStorage.ownImages[i].imageData.votes.push(vote);
              }
          }
      });
+    //  socket.on('vote_sent_from_server', function (package) {
+    //      for (var i = 0; i < $localStorage.ownImages.length; i++) {
+    //          if ($localStorage.ownImages[i].imageData == package.imageData) {
+    //              console.log("imageData same");
+    //              //this double loop is to masure out the exact image and then the exact recipient
+    //              for (var j = 0; j < $localStorage.ownImages[i].recipients.length; j++) {
+    //                 if ($localStorage.ownImages[i].recipients[j].number == package.number){
+    //                     //saving the revied vote to local storage and scope
+    //                     $localStorage.ownImages[i].recipients[j].state = package.rating;
+    //                     $scope.ownImages[i].recipients[j].state = package.rating;
+    //                     //calling calculation again
+    //                     $scope.ownImages[i].percantag = (voteservice.getPercentage($scope.ownImages[i].recipients));
+    //                     $localStorage.ownImages[i].percantag = (voteservice.getPercentage($scope.ownImages[i].recipients));
+    //                     console.log("number found and vote set");
+    //                 }
+    //              }
+    //          }
+    //      }
+    //  });
 })
 
 .controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage, voteservice) {

@@ -60,6 +60,15 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
         }
       }
     })
+    .state('tab.collectionstart', {
+        url: '/collectionstart',
+        views: {
+          'tab-collection': {
+            templateUrl: 'templates/tab-collection-start.html',
+            controller: 'StartCtrl'
+          }
+        }
+      })
     .state('tab.collection-detail', {
       url: '/collection/:imageId',
       views: {
@@ -69,6 +78,7 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
         }
       }
     })
+
     .state('tab.profile-select', {
       url: '/profile/select',
       views: {
@@ -86,9 +96,8 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
           controller: 'ProfileCtrl'
         }
       }
-    });
-
+  });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/community');
+  $urlRouterProvider.otherwise('/tab/collection');
 
 });

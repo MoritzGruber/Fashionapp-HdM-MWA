@@ -21,6 +21,20 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-body > ion-nav-view {
-    background: black;
+//welcome screen
+body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-content {
+  > div.scroll {
+    > label {
+      border: transparent;
+    }
+    > button {
+      margin-top: 10%;
+      margin-left: 30%;
+      width: 40%;
+    }
+  }
+  #_label-0 {
+    font-size: small;
+  }
+
 }
