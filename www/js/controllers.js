@@ -71,6 +71,8 @@ angular.module('starter.controllers', [])
               storage.addImage(image);
               $scope.local=$localStorage.images;
               $scope.$apply();
+              console.log("saved foreground");
+              console.log(cordova.plugins.backgroundMode);
           }
       });
       if (ionic.Platform.platform() == "android" || ionic.Platform.platform() == "ios") {
@@ -78,18 +80,42 @@ angular.module('starter.controllers', [])
             //     title:  'Lapica',
             //     text:   'Waiting from friends to post new image'
             // });
-            // Enable background mode
-            cordova.plugins.backgroundMode.enable();
+            // Enable background mode only if there is no other backgroundprozess already running
+            if (!cordova.plugins.backgroundMode.isEnabled()){
+                cordova.plugins.backgroundMode.enable();
+            }
+
 
             // Called when background mode has been activated
+            cordova.plugins.backgroundMode.ondeactivate = function() {
+                console.log("i am deactivaed");
+                return;
+            };
             cordova.plugins.backgroundMode.onactivate = function () {
+                var counter = 1;
+                counter = counter +1;
+                console.log("bg enabeld" + counter);
+                if (cordova.plugins.backgroundMode.isActive) {
+                    socket.on('incoming_image', function (image) {
 
-                socket.on('incoming_image', function (image) {
-                  storage.addImage(image);
-                  $scope.bgmode = true;
-                  $scope.local=$localStorage.images;
-                  $scope.$apply();
-                });
+                      if (cordova.plugins.backgroundMode._isActive) {
+                          if (cordova.plugins.backgroundMode._isActive == false){
+                              console.log("stop this shit");
+                          }
+                          storage.addImage(image);
+                          $scope.bgmode = true;
+                          $scope.local=$localStorage.images;
+                          $scope.$apply();
+                      } else{
+                          return;
+                      }
+                      console.log("saved background");
+                       console.log(cordova.plugins.backgroundMode);
+
+                    });
+                } else{
+                    return;
+                }
             }
       }
     });
