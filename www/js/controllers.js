@@ -1,5 +1,6 @@
 angular.module('starter.controllers', [])
-.controller('StartCtrl', function($scope, storage, $state, socket){
+.controller('StartCtrl', function($scope, $css, storage, $state, socket){
+  $css.add('css/start.css');
   $scope.storage = storage;
   $scope.start = function () {
     if (storage.getNumber().length <4 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ){
