@@ -1,30 +1,40 @@
 angular.module('starter.controllers', [])
-.controller('StartCtrl', function(){
-    console.log("StartCtrl got called");
+.controller('StartCtrl', function($scope, storage, $state, socket){
+  $scope.storage = storage;
+  $scope.start = function () {
+    if (storage.getNumber().length <4 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ){
+      alert("Please choose a Nickname between 3 and 10 letters");
+    }else{
+      //socket emit new user
+      socket.emit('new_user',(storage.getNumber()));
+      //some unique sucess could be received here
+      //navigate to normal start screen
+      $state.go('tab.collection');
+    }
+  };
 })
 .controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage, $state, voteservice) {
     console.log(storage.getNumber());
-      if (storage.getNumber() == "Unknown") {
+      if (storage.getNumber().length <4 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ) {
           //app opend the first time ==> go to welcome page
-          console.log("trollol");
           $state.go('tab.collectionstart');
       }
 
       $scope.getPhoto = function() {
         //first we define a var to set the settings we use calling the cordova camera,
         var cameraSettings = {
-          sourceType: navigator.camera.PictureSourceType.CAMERA,
-          destinationType: navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
+          sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
+          destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
           quality: 75,
           targetWidth: 320,
           targetHeight: 320,
-          saveToPhotoAlbum: false,
+          saveToPhotoAlbum: true,
         };
         //calling our service with asynchronously runs the cordova camera plugin
        Camera.getPicture(cameraSettings).then(function(imageData) {
           //adding the phone number and pasing the object to json
           var votes = [];
-          var image= {"imageData":imageData, "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits(), "votes":votes};
+          var image= {"imageData":imageData, "timestamp": Date.parse(Date()), "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits(), "votes":votes};
           //upload the image with our open socket connection
           socket.emit('new_image',(image));
           //store localy now
@@ -40,16 +50,18 @@ angular.module('starter.controllers', [])
      $scope.ownImages = $localStorage.ownImages;
      //calling the calculate percentage function for each image
      for (var i = 0; i < $scope.ownImages.length; i++) {
-         $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].recipients);
+         $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].votes);
      }
      //TODO: replace the image data with an id
      socket.on('vote_sent_from_server', function (package) {
          for (var i = 0; i < $localStorage.ownImages.length; i++) {
              if ($localStorage.ownImages[i].imageData == package.imageData) {
                  var vote={"name":package.number, "vote":package.rating};
-                 $localStorage.ownImages[i].imageData.votes.push(vote);
+                 $localStorage.ownImages[i].votes.push(vote);
+                $localStorage.ownImages[i].percantag = voteservice.getPercentage($localStorage.ownImages[i].votes);
              }
          }
+       $scope.ownImages = $localStorage.ownImages;
      });
     //  socket.on('vote_sent_from_server', function (package) {
     //      for (var i = 0; i < $localStorage.ownImages.length; i++) {
@@ -74,25 +86,33 @@ angular.module('starter.controllers', [])
 
 .controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage, voteservice) {
     console.log("platform: " + ionic.Platform.platform());
-
+    console.log(Date.parse(Date()));
     //this function is called when you hit a vote button
     $scope.vote= function (voting, indexofvotedimage) {
             voteservice.vote(voting, indexofvotedimage);
     }
 
     $ionicPlatform.ready(function() {
+        storage.clearOldImages();
         $scope.local = $localStorage.images;
         //on startup load iamges from storage, if there is sth to load
         //saving reciving images to scope and storage
       socket.on('incoming_image', function (image) {
           //only call this part if the app is not running the background task
+        if  (ionic.Platform.platform() == "macintel"){
+          storage.addImage(image);
+          $scope.local=$localStorage.images;
+          $scope.$apply();
+        }else {
           if (!(cordova.plugins.backgroundMode.isActive())) {
-              storage.addImage(image);
-              $scope.local=$localStorage.images;
-              $scope.$apply();
-              console.log("saved foreground");
-              console.log(cordova.plugins.backgroundMode);
+            storage.addImage(image);
+            $scope.local=$localStorage.images;
+            $scope.$apply();
+            console.log("saved foreground");
+            console.log(cordova.plugins.backgroundMode);
           }
+        }
+
       });
       if (ionic.Platform.platform() == "android" || ionic.Platform.platform() == "ios") {
             // cordova.plugins.backgroundMode.setDefaults({
@@ -140,17 +160,22 @@ angular.module('starter.controllers', [])
     });
 })
 
-.controller('ProfileCtrl', function($scope, $localStorage, storage) {
+.controller('ProfileCtrl', function($scope, $localStorage, storage, socket) {
     $scope.friends = $localStorage.friends;
     $scope.storage = storage;
     $scope.number = $localStorage.ownnumber;
+    $scope.sendFeedback = function () {
+      socket.emit('feedback', $scope.feedback);
+      console.log($scope.feedback);
+      $scope.feedback = "";
+    }
 })
 
-.controller('CollectionCtrl', [ function(){}])
+.controller('CollectionCtrl', function(
+){})
 
 .controller('CollectionDetailCtrl', function($scope, $stateParams, storage) {
   $scope.image = storage.getOwnImage($stateParams.imageId);
-  console.log($scope.image);
 })
 
 .controller('FriendSelectCtrl', function ($scope, storage, $ionicPlatform) {

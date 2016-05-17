@@ -1,5 +1,5 @@
-<ion-view view-title="Collection">
 
+<ion-view view-title="Collection" hide-nav-bar="true" cache-view="false" id="store-visit-wrapper" hide-tabs>
   <ion-content class="padding start_css">
     Welcome to the Lapica Beta :)
 
@@ -8,8 +8,9 @@
       <input class="line-light-grey profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname"
              ng-model="number" ng-change="storage.setNumber(number)">
     </label>
-    <button class="button button-outline button-positive">
+    <button class="button button-outline button-positive" ng-click="start()">
       Submit
     </button>
   </ion-content>
 </ion-view>
+

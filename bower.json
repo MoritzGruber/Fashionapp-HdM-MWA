@@ -9,6 +9,7 @@
     "angular-base64": "^2.0.5",
     "ngCordova": "^0.1.26-alpha",
     "ngstorage": "^0.3.10",
-    "angular-progress-arc": "^1.0.0"
+    "angular-progress-arc": "^1.0.0",
+    "angular-elastic": "^2.5.1"
   }
 }
