@@ -5,14 +5,22 @@
   height: 500px;
   margin-bottom: 1em;
   position: relative;
-  z-index: 0;
-  border: 1px solid red;
+  z-index: 1;
+}
+.fromWhoHeading{
+    position: relative;;
+    z-index: 3;
+    width: 100%;
+    background-color: white;
+    -webkit-box-shadow: -5px 20px 30px 10px rgb(255, 255, 255);
+    -moz-box-shadow:   -5px 20px 30px 10px rgb(255, 255, 255);
+    box-shadow: -5px 20px 30px 10px rgb(255, 255, 255);
 }
 .communitySingleImg{
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 0;
 }
 .leftButton{
   position: absolute;
@@ -20,14 +28,14 @@
   height: 100%;
   float: left;
   z-index: 2;
-  opacity: 0.5;
+  opacity: 0;
 }
 .rightButton{
   position: relative;
   width: 50%;
   height: 100%;
   float: right;
-  opacity: 0.3;
+  opacity: 0;
   z-index: 2;
 }
 
