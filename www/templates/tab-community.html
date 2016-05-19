@@ -1,10 +1,17 @@
 <ion-view view-title="Community">
   <ion-content class="padding">
-    <div ng-repeat="image in local track by $index">
-        <img ng-src="data:image/jpeg;base64, {{image.imageData}}">
-        <button ng-click="vote(2, $index)" class="button button-dark">NO</button>
-        <button ng-click="vote(1, $index)" class="button button-dark">YES</button>
+    <div class="postContainer" ng-repeat="image in local track by $index">
+        <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image.imageData}}">
+        <button ng-click="vote(2, $index)" class="button button-dark leftButton">NO</button>
+        <button ng-click="vote(1, $index)" class="button button-dark rightButton">YES</button>
         <h3>From: {{image.transmitternumber}}</h3>
     </div>
+<!--
+    <div class="postContainer">
+      <img class="communitySingleImg" src="../img/shorts.jpg">
+      <button class="leftButton">yes</button>
+      <button class="rightButton">no</button>
+    </div>
+-->
   </ion-content>
 </ion-view>
