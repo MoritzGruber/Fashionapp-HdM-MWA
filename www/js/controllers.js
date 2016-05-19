@@ -1,6 +1,5 @@
 angular.module('starter.controllers', [])
 .controller('StartCtrl', function($scope, $css, storage, $state, socket){
-  $css.add('css/start.css');
   $scope.storage = storage;
   $scope.start = function () {
     if (storage.getNumber().length <4 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ){
@@ -14,6 +13,18 @@ angular.module('starter.controllers', [])
     }
   };
 })
+  .controller('TabsCtrl', function($scope, $rootScope, $state) {
+    //this controller disables the tab navigation bar for certain views/tabs
+    $rootScope.$on('$ionicView.beforeEnter', function () {
+
+      $rootScope.hideTabs = false;
+
+      //disable tabbar on start/welcome screen
+      if ($state.current.name === 'tab.collectionstart') {
+        $rootScope.hideTabs = true;
+      }
+    });
+  })
 .controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage, $state, voteservice) {
     console.log(storage.getNumber());
       if (storage.getNumber().length <4 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ) {
