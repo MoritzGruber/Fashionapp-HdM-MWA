@@ -127,34 +127,29 @@ angular.module('starter.controllers', [])
 
 
             // Called when background mode has been activated
-            cordova.plugins.backgroundMode.ondeactivate = function() {
-                console.log("i am deactivaed");
-                return;
-            };
             cordova.plugins.backgroundMode.onactivate = function () {
-                var counter = 1;
-                counter = counter +1;
-                console.log("bg enabeld" + counter);
-                if (cordova.plugins.backgroundMode.isActive) {
+                if (cordova.plugins.backgroundMode._isActive) {
                     socket.on('incoming_image', function (image) {
 
                       if (cordova.plugins.backgroundMode._isActive) {
-                          if (cordova.plugins.backgroundMode._isActive == false){
-                              console.log("stop this shit");
-                          }
-                          storage.addImage(image);
-                          $scope.bgmode = true;
-                          $scope.local=$localStorage.images;
-                          $scope.$apply();
-                      } else{
-                          return;
-                      }
-                      console.log("saved background");
-                       console.log(cordova.plugins.backgroundMode);
+                        //added workaround for buggy background pluign, but after too many times reopening the app will crash anywise
+                          var i = $localStorage.images.length;
+                        containsbool = false;
+                          while (i--) {
+                            if ($localStorage.images[i] === image) {
+                              containsbool =true;
 
+                            }
+                          }
+                          if (containsbool == false){
+                            storage.addImage(image);
+                            $scope.bgmode = true;
+                            $scope.local=$localStorage.images;
+                            $scope.$apply();
+                          }
+                        containsbool=true;
+                      }
                     });
-                } else{
-                    return;
                 }
             }
       }
