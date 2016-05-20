@@ -1,0 +1,16 @@
+
+<ion-view view-title="Welcome" hide-nav-bar="true">
+  <ion-content class="padding start_css">
+    Welcome to the Lapica Beta :)
+
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Nickname</span>
+      <input class="line-light-grey profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname"
+             ng-model="number" ng-change="storage.setNumber(number)">
+    </label>
+    <button class="button button-outline button-positive" ng-click="start()">
+      Submit
+    </button>
+  </ion-content>
+</ion-view>
+

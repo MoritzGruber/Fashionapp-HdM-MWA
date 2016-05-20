@@ -1,17 +1,17 @@
-<!--
-  This template loads for the 'tab.friend-detail' state (app.js)
-  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-  The FriendsCtrl pulls data from the Friends service (service.js)
-  The Friends service returns an array of friend data
--->
-<ion-view view-title="DetailsofImage">
+
+<ion-view view-title="DetailsofImage" hide-nav-bar="true">
+  <a href="#/tab/collection">
   <ion-content class="padding">
     <img ng-src="data:image/jpeg;base64, {{image.imageData}}">
-    <p>
-        ========
-        {{image.recipients}}
-        percantage === {{image.percantag}}
-    </p>
 
+    <div class="row">
+      <div class="col">
+      <div ng-repeat="vote in image.votes" ng-show="vote.vote==1" >{{vote.name}}</div>
+      </div>
+      <div class="col">
+        <div ng-repeat="vote in image.votes" ng-show="vote.vote==2" >{{vote.name}}</div>
+      </div>
+    </div>
   </ion-content>
+    </a>
 </ion-view>

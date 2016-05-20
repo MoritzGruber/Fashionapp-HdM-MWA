@@ -1,23 +1,21 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
 
-    <p>
-      Voting is <b>only working</b> if your partner has this number in his <b>Friendlist:</b>
+    <ion-label floating >Your Nickname:</ion-label>
+    <input class="line-light-grey profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname"
+           ng-model="number" ng-change="storage.setNumber(number)" ng-required="true">
 
-    </p>
-    <div class="profile_number">
-        <label for="profile_phonenumber">Number</label>
-        <input class="line-light-grey profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Phone number"
-        ng-model="number" ng-change="storage.setNumber(number)">
-    </div>
-
+    <!--
     <a href="#/tab/profile/select">
         <button type="button" name="SelectFriends"> SelectFriends </button>
     </a>
-    <p>
-        <br>
-        Buddys:
-        {{friends | json}}
-    </p>
+    -->
+    <ion-label floating >Feedback</ion-label>
+    <textarea id="feedbackarea" msd-elastic ng-model="$parent.feedback">
+    </textarea>
+    <button type="submit" class="button button-outline button-positive" ng-click="sendFeedback()">
+      Submit
+    </button>
+
   </ion-content>
 </ion-view>

@@ -18,7 +18,7 @@ angular.module('starter.services', [])
       //get your own number
       getNumber: function () {
           if ($localStorage.ownnumber == undefined){
-              return "no number defined yet";
+              return "Unknown";
           } else {
               return $localStorage.ownnumber;
           }
@@ -62,6 +62,18 @@ angular.module('starter.services', [])
               $localStorage.images= [];
           }
           return $localStorage.images;
+      },
+      clearOldImages: function () {
+        if ($localStorage.images == undefined) {
+          $localStorage.images= [];
+        }
+        for (var i = 0; i < $localStorage.images.length; i++) {
+          console.log("chick check "+$localStorage.images[i].timestamp+ "<" +(Date.parse(Date())-(1000*30*60)));
+          if($localStorage.images[i].timestamp < (Date.parse(Date())-(1000*30*60))){  //30 stands for 30 minutes, thats the time when the images get deleted
+            $localStorage.images.splice (i, 1);
+          }
+
+        }
       },
       //return friendlist / array of friends(phonenumbers)
       getFriends: function () {
@@ -165,9 +177,9 @@ angular.module('starter.services', [])
               return 0;
           }
           for (var i = 0; i < recipenctsarry.length; i++) {
-              if (recipenctsarry[i].state == 1) {
+              if (recipenctsarry[i].vote == 1) {
                   counter_positive++;
-              }else if (recipenctsarry[i].state == 2 ) {
+              }else if (recipenctsarry[i].vote == 2 ) {
                   counter_negative++;
               }
           }
