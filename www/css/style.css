@@ -12,9 +12,9 @@
     z-index: 3;
     width: 100%;
     background-color: white;
-    -webkit-box-shadow: -5px 20px 30px 10px rgb(255, 255, 255);
-    -moz-box-shadow:   -5px 20px 30px 10px rgb(255, 255, 255);
-    box-shadow: -5px 20px 30px 10px rgb(255, 255, 255);
+    -webkit-box-shadow: -30px 5px 20px 25px white , 20px 5px 20px 25px white, -20px -5px 20px 25px white ,20px -5px 20px 25px white;
+    -moz-box-shadow:   -30px 5px 20px 25px white , 20px 5px 20px 25px white, -20px -5px 20px 25px white ,20px -5px 20px 25px white;
+    box-shadow: -30px 5px 20px 25px white , 20px 5px 20px 25px white, -20px -5px 20px 25px white ,20px -5px 20px 25px white;
 }
 .communitySingleImg{
   position: absolute;
@@ -29,6 +29,10 @@
   float: left;
   z-index: 2;
   opacity: 0;
+  background-color: #5CF1C6;
+}
+.leftButton:active, .rightButton:active {
+  opacity: 1;
 }
 .rightButton{
   position: relative;
@@ -37,7 +41,10 @@
   float: right;
   opacity: 0;
   z-index: 2;
+  background-color: #5CF1C6;
 }
+
+
 
 
 
