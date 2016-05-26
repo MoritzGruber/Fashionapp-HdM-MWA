@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
   })
 .controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage, $state, voteservice) {
     console.log(storage.getNumber());
-      if (storage.getNumber().length <4 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ) {
+      if (storage.getNumber().length <3 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ) {
           //app opend the first time ==> go to welcome page
           $state.go('tab.collectionstart');
       }
