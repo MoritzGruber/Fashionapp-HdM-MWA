@@ -2,7 +2,7 @@ angular.module('starter.controllers', [])
 .controller('StartCtrl', function($scope, $css, storage, $state, socket){
   $scope.storage = storage;
   $scope.start = function () {
-    if (storage.getNumber().length <4 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ){
+    if (storage.getNumber().length <3 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ){
       alert("Please choose a Nickname between 3 and 10 letters");
     }else{
       //socket emit new user
