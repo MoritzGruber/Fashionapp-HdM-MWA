@@ -11,6 +11,7 @@
     "ngstorage": "^0.3.10",
     "angular-progress-arc": "^1.0.0",
     "angular-elastic": "^2.5.1",
-    "angular-css": "^1.0.8"
+    "angular-css": "^1.0.8",
+    "socket.io-client": "^1.4.6"
   }
 }
