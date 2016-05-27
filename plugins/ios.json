@@ -18,6 +18,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.moritzgruber.ios"
+        },
+        "cordova-plugin-hockeyapp": {
+            "PACKAGE_NAME": "com.moritzgruber.ios"
         }
     },
     "dependent_plugins": {
