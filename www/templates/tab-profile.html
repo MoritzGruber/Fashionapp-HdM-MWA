@@ -1,7 +1,7 @@
 <ion-view view-title="Profile">
   <ion-content class="padding">
 
-    <ion-label floating >Your Nickname:</ion-label>
+    <ion-label floating >Nickname:</ion-label>
     <input class="line-light-grey profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname"
            ng-model="number" ng-change="storage.setNumber(number)" ng-required="true">
 
@@ -10,12 +10,11 @@
         <button type="button" name="SelectFriends"> SelectFriends </button>
     </a>
     -->
-    <ion-label floating >Feedback</ion-label>
+    <!--<ion-label floating >Feedback</ion-label>
     <textarea id="feedbackarea" msd-elastic ng-model="$parent.feedback">
-    </textarea>
+    </textarea>-->
     <button type="submit" class="button button-outline button-positive" ng-click="sendFeedback()">
-      Submit
+      Feedback
     </button>
-
   </ion-content>
 </ion-view>

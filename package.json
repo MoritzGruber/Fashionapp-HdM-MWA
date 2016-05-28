@@ -1,7 +1,7 @@
 {
-  "name": "fashion",
+  "name": "Lapica",
   "version": "1.1.1",
-  "description": "fashion: An Ionic project",
+  "description": "Awesome!",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",

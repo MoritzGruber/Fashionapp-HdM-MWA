@@ -2,13 +2,14 @@
 .postContainer{
   display: inline-block;
   width: 100%;
-  height: 500px;
+  /*height: 500px;*/
+  height: 100%;
   margin-bottom: 1em;
   position: relative;
   z-index: 1;
 }
 .fromWhoHeading{
-    position: relative;;
+    position: relative;
     z-index: 3;
     width: 100%;
     background-color: white;
@@ -16,6 +17,31 @@
     -moz-box-shadow:   -30px 5px 20px 25px white , 20px 5px 20px 25px white, -20px -5px 20px 25px white ,20px -5px 20px 25px white;
     box-shadow: -30px 5px 20px 25px white , 20px 5px 20px 25px white, -20px -5px 20px 25px white ,20px -5px 20px 25px white;
 }
+
+/*code for simple buttons*/
+.communitySingleImg{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.leftButton{
+
+  width: 50%;
+  height: 15%;
+  float: left;
+  position: relative;
+  opacity: 0.5;
+  background-color: #5CF1C6;
+}
+.rightButton{
+  width: 50%;
+  height: 15%;
+  float: right;
+  opacity: 0.5;
+  background-color: #5CF1C6;
+}
+
+/* this here is code for invisibe buttons infront of the images
 .communitySingleImg{
   position: absolute;
   width: 100%;
@@ -27,8 +53,8 @@
   width: 50%;
   height: 100%;
   float: left;
-  z-index: 2;
-  opacity: 0;
+  /*z-index: 2;*//*
+  opacity: 0.5;
   background-color: #5CF1C6;
 }
 .leftButton:active, .rightButton:active {
@@ -39,16 +65,11 @@
   width: 50%;
   height: 100%;
   float: right;
-  opacity: 0;
-  z-index: 2;
+  opacity: 0.5;
+  /*z-index: 2;*//*
   background-color: #5CF1C6;
 }
-
-
-
-
-
-
+*/
 
 /* tab-collection */
 .wrapper {
@@ -81,7 +102,7 @@
 	border-radius: 150px;
 	-webkit-border-radius: 150px;
 	-moz-border-radius: 150px;
-	background: url(http://link-to-your/image.jpg) no-repeat;
+	/*background: url(http://link-to-your/image.jpg) no-repeat;*/
 }
 
 /* tab-camera */
