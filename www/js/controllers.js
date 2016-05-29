@@ -31,7 +31,7 @@ angular.module('starter.controllers', [])
   $ionicPlatform.ready(function() {
     hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
     hockeyapp.checkForUpdate();
-    hockeyapp.trackEvent(null, null, "at_tab_collection");
+    //hockeyapp.trackEvent(null, null, "at_tab_collection");
   });
   console.log(storage.getNumber());
   if (storage.getNumber().length <3 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ) {
@@ -104,7 +104,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage, voteservice) {
-    hockeyapp.trackEvent(null, null, "at_tab_community");
+    //hockeyapp.trackEvent(null, null, "at_tab_community");
     console.log("platform: " + ionic.Platform.platform());
     console.log(Date.parse(Date()));
     //this function is called when you hit a vote button

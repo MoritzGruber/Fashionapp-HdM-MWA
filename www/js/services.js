@@ -170,12 +170,11 @@ angular.module('starter.services', [])
           }, function () {
             console.log("async call successful");
           });
-          if (!($localStorage.temp == "") || !($localStorage.temp == undefined)) {
-              console.log("update successful")
-              return;
-          } else {
+          if ($localStorage.temp == "" || $localStorage.temp == undefined) {
               alert("Ups we are sorry, try again later. If your internet is working and you still get this error, send us a meesage please." );
-          }       
+              return;
+          }
+              console.log("update successful");
       }
   };
 })
