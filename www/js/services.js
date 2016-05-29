@@ -171,7 +171,7 @@ angular.module('starter.services', [])
             console.log("async call successful");
           });
           if ($localStorage.temp == "" || $localStorage.temp == undefined) {
-              alert("Ups we are sorry, try again later. If your internet is working and you still get this error, send us a meesage please." );
+              alert("This will be available soon");
               return;
           }
               console.log("update successful");

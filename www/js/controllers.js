@@ -30,23 +30,25 @@ angular.module('starter.controllers', [])
   
   $ionicPlatform.ready(function() {
     hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
-    hockeyapp.checkForUpdate();
+    //hockeyapp.checkForUpdate();
     //hockeyapp.trackEvent(null, null, "at_tab_collection");
-  });
-  console.log(storage.getNumber());
-  if (storage.getNumber().length <3 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ) {
+    if (storage.getNumber().length <3 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ) {
       //app opend the first time ==> go to welcome page
       $state.go('tab.collectionstart');
-  }
+    }
+    
+  });
+  console.log(storage.getNumber());
+  
 
   $scope.getPhoto = function() {
     //first we define a var to set the settings we use calling the cordova camera,
     var cameraSettings = {
       sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
       destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
-      quality: 75,
-      targetWidth: 320,
-      targetHeight: 320,
+      quality: 100,
+      targetWidth: 640,
+      targetHeight: 1136,
       saveToPhotoAlbum: true,
     };
     //calling our service with asynchronously runs the cordova camera plugin
@@ -184,8 +186,8 @@ angular.module('starter.controllers', [])
     };
     $scope.number = $localStorage.ownnumber;
     $scope.sendFeedback = function () {
-      //hockeyapp.feedback();
-        console.log("feedback called");
+      hockeyapp.feedback();
+      console.log("feedback called");
     }
 })
 

@@ -105,6 +105,10 @@
 	/*background: url(http://link-to-your/image.jpg) no-repeat;*/
 }
 
+.fullscreenimage{
+  width: 100%;
+  height: auto;
+}
 /* tab-camera */
 div.imagePicked{
   height: auto;
