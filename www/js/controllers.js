@@ -60,7 +60,7 @@ angular.module('starter.controllers', [])
       storage.addOwnImage(image);
    }, function(err) {
      console.log(err);
-    //this function dosnt even get called, have to make a cetch outside before
+    //this function dosnt even get called, have to make a ceetch outside before
   });
  };
      if ($localStorage.ownImages == undefined) {
@@ -176,15 +176,16 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ProfileCtrl', function($scope, $localStorage, storage, socket) {
-    hockeyapp.trackEvent(null, null, "at_tab_profile");
+    //hockeyapp.trackEvent(null, null, "at_tab_profile");
     // $scope.friends = $localStorage.friends;
     $scope.storage = storage;
+    $scope.updateData = function(){
+      storage.updateData();
+    };
     $scope.number = $localStorage.ownnumber;
     $scope.sendFeedback = function () {
-      hockeyapp.feedback();
-    }
-    $scope.forceCrash = function() {
-      hockeyapp.forceCrash();       
+      //hockeyapp.feedback();
+        console.log("feedback called");
     }
 })
 

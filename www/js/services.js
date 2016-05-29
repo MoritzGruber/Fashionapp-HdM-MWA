@@ -13,7 +13,7 @@ angular.module('starter.services', [])
 })
 
 //this is servie is to storage variables globally and share them between tabs/controllers
-.service('storage', function ($localStorage) {
+.service('storage', function ($localStorage, socket) {
   return {
       //get your own number
       getNumber: function () {
@@ -146,6 +146,36 @@ angular.module('starter.services', [])
               $localStorage.contacts = this.loadContacts();
           }
           return $localStorage.contacts;
+      },
+      updateData: function () {
+          //pull incoming votes of the past 30 minutes from the server, and update all own images (the recived votes)
+          console.log("starting update function");
+          function async (update, callback){
+              console.log("async lauchn");
+              setTimeout(function () {
+              update();
+              callback();
+              }, 10000);
+              console.log("run throguh");
+              //5 secounds to get a respose from the server
+          }
+          async(function () {
+            console.log("running");
+            $localStorage.temp="";
+            socket.emit('pullData', $localStorage.ownnumber);
+            socket.on('updateUserData', function (data) {
+                $localStorage.temp = data;
+            });
+              
+          }, function () {
+            console.log("async call successful");
+          });
+          if (!($localStorage.temp == "") || !($localStorage.temp == undefined)) {
+              console.log("update successful")
+              return;
+          } else {
+              alert("Ups we are sorry, try again later. If your internet is working and you still get this error, send us a meesage please." );
+          }       
       }
   };
 })
