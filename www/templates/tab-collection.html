@@ -3,7 +3,8 @@
   <ion-content  ng-controller="PhotoCtrl" > <!-- controller responsible for camera and popup -->
     <!-- take picture button -->
     <button class="button button-block button-outline button-light ion-plus-round" ng-click="getPhoto()"></button>
-
+    <ion-refresher on-refresh="doRefresh()">
+    </ion-refresher>
     <ion-list>
     <!-- show array of own pictures and there voting -->
       <div ng-show="ownImage.imageData !== undefined" ng-repeat="ownImage in ownImages track by $index">

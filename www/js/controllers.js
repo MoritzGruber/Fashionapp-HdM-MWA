@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 .controller('StartCtrl', function($scope, $css, storage, $state, socket){
-  hockeyapp.trackEvent(null, null, "at_tab_start");
+  //hockeyapp.trackEvent(null, null, "at_tab_start");
   $scope.storage = storage;
   $scope.start = function () {
     if (storage.getNumber().length <3 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ){
@@ -26,10 +26,12 @@ angular.module('starter.controllers', [])
       }
     });
   })
-.controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice) {
+.controller('PhotoCtrl', function($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice) {
   
   $ionicPlatform.ready(function() {
-    hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
+    if  (!ionic.Platform.platform() == "macintel"){
+      hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
+    }
     //hockeyapp.checkForUpdate();
     //hockeyapp.trackEvent(null, null, "at_tab_collection");
     if (storage.getNumber().length <3 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ) {
@@ -103,9 +105,21 @@ angular.module('starter.controllers', [])
     //          }
     //      }
     //  });
+    $scope.doRefresh = function() {
+    
+      console.log('Refreshing!');
+      $timeout( function() {
+        //simulate async response
+        //TODO: call refresh function here
+        //Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+      
+      }, 1000);
+      
+    };
 })
 
-.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage, voteservice) {
+.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, $timeout, storage, $localStorage, voteservice) {
     //hockeyapp.trackEvent(null, null, "at_tab_community");
     console.log("platform: " + ionic.Platform.platform());
     console.log(Date.parse(Date()));
@@ -113,10 +127,23 @@ angular.module('starter.controllers', [])
     $scope.vote= function (voting, indexofvotedimage) {
             voteservice.vote(voting, indexofvotedimage);
     }
+    $scope.doRefresh = function() {
+    
+      console.log('Refreshing!');
+      $timeout( function() {
+        //simulate async response
+        //TODO: call refresh function here
+        //Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+      
+      }, 1000);
+      
+    };
 
     $ionicPlatform.ready(function() {
         storage.clearOldImages();
         $scope.local = $localStorage.images;
+        
         //on startup load iamges from storage, if there is sth to load
         //saving reciving images to scope and storage
       socket.on('incoming_image', function (image) {

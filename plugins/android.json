@@ -8,27 +8,27 @@
     },
     "installed_plugins": {
         "cordova-plugin-background-mode": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
         "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
         "cordova-plugin-contacts": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
         "cordova-plugin-hockeyapp": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         }
     }
 }
