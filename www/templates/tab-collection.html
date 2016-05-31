@@ -8,8 +8,8 @@
     <ion-list>
     <!-- show array of own pictures and there voting -->
       <div ng-show="ownImage.imageData !== undefined" ng-repeat="ownImage in ownImages track by $index">
-                        <a href="#/tab/collection/{{$index}}">
-          <div class="wrapper">
+                        
+          <div class="wrapper" on-hold="removeItem($index)" on-tap="openDetailImage($index)">
 
                   <img class="circle" ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
             <!-- angular-progress-arc
@@ -25,7 +25,6 @@
                 responsive="true">
             </progress-arc>
         </div>
-    </a>
 
     </div>
 

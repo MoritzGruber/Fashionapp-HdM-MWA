@@ -41,8 +41,18 @@ angular.module('starter.controllers', [])
     
   });
   console.log(storage.getNumber());
-  
-
+  //functions
+  //remove an Item
+  $scope.removeItem = function(index){
+    console.log("pls add remove action here");
+    //storage.deleteOwnImage(index);
+    //TODO: Some Animation and Delete Button to show up
+  };
+  //switch to the detail view of the selected image
+  $scope.openDetailImage = function(index){
+    console.log("taped");    
+    $state.go('tab.collection-detail', {imageId: index});
+  };
   $scope.getPhoto = function() {
     //first we define a var to set the settings we use calling the cordova camera,
     var cameraSettings = {

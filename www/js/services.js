@@ -49,6 +49,15 @@ angular.module('starter.services', [])
           }
           return $localStorage.ownImages[index];
       },
+      deleteOwnImage: function (index) {
+        if($localStorage.ownImages[index] != undefined && $localStorage.ownImages[index] != null){
+            $localStorage.ownImages.splice (index, 1);          
+            return true;
+        } else {
+            return false;
+        }
+                  
+      },
       //adding a image in the community storage
       addImage: function (image) {
           if ($localStorage.images == undefined) {
@@ -165,7 +174,7 @@ angular.module('starter.services', [])
             socket.emit('user_refresh', $localStorage.ownnumber, update_trigger);
             socket.on('updateUserData', function (data) {
                 $localStorage.temp = data;
-                console.log("some update data recived");
+                console.log("some update data recived: " + data );
             });
             console.log("run through async call");
               
