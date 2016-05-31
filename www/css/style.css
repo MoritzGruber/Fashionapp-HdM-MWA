@@ -124,5 +124,10 @@ div.imagePicked{
   margin-left: 10px;
   margin-right: 10px;
 }
-
+.negativevotes{
+  color: red;
+}
+.positivevote{
+  color: green;
+}
 /**/

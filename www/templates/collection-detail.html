@@ -5,10 +5,10 @@
     <img class="fullscreenimage" ng-src="data:image/jpeg;base64, {{image.imageData}}">
 
     <div class="row">
-      <div class="col">
+      <div class="col positivevote">
       <div ng-repeat="vote in image.votes" ng-show="vote.vote==1" >{{vote.name}}</div>
       </div>
-      <div class="col">
+      <div class="col negativevotes">
         <div ng-repeat="vote in image.votes" ng-show="vote.vote==2" >{{vote.name}}</div>
       </div>
     </div>
