@@ -147,7 +147,7 @@ angular.module('starter.services', [])
           }
           return $localStorage.contacts;
       },
-      updateData: function () {
+      updateData: function (update_trigger) {
           //pull incoming votes of the past 30 minutes from the server, and update all own images (the recived votes)
           console.log("starting update function");
           function async (update, callback){
@@ -162,10 +162,12 @@ angular.module('starter.services', [])
           async(function () {
             console.log("running");
             $localStorage.temp="";
-            socket.emit('pullData', $localStorage.ownnumber);
+            socket.emit('user_refresh', $localStorage.ownnumber, update_trigger);
             socket.on('updateUserData', function (data) {
                 $localStorage.temp = data;
+                console.log("some update data recived");
             });
+            console.log("run through async call");
               
           }, function () {
             console.log("async call successful");

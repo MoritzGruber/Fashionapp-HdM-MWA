@@ -1,7 +1,6 @@
 <ion-view view-title="Community">
   <ion-content class="padding">
       <ion-refresher on-refresh="doRefresh()">
-                     
       </ion-refresher>
   <div class="postContainer" ng-repeat="image in local track by $index">
         <div class="fromWhoHeading"><h4>From: {{image.transmitternumber}}</h4></div>

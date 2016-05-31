@@ -111,6 +111,7 @@ angular.module('starter.controllers', [])
       $timeout( function() {
         //simulate async response
         //TODO: call refresh function here
+        storage.updateData("collection");
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
       
@@ -133,6 +134,7 @@ angular.module('starter.controllers', [])
       $timeout( function() {
         //simulate async response
         //TODO: call refresh function here
+        storage.updateData("community");
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
       
@@ -180,7 +182,7 @@ angular.module('starter.controllers', [])
                     socket.on('incoming_image', function (image) {
 
                       if (cordova.plugins.backgroundMode._isActive) {
-                        //added workaround for buggy background pluign, but after too many times reopening the app will crash anywise
+                        //added workaround for buggy background pluign, but after too many times reopening the app will crash anyway
                           var i = $localStorage.images.length;
                         containsbool = false;
                           while (i--) {
@@ -209,7 +211,7 @@ angular.module('starter.controllers', [])
     // $scope.friends = $localStorage.friends;
     $scope.storage = storage;
     $scope.updateData = function(){
-      storage.updateData();
+      storage.updateData("profile");
     };
     $scope.number = $localStorage.ownnumber;
     $scope.sendFeedback = function () {
