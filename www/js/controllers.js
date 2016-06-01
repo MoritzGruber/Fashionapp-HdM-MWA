@@ -44,7 +44,9 @@ angular.module('starter.controllers', [])
   //remove an Item
   $scope.removeItem = function(index){
     console.log("pls add remove action here");
+    //call this to delete the image:
     //storage.deleteOwnImage(index);
+    
     //TODO: Some Animation and Delete Button to show up
   };
   //switch to the detail view of the selected image
@@ -140,6 +142,16 @@ angular.module('starter.controllers', [])
 })
 
 .controller('CommunityCtrl', function($scope, socket, $ionicPlatform, $timeout, storage, $localStorage, voteservice, communicationservice) {
+    $scope.getTypeOf = function(value) {
+      console.log("called get type");
+        if(value === null) {
+            return "null";
+        }
+        if(Array.isArray(value)) {
+            return "array";
+        }
+        return typeof value; 
+    };
     //hockeyapp.trackEvent(null, null, "at_tab_community");
     console.log("platform: " + ionic.Platform.platform());
     console.log(Date.parse(Date()));
