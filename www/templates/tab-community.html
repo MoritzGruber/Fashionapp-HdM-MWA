@@ -3,10 +3,21 @@
       <ion-refresher on-refresh="doRefresh()">
       </ion-refresher>
   <div class="postContainer" ng-repeat="image in local track by $index">
-        <div class="fromWhoHeading"><h4>From: {{image.transmitternumber}}</h4></div>
-        <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image.imageData}}">
-        <button ng-click="vote(2, $index)" class="button button-dark leftButton">NO</button>
-        <button ng-click="vote(1, $index)" class="button button-dark rightButton">YES</button>
+        <div ng-switch on="image">
+            <div ng-switch-when="image[1]!=undefined">
+                <!-- code to render a image collage block-->
+                <div class="fromWhoHeading"><h4>Collage From: {{image[0].transmitternumber}}</h4></div>
+                <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image[0].imageData}}">
+            </div>
+            <div ng-switch-default>
+                <!-- code to render the regular image block -->
+                <div class="fromWhoHeading"><h4>Image From: {{image.transmitternumber}}</h4></div>
+                <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image.imageData}}">
+                <button ng-click="vote(2, $index)" class="button button-dark leftButton">NO</button>
+                <button ng-click="vote(1, $index)" class="button button-dark rightButton">YES</button>
+            </div>
+        </div>
+        
     </div> 
   </ion-content>
 </ion-view>
