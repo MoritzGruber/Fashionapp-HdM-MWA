@@ -15,7 +15,6 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
@@ -23,7 +22,6 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
     }
   });
 })
-
 .config(function($stateProvider, $urlRouterProvider) {
 //setting up route
   // Ionic uses AngularUI Router which uses the concept of states
@@ -38,7 +36,6 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
-
   // Each tab has its own nav history stack:
   //child template of tabs
   .state('tab.community', {
@@ -50,7 +47,6 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
       }
     }
   })
-
   .state('tab.collection', {
       url: '/collection',
       views: {
@@ -79,7 +75,6 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
         }
       }
     })
-
     .state('tab.profile-select', {
       url: '/profile/select',
       views: {
@@ -100,5 +95,4 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/collection');
-
 });

@@ -26,8 +26,7 @@ angular.module('starter.controllers', [])
       }
     });
   })
-.controller('PhotoCtrl', function($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice) {
-  
+.controller('PhotoCtrl', function($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice, communicationservice) {
   $ionicPlatform.ready(function() {
     if  (!ionic.Platform.platform() == "macintel"){
       hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
@@ -38,7 +37,7 @@ angular.module('starter.controllers', [])
       //app opend the first time ==> go to welcome page
       $state.go('tab.collectionstart');
     }
-    
+
   });
   console.log(storage.getNumber());
   //functions
@@ -50,10 +49,11 @@ angular.module('starter.controllers', [])
   };
   //switch to the detail view of the selected image
   $scope.openDetailImage = function(index){
-    console.log("taped");    
+    console.log("taped");
     $state.go('tab.collection-detail', {imageId: index});
   };
   $scope.getPhoto = function() {
+
     //first we define a var to set the settings we use calling the cordova camera,
     var cameraSettings = {
       sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
@@ -72,10 +72,18 @@ angular.module('starter.controllers', [])
       socket.emit('new_image',(image));
       //store localy now
       storage.addOwnImage(image);
+     $scope.collage = true;
+     setTimeout(function () {
+       console.log("dudu");
+       $scope.collage = false;
+       $scope.$apply();
+     }, 3000);
+
    }, function(err) {
      console.log(err);
     //this function dosnt even get called, have to make a ceetch outside before
   });
+
  };
      if ($localStorage.ownImages == undefined) {
          $localStorage.ownImages = [];
@@ -119,19 +127,19 @@ angular.module('starter.controllers', [])
     //      }
     //  });
     $scope.doRefresh = function() {
-   
-    storage.updateData("collection");  
+
+      communicationservice.updateData("collection");
       $timeout( function() {
         //simulate async response
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
-              
+
       }, 1000);
-      
+
     };
 })
 
-.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, $timeout, storage, $localStorage, voteservice) {
+.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, $timeout, storage, $localStorage, voteservice, communicationservice) {
     //hockeyapp.trackEvent(null, null, "at_tab_community");
     console.log("platform: " + ionic.Platform.platform());
     console.log(Date.parse(Date()));
@@ -140,23 +148,23 @@ angular.module('starter.controllers', [])
             voteservice.vote(voting, indexofvotedimage);
     }
     $scope.doRefresh = function() {
-    
+
       console.log('Refreshing!');
       $timeout( function() {
         //simulate async response
         //TODO: call refresh function here
-        storage.updateData("community");
+        communicationservice.updateData("community");
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
-      
+
       }, 1000);
-      
+
     };
 
     $ionicPlatform.ready(function() {
         storage.clearOldImages();
         $scope.local = $localStorage.images;
-        
+
         //on startup load iamges from storage, if there is sth to load
         //saving reciving images to scope and storage
       socket.on('incoming_image', function (image) {
@@ -217,12 +225,12 @@ angular.module('starter.controllers', [])
     });
 })
 
-.controller('ProfileCtrl', function($scope, $localStorage, storage, socket) {
+.controller('ProfileCtrl', function($scope, $localStorage, storage, socket, communicationservice) {
     //hockeyapp.trackEvent(null, null, "at_tab_profile");
     // $scope.friends = $localStorage.friends;
     $scope.storage = storage;
     $scope.updateData = function(){
-      storage.updateData("profile");
+      communicationservice.updateData("profile");
     };
     $scope.number = $localStorage.ownnumber;
     $scope.sendFeedback = function () {

@@ -8,11 +8,9 @@ angular.module('starter.services', [])
   	mySocket = socketFactory({
     	ioSocket: myIoSocket
   	});
-
 	return mySocket;
 })
-
-//this is servie is to storage variables globally and share them between tabs/controllers
+//this is service is to storage variables globally and share them between tabs/controllers
 .service('storage', function ($localStorage, socket) {
   return {
       //get your own number
@@ -51,12 +49,12 @@ angular.module('starter.services', [])
       },
       deleteOwnImage: function (index) {
         if($localStorage.ownImages[index] != undefined && $localStorage.ownImages[index] != null){
-            $localStorage.ownImages.splice (index, 1);          
+            $localStorage.ownImages.splice (index, 1);
             return true;
         } else {
             return false;
         }
-                  
+
       },
       //adding a image in the community storage
       addImage: function (image) {
@@ -155,41 +153,15 @@ angular.module('starter.services', [])
               $localStorage.contacts = this.loadContacts();
           }
           return $localStorage.contacts;
-      },
-      updateData: function (update_trigger) {
-          //pull incoming votes of the past 30 minutes from the server, and update all own images (the recived votes)
-          socket.emit('user_refresh', $localStorage.ownnumber, update_trigger);
-          /*
-          console.log("starting update function");
-          function async (update, callback){
-              console.log("async lauchn");
-              setTimeout(function () {
-              update();
-              callback();
-              }, 10000);
-              console.log("run throguh");
-              //5 secounds to get a respose from the server
-          }
-          async(function () {
-            console.log("running");
-            $localStorage.temp="";
-            
-            socket.on('updateUserData', function (data) {
-                $localStorage.temp = data;
-                console.log("some update data recived: " + data );
-            });
-            console.log("run through async call");
-              
-          }, function () {
-            console.log("async call successful");
-          });
-          if ($localStorage.temp == "" || $localStorage.temp == undefined) {
-              alert("This will be available soon");
-              return;
-          }
-              console.log("update successful");
-        */  
-        }
+      }
+  };
+})
+.service('communicationservice', function (socket, $localStorage) {
+  return{
+    updateData: function (update_trigger) {
+      //pull incoming votes of the past 30 minutes from the server, and update all own images (the recived votes)
+      socket.emit('user_refresh', $localStorage.ownnumber, update_trigger);
+    }
   };
 })
 //service for voting
