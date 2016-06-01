@@ -78,7 +78,7 @@ angular.module('starter.controllers', [])
      
       //adding the phone number and pasing the object to json
       var votes = [];
-      var image= {"imageData":imageData, "timestamp": Date.parse(Date()), "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits(), "votes":votes, "collageorder":collageorder};
+      var image= {"imageData":imageData, "timestamp": Date.parse(Date()), "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits(), "votes":votes, "collageorder":$scope.collageorder};
       //upload the image with our open socket connection
       socket.emit('new_image',(image));
       //store localy now
