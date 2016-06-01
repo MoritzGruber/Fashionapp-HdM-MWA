@@ -96,6 +96,9 @@ angular.module('starter.controllers', [])
          }
        $scope.ownImages = $localStorage.ownImages;
      });
+     socket.on('updateUserData', function(data){
+       console.log(data);
+     });
     //  socket.on('vote_sent_from_server', function (package) {
     //      for (var i = 0; i < $localStorage.ownImages.length; i++) {
     //          if ($localStorage.ownImages[i].imageData == package.imageData) {
@@ -116,15 +119,13 @@ angular.module('starter.controllers', [])
     //      }
     //  });
     $scope.doRefresh = function() {
-    
-      console.log('Refreshing!');
+   
+    storage.updateData("collection");  
       $timeout( function() {
         //simulate async response
-        //TODO: call refresh function here
-        storage.updateData("collection");
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
-      
+              
       }, 1000);
       
     };
