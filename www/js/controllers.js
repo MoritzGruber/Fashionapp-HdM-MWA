@@ -55,6 +55,14 @@ angular.module('starter.controllers', [])
     $state.go('tab.collection-detail', {imageId: index});
   };
   $scope.getPhoto = function() {
+    if ($scope.collage == true){
+       $scope.collageorder++; // 1,2,3,4 == number in the collage and define that is acutally part of collage
+       if($scope.collageorder < 4 ){
+         $scope.collageorder = 1;
+       }
+    }else{
+      $scope.collageorder == 0;//  0==no collage
+    }
 
     //first we define a var to set the settings we use calling the cordova camera,
     var cameraSettings = {
@@ -67,9 +75,10 @@ angular.module('starter.controllers', [])
     };
     //calling our service with asynchronously runs the cordova camera plugin
    Camera.getPicture(cameraSettings).then(function(imageData) {
+     
       //adding the phone number and pasing the object to json
       var votes = [];
-      var image= {"imageData":imageData, "timestamp": Date.parse(Date()), "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits(), "votes":votes};
+      var image= {"imageData":imageData, "timestamp": Date.parse(Date()), "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits(), "votes":votes, "collageorder":collageorder};
       //upload the image with our open socket connection
       socket.emit('new_image',(image));
       //store localy now
