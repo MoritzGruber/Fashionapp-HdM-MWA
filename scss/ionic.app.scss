@@ -36,7 +36,6 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
   #_label-0 {
     font-size: small;
   }
-
 }
 
 /* tab-enquires */
@@ -44,39 +43,38 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
   width: 100%;
 }
 /* tab-collection */
-.wrapper {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  display: block;
+.item-container{
   margin-left: auto;
   margin-right: auto;
+  z-index: 0;
+  width: 220px;
+  height: auto;
 }
-.wrapper > .bar, .wrapper > img {
+.progress-circle{
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  z-index: 1;
 }
-.wrapper > img {
-  /* Needs appropriate vendor prefixes */
-  box-sizing: border-box;
-  /* This needs to be equal to strokeWidth */
-  padding: 4%;
-}
-.wrapper > img {
+.wrapper {
+  z-index: 2;
+  width: 200px;
+  height: 200px;
+  margin-top: 10px;
+  margin-left: 10px;
+  position: absolute;
+  overflow: hidden;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
   border-radius: 50%;
 }
-.circle {
-  width: 300px;
-  height: 300px;
-  border-radius: 150px;
-  -webkit-border-radius: 150px;
-  -moz-border-radius: 150px;
-  background: url(http://link-to-your/image.jpg) no-repeat;
-}
+.wrapper img {
+  display: inline;
+  margin: 0 auto;
+  height: auto;
+  width: 100%;
 
+}
 /* tab-camera */
 div.imagePicked{
   height: auto;

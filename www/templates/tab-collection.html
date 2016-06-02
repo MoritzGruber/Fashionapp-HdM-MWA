@@ -8,42 +8,44 @@
     </ion-refresher>
     <ion-list>
     <!-- show array of own pictures and there voting -->
-      <div ng-show="ownImage.imageData !== undefined" ng-repeat="ownImage in ownImages track by $index">
-
-          <div class="wrapper" on-hold="removeItem($index)" on-tap="openDetailImage($index)">
-
-                  <img class="circle" ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
+        <div class="item-container" ng-show="ownImage.imageData !== undefined" ng-repeat="ownImage in ownImages track by $index">
+          <div class="progress-circle">
             <!-- angular-progress-arc
                 progress is an expression that should evaluate to a float value between 0.0 and 1.0; where 0.0 is an empty progress arc, and 1.0 is a full ring.
                 -->
-            <progress-arc
-                size="200"
-                stroke="#5AE8C1"
-                stroke-width="45"
-                complete="ownImage.percantag"
-                counter-clockwise="false"
-                background="#C6C9C9"
-                responsive="true">
-            </progress-arc>
-        </div>
-
-    </div>
+              <progress-arc
+                  size="220"
+                  stroke="#5AE8C1"
+                  stroke-width="45"
+                  complete="0.2"
+                  counter-clockwise="false"
+                  background="#C6C9C9"
+                  responsive="true">
+              </progress-arc>
+            </div>
+            <div class="wrapper" on-hold="removeItem($index)" on-tap="openDetailImage($index)">
+                <img class="circle" ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
+          </div>
+      </div>
 
 
     </ion-list>
-    <!-- example of picture and progress bar
-  <div class="wrapper" >
-        <img class="circle" ng-src="img/skirt.jpg">
-        <progress-arc
-            size="200"
-            stroke="#5AE8C1"
-            stroke-width="45"
-            complete="0.2"
-            counter-clockwise="false"
-            background="#C6C9C9"
-            responsive="true">
-        </progress-arc>
-      </div>
-  -->
+    <!-- example of picture and progress bar   -->
+    <div class="item-container">
+      <div class="progress-circle">
+          <progress-arc
+              size="220"
+              stroke="#5AE8C1"
+              stroke-width="45"
+              complete="0.2"
+              counter-clockwise="false"
+              background="#C6C9C9"
+              responsive="true">
+          </progress-arc>
+        </div>
+        <div class="wrapper" >
+          <img class="circle" ng-src="img/shorts.jpg">
+        </div>
+
   </ion-content>
 </ion-view>
