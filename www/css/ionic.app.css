@@ -9768,7 +9768,8 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
   overflow: hidden;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
-  border-radius: 50%; }
+  border-radius: 50%;
+  background-color: red; }
 
 .img-wrapper-img {
   display: inline;
@@ -9778,9 +9779,14 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
   position: relative;
   bottom: 50%; }
 
-/*collection detail*/
-.fullscreenimage {
-  border: none; }
+.deleteBtn {
+  position: absolute;
+  z-index: 3;
+  border-radius: 50%;
+  width: 220px;
+  height: 220px;
+  background-color: red;
+  opacity: 0.5; }
 
 /* tab-camera */
 div.imagePicked {

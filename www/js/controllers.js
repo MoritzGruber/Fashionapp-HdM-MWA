@@ -26,6 +26,7 @@ angular.module('starter.controllers', [])
       }
     });
   })
+
 .controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice) {
 
 /*  $ionicPlatform.ready(function() {
@@ -104,6 +105,27 @@ angular.module('starter.controllers', [])
     //          }
     //      }
     //  });
+
+    // called when item-container is on-hold for showing the delete button
+    $scope.onHold = function(){
+      $scope.deleteBtn = true;
+      $scope.detailDisabled = true;
+      $scope.detailLink = true;
+      console.log($scope.deleteBtn);
+      };
+      // deleting the image
+      $scope.onDelete = function(index){
+        $localStorage.ownImages.splice(index,1);
+        console.log("on delete");
+        $scope.deleteBtn = false;
+        $scope.detailDisabled = false;
+      };
+      // hiding the delete button
+      $scope.resetDelete = function (){
+        $scope.deleteBtn = false;
+        $scope.detailDisabled = false;
+        $scope.detailLink = false;
+      };
 })
 
 .controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage, voteservice) {
