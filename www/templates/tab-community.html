@@ -2,20 +2,22 @@
   <ion-content class="padding">
       <ion-refresher on-refresh="doRefresh()">
       </ion-refresher>
-
-
-<div class="postContainer">
-  <div class="fromWhoHeading"><h4>Image From: {{image.transmitternumber}}</h4></div>
-       <img class="communitySingleImg" src="img/shorts.jpg">
+<!-- example of collage grid -->
+    <div class="fromWhoHeading"><h4>Image From: {{image.transmitternumber}}</h4></div>
+    <div class="row row-community">
+      <div class="col col-50"><img class="communitySingleImg" src="img/shorts.jpg"></div>
+      <div class="col col-50"><img class="communitySingleImg" src="img/shorts.jpg"></div>
+    </div>
+    <div class="row row-community">
+      <div class="col col-50"><img class="communitySingleImg" src="img/shorts.jpg"></div>
+      <div class="col col-50"><img class="communitySingleImg" src="img/shorts.jpg"></div>
+    </div>
+<!-- example of single image -->
+    <div class="fromWhoHeading"><h4>Image From: {{image.transmitternumber}}</h4></div>
+        <img class="communitySingleImg" src="img/shorts.jpg">
         <button ng-click="vote(2, $index)" class="button button-dark leftButton">NO</button>
         <button ng-click="vote(1, $index)" class="button button-dark rightButton">YES</button>
-</div>
-<div class="postContainer">
-  <div class="fromWhoHeading"><h4>Image From: {{image.transmitternumber}}</h4></div>
-       <img class="communitySingleImg" src="img/shorts.jpg">
-        <button ng-click="vote(2, $index)" class="button button-dark leftButton">NO</button>
-        <button ng-click="vote(1, $index)" class="button button-dark rightButton">YES</button>
-</div>
+
 
   <div class="postContainer" ng-repeat="image in local track by $index">
         <div ng-switch on="image.single">
@@ -24,21 +26,28 @@
                 <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image.imageData}}">
                 <button ng-click="vote(2, $index)" class="button button-dark leftButton">NO</button>
                 <button ng-click="vote(1, $index)" class="button button-dark rightButton">YES</button>
-              
             </div>
                 <!-- code to render a image collage block-->
             <div ng-switch-default>
                 <!-- code to render the regular image block -->
-                <div class="fromWhoHeading"><h4>Collage From: {{image[0].transmitternumber}}</h4></div>
-              <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image[0].imageData}}">
-              <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image[1].imageData}}">
-              <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image[2].imageData}}">
-              <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image[3].imageData}}">
-              <button ng-click="vote(2, $index)" class="button button-dark leftButton">NO</button>
-              <button ng-click="vote(1, $index)" class="button button-dark rightButton">YES</button>
-                
+              <div class="fromWhoHeading"><h4>Image From: {{image.transmitternumber}}</h4></div>
+              <div class="row row-community">
+                  <div class="col col-50">
+                    <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image[0].imageData}}">
+                  </div>
+                  <div class="col col-50">
+                    <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image[1].imageData}}">
+                  </div>
+              </div>
+              <div class="row row-community">
+                <div class="col col-50">
+                 <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image[2].imageData}}">
+                </div>
+                <div class="col col-50">
+                  <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image[3].imageData}}">
+                </div>
+              </div>
             </div>
-        
         </div> 
   </ion-content>
 </ion-view>
