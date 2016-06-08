@@ -48,13 +48,13 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
   margin-right: auto;
   z-index: 0;
   width: 220px;
-  height: auto;
+  height: 220px;
 }
 .progress-circle{
   position: absolute;
   z-index: 1;
 }
-.wrapper {
+.img-wrapper {
   z-index: 2;
   width: 200px;
   height: 200px;
@@ -64,16 +64,25 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
   overflow: hidden;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
   border-radius: 50%;
+  background-color: red;
 }
-.wrapper img {
+.img-wrapper-img {
   display: inline;
   margin: 0 auto;
   height: auto;
   width: 100%;
-
+  position: relative;
+  bottom: 50%;
+}
+.deleteBtn{
+  position: absolute;
+  z-index: 3;
+  border-radius: 50%;
+  width: 220px;
+  height: 220px;
+  background-color: red;
+  opacity: 0.5;
 }
 /* tab-camera */
 div.imagePicked{
