@@ -2,7 +2,8 @@
   "name": "Lapica",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.2.4"
+    "ionic": "driftyco/ionic-bower#1.2.4",
+    "ionic-platform-web-client": "^0.7.1"
   },
   "dependencies": {
     "angular-socket-io": "^0.7.0",

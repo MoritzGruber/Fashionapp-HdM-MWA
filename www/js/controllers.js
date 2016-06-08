@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-  .controller('StartCtrl', function ($scope, $css, storage, $state, socket) {
+  .controller('StartCtrl', function ($scope, $css, storage, $state, socket, $cordovaPush) {
     //hockeyapp.trackEvent(null, null, "at_tab_start");
     $scope.storage = storage;
     $scope.start = function () {
@@ -7,26 +7,30 @@ angular.module('starter.controllers', [])
         alert("Please choose a Nickname between 3 and 10 letters");
       } else {
         //socket emit new user
-      var push = new Ionic.Push({
-        "onNotification": function (notification) {
-          alert('Receved a Notification!');
-        },
-        "pluginConfig": {
-          "android":{
-            "iconColor": "0000FF"
+        var push = new Ionic.Push({
+          "onNotification": function (notification) {
+            alert('Receved a Notification!');
+          },
+          "pluginConfig": {
+            "android": {
+              "iconColor": "0000FF"
+            }
           }
+        });
+        var callback = function (pushToken) {
+          console.log('Registered token:', pushToken.token);
+          socket.emit('new_user', (storage.getNumber()), pushToken.token);
         }
-   	  });
-    var callback = function(pushToken) {
-      console.log('Registered token:', pushToken.token);
-      $scope.token = pushToken.token;
-    }
-    push.register(callback);
-        socket.emit('new_user', (storage.getNumber()), $scope.token);
-        //some unique sucess could be received here
-        //navigate to normal start screen
+        push.register(callback);
         $state.go('tab.collection');
       }
+      socket.on('register_succsess', function () {
+        console.log("register_succsess");
+        $state.go('tab.collection');
+      });
+      socket.on('register_failed', function () {
+        consloe.log("register_failed");
+      });
     };
   })
   .controller('TabsCtrl', function ($scope, $rootScope, $state) {
@@ -74,10 +78,10 @@ angular.module('starter.controllers', [])
       }
       //hockeyapp.checkForUpdate();
       //hockeyapp.trackEvent(null, null, "at_tab_collection");
-      if (storage.getNumber().length < 3 || storage.getNumber().length > 10 || storage.getNumber() == "Unknown") {
+      //if (storage.getNumber().length < 3 || storage.getNumber().length > 10 || storage.getNumber() == "Unknown") {
         //app opend the first time ==> go to welcome page
         $state.go('tab.collectionstart');
-      }
+     // }
 
     });
     console.log(storage.getNumber());
@@ -189,26 +193,26 @@ angular.module('starter.controllers', [])
 
       }, 1000);
     };
-      // called when item-container is on-hold for showing the delete button
-      $scope.onHold = function(){
-        $scope.deleteBtn = true;
-        $scope.detailDisabled = true;
-        $scope.detailLink = true;
-        console.log($scope.deleteBtn);
-        };
-        // deleting the image
-        $scope.onDelete = function(index){
-          $localStorage.ownImages.splice(index,1);
-          console.log("on delete");
-          $scope.deleteBtn = false;
-          $scope.detailDisabled = false;
-        };
-        // hiding the delete button
-        $scope.resetDelete = function (){
-          $scope.deleteBtn = false;
-          $scope.detailDisabled = false;
-          $scope.detailLink = false;
-        }; 
+    // called when item-container is on-hold for showing the delete button
+    $scope.onHold = function () {
+      $scope.deleteBtn = true;
+      $scope.detailDisabled = true;
+      $scope.detailLink = true;
+      console.log($scope.deleteBtn);
+    };
+    // deleting the image
+    $scope.onDelete = function (index) {
+      $localStorage.ownImages.splice(index, 1);
+      console.log("on delete");
+      $scope.deleteBtn = false;
+      $scope.detailDisabled = false;
+    };
+    // hiding the delete button
+    $scope.resetDelete = function () {
+      $scope.deleteBtn = false;
+      $scope.detailDisabled = false;
+      $scope.detailLink = false;
+    };
   })
 
   .controller('CommunityCtrl', function ($scope, socket, $ionicPlatform, $timeout, storage, $localStorage, voteservice, communicationservice) {
