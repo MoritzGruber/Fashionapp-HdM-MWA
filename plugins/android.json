@@ -21,6 +21,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.moritzgruber.lapica"
+        },
+        "ionic-plugin-deploy": {
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         }
     },
     "dependent_plugins": {

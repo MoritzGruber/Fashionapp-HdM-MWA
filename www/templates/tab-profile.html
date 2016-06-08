@@ -3,9 +3,9 @@
     <br>
     <br>
     <br>
-    <ion-label floating >Nickname:</ion-label>
-    <input class="line-light-grey profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname"
-           ng-model="number" ng-change="storage.setNumber(number)" ng-required="true">
+    <ion-label floating>Nickname:</ion-label>
+    <input class="line-light-grey profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname" ng-model="number"
+      ng-change="storage.setNumber(number)" ng-required="true">
 
     <!--
     <a href="#/tab/profile/select">
@@ -17,8 +17,8 @@
     </textarea>-->
     <br>
     <br>
-    
-    
+
+
     <button type="submit" class="button button-outline button-positive" ng-click="sendFeedback()">
       Submit Feedback
     </button>
@@ -27,4 +27,10 @@
     <button type="submit" class="button button-outline button-positive" ng-click="updateData()">
       Refresh Data
     </button>
+    <button class="button button-primary button-block " ng-click="checkForUpdates()">
+  Check for updates
+  </button>
+    <button class="button button-stable button-block button-pulse" ng-if="hasUpdate" ng-click="doUpdate()">
+    download update
+  </button>
 </ion-view>
