@@ -21,7 +21,7 @@
 
 
   <div class="postContainer" ng-repeat="image in local track by $index">
-        <div ng-switch on="image.single">
+          <div ng-switch on="image.single">
 
             <div ng-switch-when="yes">
               <div class="fromWhoHeading"><h4>Image From: {{image.transmitternumber}}</h4></div>
@@ -52,6 +52,6 @@
               </div>
             </div>
         </div> 
-
+    </div>
   </ion-content>
 </ion-view>

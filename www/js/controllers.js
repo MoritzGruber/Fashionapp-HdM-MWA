@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 .controller('StartCtrl', function($scope, $css, storage, $state, socket){
-  hockeyapp.trackEvent(null, null, "at_tab_start");
+  //hockeyapp.trackEvent(null, null, "at_tab_start");
   $scope.storage = storage;
   $scope.start = function () {
     if (storage.getNumber().length <3 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ){
@@ -26,11 +26,11 @@ angular.module('starter.controllers', [])
       }
     });
   })
-
-.controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice) {
-
-/*  $ionicPlatform.ready(function() {
-    hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
+.controller('PhotoCtrl', function($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice, communicationservice) {
+  $ionicPlatform.ready(function() {
+    if  (!ionic.Platform.platform() == "macintel"){
+      hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
+    }
     //hockeyapp.checkForUpdate();
     //hockeyapp.trackEvent(null, null, "at_tab_collection");
     if (storage.getNumber().length <3 || storage.getNumber().length >10 || storage.getNumber() == "Unknown" ) {
@@ -40,9 +40,30 @@ angular.module('starter.controllers', [])
 
   });
   console.log(storage.getNumber());
-
-*/
+  //functions
+  //remove an Item
+  $scope.removeItem = function(index){
+    console.log("pls add remove action here");
+    //call this to delete the image:
+    //storage.deleteOwnImage(index);
+    
+    //TODO: Some Animation and Delete Button to show up
+  };
+  //switch to the detail view of the selected image
+  $scope.openDetailImage = function(index){
+    console.log("taped");
+    $state.go('tab.collection-detail', {imageId: index});
+  };
   $scope.getPhoto = function() {
+    if ($scope.collage == true){
+       $scope.collageorder++; // 1,2,3,4 == number in the collage and define that is acutally part of collage
+       if($scope.collageorder < 4 ){
+         $scope.collageorder = 1;
+       }
+    }else{
+      $scope.collageorder == 0;//  0==no collage
+    }
+
     //first we define a var to set the settings we use calling the cordova camera,
     var cameraSettings = {
       sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
@@ -55,17 +76,26 @@ angular.module('starter.controllers', [])
     };
     //calling our service with asynchronously runs the cordova camera plugin
    Camera.getPicture(cameraSettings).then(function(imageData) {
+     
       //adding the phone number and pasing the object to json
       var votes = [];
-      var image= {"imageData":imageData, "timestamp": Date.parse(Date()), "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits(), "votes":votes};
+      var image= {"imageData":imageData, "timestamp": Date.parse(Date()), "transmitternumber":storage.getNumber(), "recipients":storage.getFriendswithbenefits(), "votes":votes, "collageorder":$scope.collageorder};
       //upload the image with our open socket connection
       socket.emit('new_image',(image));
       //store localy now
       storage.addOwnImage(image);
+     $scope.collage = true;
+     setTimeout(function () {
+       console.log("dudu");
+       $scope.collage = false;
+       $scope.$apply();
+     }, 3000);
+
    }, function(err) {
      console.log(err);
     //this function dosnt even get called, have to make a ceetch outside before
   });
+
  };
      if ($localStorage.ownImages == undefined) {
          $localStorage.ownImages = [];
@@ -86,6 +116,9 @@ angular.module('starter.controllers', [])
          }
        $scope.ownImages = $localStorage.ownImages;
      });
+     socket.on('updateUserData', function(data){
+       console.log(data);
+     });
     //  socket.on('vote_sent_from_server', function (package) {
     //      for (var i = 0; i < $localStorage.ownImages.length; i++) {
     //          if ($localStorage.ownImages[i].imageData == package.imageData) {
@@ -105,7 +138,17 @@ angular.module('starter.controllers', [])
     //          }
     //      }
     //  });
+    $scope.doRefresh = function() {
 
+      communicationservice.updateData("collection");
+      $timeout( function() {
+        //simulate async response
+        //Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+
+      }, 1000);
+
+    };
     // called when item-container is on-hold for showing the delete button
     $scope.onHold = function(){
       $scope.deleteBtn = true;
@@ -126,9 +169,22 @@ angular.module('starter.controllers', [])
         $scope.detailDisabled = false;
         $scope.detailLink = false;
       };
+      $scope.onTap = function(index){
+        $state.go('tab.collection-detail', {imageId: index});
+      };
 })
 
-.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, storage, $localStorage, voteservice) {
+.controller('CommunityCtrl', function($scope, socket, $ionicPlatform, $timeout, storage, $localStorage, voteservice, communicationservice) {
+    $scope.getTypeOf = function(value) {
+      console.log("called get type");
+        if(value === null) {
+            return "null";
+        }
+        if(Array.isArray(value)) {
+            return "array";
+        }
+        return typeof value; 
+    };
     //hockeyapp.trackEvent(null, null, "at_tab_community");
     console.log("platform: " + ionic.Platform.platform());
     console.log(Date.parse(Date()));
@@ -136,10 +192,24 @@ angular.module('starter.controllers', [])
     $scope.vote= function (voting, indexofvotedimage) {
             voteservice.vote(voting, indexofvotedimage);
     }
+    $scope.doRefresh = function() {
+
+      console.log('Refreshing!');
+      $timeout( function() {
+        //simulate async response
+        //TODO: call refresh function here
+        communicationservice.updateData("community");
+        //Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+
+      }, 1000);
+
+    };
 
     $ionicPlatform.ready(function() {
         storage.clearOldImages();
         $scope.local = $localStorage.images;
+
         //on startup load iamges from storage, if there is sth to load
         //saving reciving images to scope and storage
       socket.on('incoming_image', function (image) {
@@ -176,7 +246,7 @@ angular.module('starter.controllers', [])
                     socket.on('incoming_image', function (image) {
 
                       if (cordova.plugins.backgroundMode._isActive) {
-                        //added workaround for buggy background pluign, but after too many times reopening the app will crash anywise
+                        //added workaround for buggy background pluign, but after too many times reopening the app will crash anyway
                           var i = $localStorage.images.length;
                         containsbool = false;
                           while (i--) {
@@ -200,12 +270,12 @@ angular.module('starter.controllers', [])
     });
 })
 
-.controller('ProfileCtrl', function($scope, $localStorage, storage, socket) {
+.controller('ProfileCtrl', function($scope, $localStorage, storage, socket, communicationservice) {
     //hockeyapp.trackEvent(null, null, "at_tab_profile");
     // $scope.friends = $localStorage.friends;
     $scope.storage = storage;
     $scope.updateData = function(){
-      storage.updateData();
+      communicationservice.updateData("profile");
     };
     $scope.number = $localStorage.ownnumber;
     $scope.sendFeedback = function () {
