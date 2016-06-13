@@ -7,6 +7,9 @@
         "files": {}
     },
     "installed_plugins": {
+        "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
+        },
         "cordova-plugin-background-mode": {
             "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
@@ -22,7 +25,7 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
-        "com.phonegap.plugins.PushPlugin": {
+        "onesignal-cordova-plugin": {
             "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
         "phonegap-plugin-push": {

@@ -74,5 +74,13 @@
         "variables": {
             "SENDER_ID": "378633166857"
         }
+    },
+    "onesignal-cordova-plugin": {
+        "source": {
+            "type": "registry",
+            "id": "onesignal-cordova-plugin"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }
