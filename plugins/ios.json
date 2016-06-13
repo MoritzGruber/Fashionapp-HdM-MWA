@@ -28,6 +28,9 @@
         "phonegap-plugin-push": {
             "SENDER_ID": "378633166857",
             "PACKAGE_NAME": "com.moritzgruber.lapica"
+        },
+        "onesignal-cordova-plugin": {
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         }
     },
     "dependent_plugins": {
