@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
     });
   })
 .controller('PhotoCtrl', function($scope, $base64, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice) {
-  
+/*
   $ionicPlatform.ready(function() {
     hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
     //hockeyapp.checkForUpdate();
@@ -40,7 +40,7 @@ angular.module('starter.controllers', [])
   });
   console.log(storage.getNumber());
   
-
+*/
   $scope.getPhoto = function() {
     //first we define a var to set the settings we use calling the cordova camera,
     var cameraSettings = {
