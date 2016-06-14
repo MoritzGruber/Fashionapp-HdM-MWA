@@ -1,39 +1,13 @@
 angular.module('starter.controllers', [])
-  .controller('StartCtrl', function ($scope, $css, storage, $state, socket, $cordovaPush) {
+  .controller('StartCtrl', function ($scope, $css, storage, $state, socket) {
     //hockeyapp.trackEvent(null, null, "at_tab_start");
     $scope.storage = storage;
     $scope.start = function () {
       if (storage.getNumber().length < 3 || storage.getNumber().length > 10 || storage.getNumber() == "Unknown") {
         alert("Please choose a Nickname between 3 and 10 letters");
       } else {
-        //socket emit new user
-        var push = new Ionic.Push({
-          "onNotification": function (notification) {
-            alert('Receved a Notification!');
-          },
-          "onMessage": function (notification) {
-            alert('Receved a Message!');
-          },
-          "pluginConfig": {
-            "android": {
-              "iconColor": "0000FF"
-            }
-          }
-        });
-        var callback = function (pushToken) {
-          console.log('Registered token:', pushToken.token);
-          socket.emit('new_user', (storage.getNumber()), pushToken.token);
-        }
-        push.register(callback);
         $state.go('tab.collection');
       }
-      socket.on('register_succsess', function () {
-        console.log("register_succsess");
-        $state.go('tab.collection');
-      });
-      socket.on('register_failed', function () {
-        consloe.log("register_failed");
-      });
     };
   })
   .controller('TabsCtrl', function ($scope, $rootScope, $state) {
@@ -50,54 +24,18 @@ angular.module('starter.controllers', [])
   })
   .controller('PhotoCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice, communicationservice) {
     $ionicPlatform.ready(function () {
-      // Enable to debug issues.
-      // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
-      
-      var notificationOpenedCallback = function (jsonData) {
-        console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-      };
 
-      window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
-        { googleProjectNumber: "378633166857" },
-        notificationOpenedCallback);
-
-      // Show an alert box if a notification comes in when the user is in your app.
-      window.plugins.OneSignal.enableInAppAlertNotification(true);
-    //ionic.io deploy platfrom code ::
-    //var deploy = new Ionic.Deploy();
-
-    // Update app code with new release from Ionic Deploy
-    $scope.doUpdate = function () {
-      deploy.update().then(function (res) {
-        console.log('Ionic Deploy: Update Success! ', res);
-      }, function (err) {
-        console.log('Ionic Deploy: Update error! ', err);
-      }, function (prog) {
-        console.log('Ionic Deploy: Progress... ', prog);
-      });
-    };
-
-    // Check Ionic Deploy for new code
-    $scope.checkForUpdates = function () {
-      console.log('Ionic Deploy: Checking for updates');
-      deploy.check().then(function (hasUpdate) {
-        console.log('Ionic Deploy: Update available: ' + hasUpdate);
-        $scope.hasUpdate = hasUpdate;
-      }, function (err) {
-        console.error('Ionic Deploy: Unable to check for updates', err);
-      });
-    }
-    //end of ionic.io platofrm deploy code
-
-    if (!ionic.Platform.platform() == "macintel") {
-      hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
-    }
+      try {
+        hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
+      } catch (e) {
+        console.log("Error at hockeyapp.start(...): " +e);
+      }
     //hockeyapp.checkForUpdate();
     //hockeyapp.trackEvent(null, null, "at_tab_collection");
-    //if (storage.getNumber().length < 3 || storage.getNumber().length > 10 || storage.getNumber() == "Unknown") {
+    if (storage.getNumber().length < 3 || storage.getNumber().length > 10 || storage.getNumber() == "Unknown") {
     //app opend the first time ==> go to welcome page
     $state.go('tab.collectionstart');
-    // }
+    }
 
   });
 console.log(storage.getNumber());
@@ -248,7 +186,7 @@ $scope.resetDelete = function () {
   //this function is called when you hit a vote button
   $scope.vote = function (voting, indexofvotedimage) {
     voteservice.vote(voting, indexofvotedimage);
-  }
+  };
   $scope.doRefresh = function () {
 
     console.log('Refreshing!');
@@ -355,7 +293,7 @@ $scope.resetDelete = function () {
     //  save/delete contact to localStorage
     $scope.checkFriend = function (index, number, value) {
       storage.editFriend(index, number, value);
-    }
+    };
     //fetch all data from the phone again
     $scope.updateContacts = function () {
       console.log("updated");
