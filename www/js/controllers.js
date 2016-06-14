@@ -161,16 +161,6 @@ $scope.resetDelete = function () {
   })
 
   .controller('CommunityCtrl', function ($scope, socket, $ionicPlatform, $timeout, storage, $localStorage, voteservice, communicationservice) {
-  $scope.getTypeOf = function (value) {
-    console.log("called get type");
-    if (value === null) {
-      return "null";
-    }
-    if (Array.isArray(value)) {
-      return "array";
-    }
-    return typeof value;
-  };
   //hockeyapp.trackEvent(null, null, "at_tab_community");
   console.log("platform: " + ionic.Platform.platform());
   console.log(Date.parse(new Date()));
