@@ -107,7 +107,7 @@ socket.on('vote_sent_from_server', function (votepackage) {
   $scope.ownImages = $localStorage.ownImages;
 });
 socket.on('updateUserData', function (data) {
-  console.log(data);
+  console.log("updateUserData got this additionl data: "+data);
 });
 //  socket.on('vote_sent_from_server', function (package) {
 //      for (var i = 0; i < $localStorage.ownImages.length; i++) {
