@@ -1,14 +1,20 @@
-<ion-view view-title="Collection">
-  <ion-content  ng-controller="PhotoCtrl" > <!-- controller responsible for camera and popup -->
+<ion-view class="banner collection">
+  <ion-nav-title class="header-title">
+      Collection
+    </ion-nav-title>
+  <ion-content class="padding has-header has-subheader" ng-controller="PhotoCtrl" > <!-- controller responsible for camera and popup -->
     <!-- take picture button -->
-    <button class="button button-block button-outline button-light ion-plus-round" ng-click="getPhoto()"></button>
+    <div>
+      <button class="photo-btn ion-plus-round" ng-click="getPhoto()"></button>
+    </div>
+
     <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
   <!-- show array of own pictures and there voting -->
     <ion-list>
       <!-- on-hold showinng delete button, then on-click on button delete image, clicking outside of the item-container resets the view resetDelete() -->
       <ion-item ng-show="ownImage.imageData !== undefined" ng-repeat="ownImage in ownImages track by $index" on-tap="resetDelete()">
-            <div class="item-container"  on-hold="onHold($index)" ng-click="" on-click="onClick()">
+            <div class="item-container"  on-hold="onHold($index)" on-tap="onTap($index)">
               <button class="deleteBtn" ng-show="deleteBtn" ng-click="onDelete($index)"><h1>DELETE<h1>  </button>
               <div class="progress-circle">
                 <!-- angular-progress-arc complete float value between 0.0 and 1.0; where 0.0 is an empty arc -->
@@ -22,16 +28,14 @@
                       responsive="true">
                   </progress-arc>
                 </div>
-                <!-- TODO disable collection-detail redirecting when on-hold -->
-                <a href="#/tab/collection/{{$index}}">
-                  <div class="img-wrapper">
-                        <img class="img-wrapper-img" ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
-                  </div>
-                </a>
+                <div class="img-wrapper"  on-tap="onTap($index)">
+                      <img class="img-wrapper-img" ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
+                </div>
           </div>
-      </ion-item>
-    </ion-list>
+        </ion-item>
+      </ion-list>
     <!-- example of picture and progress bar     -->
+
   <!--<a href="#/tab/collection/{{$index}}">
     <div class="item-container"  on-hold="onHold()" >
       <button class="deleteBtn" ng-show="deleteBtn" ><h1>DELETE<h1></button>
@@ -51,5 +55,6 @@
         </div>
       </div>
     </a>-->
+
   </ion-content>
 </ion-view>

@@ -2,9 +2,7 @@
 /*
 To customize the look and feel of Ionic, you can override the variables
 in ionic's _variables.scss file.
-
 For example, you might change some of the default colors:
-
 $light:                           #fff !default;
 $stable:                          #f8f8f8 !default;
 $positive:                        #387ef5 !default;
@@ -9742,11 +9740,137 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
 body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-content #_label-0 {
   font-size: small; }
 
-/* tab-enquires */
-.full-image {
-  width: 100%; }
+/*banners*/
+ion-header-bar {
+  background-color: transparent !important;
+  border-bottom: 0px !important; }
 
+.header-title {
+  color: white; }
+
+.banner {
+  background-repeat: no-repeat;
+  background-size: 100% auto; }
+
+.community {
+  background-image: url("../img/banners/community.png"); }
+
+.collection {
+  background-image: url("../img/banners/collection.png"); }
+
+.profile {
+  background-image: url("../img/banners/profile.png"); }
+
+/*start screen and input. borders*/
+ion-content {
+  background-image: url("../img/backgrounds/dark2.png");
+  background-repeat: no-repeat; }
+
+input {
+  margin: 2%;
+  background: transparent;
+  margin-left: auto;
+  margin-right: auto; }
+
+.input-outline {
+  margin: 2%;
+  border: 2px solid white;
+  background: transparent;
+  border-radius: 20px;
+  color: white;
+  width: 90%;
+  height: 50px;
+  display: inline-block; }
+
+.btn:hover {
+  opacity: 0.5;
+  background-color: grey; }
+
+/* tab-community */
+.postContainer {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 1em;
+  position: relative;
+  z-index: 1; }
+
+.fromWhoHeading {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  background-color: white;
+  -webkit-box-shadow: -30px 5px 20px 25px white, 20px 15px 20px 25px white;
+  -moz-box-shadow: -30px 5px 20px 25px white, 20px 15px 20px 25px white;
+  box-shadow: -30px 5px 20px 25px white, 20px 15px 20px 25px white; }
+
+/*code for simple buttons*/
+.communitySingleImg {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 0.5%; }
+
+.leftButton {
+  width: 50%;
+  height: 15%;
+  float: left;
+  position: relative;
+  opacity: 0.5;
+  background-color: #5CF1C6; }
+
+.rightButton {
+  width: 50%;
+  height: 15%;
+  float: right;
+  opacity: 0.5;
+  background-color: #5CF1C6; }
+
+.col.col-50 {
+  padding: 0 2.5px 0 2.5px; }
+
+/* this here is code for invisibe buttons infront of the images
+.communitySingleImg{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+.leftButton{
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  float: left;
+  /*z-index: 2;*/
+/*
+  opacity: 0.5;
+  background-color: #5CF1C6;
+}
+.leftButton:active, .rightButton:active {
+  opacity: 1;
+}
+.rightButton{
+  position: relative;
+  width: 50%;
+  height: 100%;
+  float: right;
+  opacity: 0.5;
+  /*z-index: 2;*/
+/*
+  background-color: #5CF1C6;
+}
+*/
 /* tab-collection */
+.photo-btn {
+  border: 2px solid white;
+  background: transparent;
+  border-radius: 50px;
+  color: white;
+  width: 50px;
+  height: 50px;
+  margin: 10px auto 10px auto;
+  display: block; }
+
 .item-container {
   margin-left: auto;
   margin-right: auto;
@@ -9768,8 +9892,7 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
   overflow: hidden;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
-  border-radius: 50%;
-  background-color: red; }
+  border-radius: 50%; }
 
 .img-wrapper-img {
   display: inline;
@@ -9778,6 +9901,10 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
   width: 100%;
   position: relative;
   bottom: 50%; }
+
+.fullscreenimage {
+  width: 100%;
+  height: auto; }
 
 .deleteBtn {
   position: absolute;
@@ -9803,4 +9930,8 @@ div.imagePicked {
   margin-left: 10px;
   margin-right: 10px; }
 
-/**/
+.negativevotes {
+  color: red; }
+
+.positivevote {
+  color: green; }

@@ -1,5 +1,8 @@
-<ion-view view-title="Community">
-  <ion-content class="padding">
+<ion-view class="banner community">
+  <ion-nav-title class="header-title">
+      Community
+    </ion-nav-title>
+  <ion-content class="padding has-header has-subheader">
       <ion-refresher on-refresh="doRefresh()">
       </ion-refresher>
     <div class="postContainer" ng-repeat="image in local track by $index">
