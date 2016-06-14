@@ -1,11 +1,10 @@
 <ion-view view-title="Profile">
   <ion-content class="padding">
-    <br>
-    <br>
-    <br>
+
     <ion-label floating >Nickname:</ion-label>
-    <input class="line-light-grey profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname"
-           ng-model="number" ng-change="storage.setNumber(number)" ng-required="true">
+    <div class="input-outline">
+      <input class="light profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname" ng-model="number" ng-change="storage.setNumber(number)" ng-required="true">
+    </div>
 
     <!--
     <a href="#/tab/profile/select">
@@ -15,16 +14,12 @@
     <!--<ion-label floating >Feedback</ion-label>
     <textarea id="feedbackarea" msd-elastic ng-model="$parent.feedback">
     </textarea>-->
-    <br>
-    <br>
-    
-    
-    <button type="submit" class="button button-outline button-positive" ng-click="sendFeedback()">
+
+    <button type="submit" class="btn input-outline" ng-click="sendFeedback()">
       Submit Feedback
     </button>
-    <br>
-    <br>
-    <button type="submit" class="button button-outline button-positive" ng-click="updateData()">
+
+    <button type="submit" class="btn input-outline" ng-click="updateData()">
       Refresh Data
     </button>
 </ion-view>

@@ -1,18 +1,19 @@
-
 <ion-view view-title="Welcome" hide-nav-bar="true">
-  <ion-content class="padding start_css">
-    <br>
-    <br>
-    Welcome to the Lapica Beta :)
-
-    <label class="item item-input item-floating-label">
-      <span class="input-label">Nickname</span>
-      <input class="line-light-grey profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname"
-             ng-model="number" ng-change="storage.setNumber(number)">
-    </label>
-    <button class="button button-outline button-positive" ng-click="start()">
-      Submit
-    </button>
+  <ion-content class="padding">
+    <p>Welcome to the Lapica Beta :)</p>
+    <section class="start">
+        <form class="login-form" name="loginForm">
+              <div class="input-outline">
+                <input class="light profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname" ng-model="number" ng-change="storage.setNumber(number)">
+              </div>
+              <div class="input-outline">
+                <input type="email" name="email" placeholder="Email">
+              </div>
+              <div class="input-outline">
+                <input type="password" name="password" placeholder="Password">
+              </div>
+                 <button type="submit" class="submit-btn btn input-outline" ng-click="start()">SIGN IN</button>
+        </form>
+    </section>
   </ion-content>
 </ion-view>
-

@@ -1,7 +1,10 @@
 <ion-view view-title="Collection">
   <ion-content  ng-controller="PhotoCtrl" > <!-- controller responsible for camera and popup -->
     <!-- take picture button -->
-    <button class="button button-block button-outline button-light ion-plus-round" ng-click="getPhoto()"></button>
+    <div>
+      <button class="photo-btn ion-plus-round" ng-click="getPhoto()"></button>
+    </div>
+
     <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
   <!-- show array of own pictures and there voting -->
@@ -22,15 +25,12 @@
                       responsive="true">
                   </progress-arc>
                 </div>
-                <!-- TODO disable collection-detail redirecting when on-hold -->
-
-                  <div class="img-wrapper"  on-tap="onTap($index)">
-                        <img class="img-wrapper-img" ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
-                  </div>
-              
+                <div class="img-wrapper"  on-tap="onTap($index)">
+                      <img class="img-wrapper-img" ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
+                </div>
           </div>
-      </ion-item>
-    </ion-list>
+        </ion-item>
+      </ion-list>
     <!-- example of picture and progress bar     -->
 
   <!--<a href="#/tab/collection/{{$index}}">
