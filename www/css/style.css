@@ -2,7 +2,6 @@
 .postContainer{
   display: inline-block;
   width: 100%;
-  /*height: 500px;*/
   height: 100%;
   margin-bottom: 1em;
   position: relative;
@@ -13,9 +12,9 @@
     z-index: 3;
     width: 100%;
     background-color: white;
-    -webkit-box-shadow: -30px 5px 20px 25px white , 20px 5px 20px 25px white, -20px -5px 20px 25px white ,20px -5px 20px 25px white;
-    -moz-box-shadow:   -30px 5px 20px 25px white , 20px 5px 20px 25px white, -20px -5px 20px 25px white ,20px -5px 20px 25px white;
-    box-shadow: -30px 5px 20px 25px white , 20px 5px 20px 25px white, -20px -5px 20px 25px white ,20px -5px 20px 25px white;
+    -webkit-box-shadow: -30px 5px 20px 25px white, 20px 15px 20px 25px white;
+    -moz-box-shadow: -30px 5px 20px 25px white, 20px 15px 20px 25px white;
+    box-shadow: -30px 5px 20px 25px white, 20px 15px 20px 25px white;
 }
 
 /*code for simple buttons*/
@@ -23,6 +22,7 @@
   width: 100%;
   height: 100%;
   position: relative;
+  border-radius: 0.5%;
 }
 .leftButton{
 
@@ -40,6 +40,10 @@
   opacity: 0.5;
   background-color: #5CF1C6;
 }
+.col.col-50{
+  padding: 0 2.5px 0 2.5px;
+}
+
 
 /* this here is code for invisibe buttons infront of the images
 .communitySingleImg{
@@ -72,39 +76,37 @@
 */
 
 /* tab-collection */
-.wrapper {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  display: block;
+.item-container{
   margin-left: auto;
   margin-right: auto;
+  z-index: 0;
+  width: 220px;
+  height: 220px;
 }
-.wrapper > .bar, .wrapper > img {
+.progress-circle{
   position: absolute;
-  top: 0;
-  left: 0;
+  z-index: 1;
+}
+.img-wrapper {
+  z-index: 2;
+  width: 200px;
+  height: 200px;
+  margin-top: 10px;
+  margin-left: 10px;
+  position: absolute;
+  overflow: hidden;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+.img-wrapper-img {
+  display: inline;
+  margin: 0 auto;
+  height: auto;
   width: 100%;
-  height: 100%;
+  position: relative;
+  bottom: 50%;
 }
-.wrapper > img {
-    /* Needs appropriate vendor prefixes */
-    box-sizing: border-box;
-    /* This needs to be equal to strokeWidth */
-    padding: 4%;
-}
-.wrapper > img {
-    border-radius: 50%;
-}
-.circle {
-  width: 300px;
-	height: 300px;
-	border-radius: 150px;
-	-webkit-border-radius: 150px;
-	-moz-border-radius: 150px;
-	/*background: url(http://link-to-your/image.jpg) no-repeat;*/
-}
-
 .fullscreenimage{
   width: 100%;
   height: auto;

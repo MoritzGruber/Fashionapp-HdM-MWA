@@ -1,10 +1,12 @@
 <ion-view view-title="Community">
   <ion-content class="padding">
-  <div class="postContainer" ng-repeat="image in local track by $index">
-        <div class="fromWhoHeading"><h4>From: {{image.transmitternumber}}</h4></div>
-        <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image.imageData}}">
-        <button ng-click="vote(2, $index)" class="button button-dark leftButton">NO</button>
-        <button ng-click="vote(1, $index)" class="button button-dark rightButton">YES</button>
-    </div> 
+      <ion-refresher on-refresh="doRefresh()">
+      </ion-refresher>
+    <div class="postContainer" ng-repeat="image in local track by $index">
+      <div class="fromWhoHeading"><h4>Image From: {{image.transmitternumber}}</h4></div>
+      <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image.imageData}}">
+      <button ng-click="vote(2, $index)" class="button button-dark leftButton">NO</button>
+      <button ng-click="vote(1, $index)" class="button button-dark rightButton">YES</button>
+    </div>
   </ion-content>
 </ion-view>

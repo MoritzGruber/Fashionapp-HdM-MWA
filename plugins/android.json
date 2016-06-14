@@ -7,28 +7,38 @@
         "files": {}
     },
     "installed_plugins": {
+        "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
+        },
         "cordova-plugin-background-mode": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
         "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
         "cordova-plugin-contacts": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
         "cordova-plugin-hockeyapp": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
+        },
+        "onesignal-cordova-plugin": {
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
+        },
+        "phonegap-plugin-push": {
+            "SENDER_ID": "378633166857",
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         },
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.moritzgruber.ios"
+            "PACKAGE_NAME": "com.moritzgruber.lapica"
         }
     }
 }
