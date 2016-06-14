@@ -1,5 +1,8 @@
-<ion-view view-title="Collection">
-  <ion-content  ng-controller="PhotoCtrl" > <!-- controller responsible for camera and popup -->
+<ion-view class="banner collection">
+  <ion-nav-title class="header-title">
+      Collection
+    </ion-nav-title>
+  <ion-content class="padding has-header has-subheader" ng-controller="PhotoCtrl" > <!-- controller responsible for camera and popup -->
     <!-- take picture button -->
     <div>
       <button class="photo-btn ion-plus-round" ng-click="getPhoto()"></button>

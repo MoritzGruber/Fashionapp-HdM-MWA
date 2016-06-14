@@ -37,16 +37,36 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
   }
 }
 
+
+/*banners*/
+ion-header-bar {
+  background-color: transparent!important;
+  border-bottom: 0px!important;
+}
+.header-title{
+  color:white;
+}
+.banner{
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+.community{
+  background-image: url('../img/banners/community.png');
+}
+.collection{
+  background-image: url('../img/banners/collection.png');
+}
+.profile{
+  background-image: url('../img/banners/profile.png');
+}
+
+
+/*start screen and input. borders*/
 ion-content{
-  background-image: url('../img/background.jpg');
+  background-image: url('../img/backgrounds/dark2.png');
+  background-repeat: no-repeat;
 }
-bar-background {
-  background-color: red;
-}
-
-/*start screen*/
-
-input {
+input{
   margin: 2%;
   background: transparent;
   margin-left: auto;

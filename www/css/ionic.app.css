@@ -3890,12 +3890,14 @@ a.subdued {
   border-style: solid;
   border-top: 1px solid transparent;
   border-bottom: 1px solid #ddd;
+  background-color: white;
   /* border-width: 1px will actually create 2 device pixels on retina */
   /* this nifty trick sets an actual 1px border on hi-res displays */
   background-size: 0; }
   @media (min--moz-device-pixel-ratio: 1.5), (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 144dpi), (min-resolution: 1.5dppx) {
     .bar {
       border: none;
+      background-image: linear-gradient(0deg, #ddd, #ddd 50%, transparent 50%);
       background-position: bottom;
       background-size: 100% 1px;
       background-repeat: no-repeat; } }
@@ -4084,6 +4086,9 @@ a.subdued {
     right: 5px;
     bottom: 5px; }
 
+.platform-android .nav-bar-has-subheader .bar {
+  background-image: none; }
+
 .platform-android .bar .back-button .icon:before {
   font-size: 24px; }
 
@@ -4267,10 +4272,12 @@ a.subdued {
   border-top-width: 0;
   border-bottom-width: 1px; }
   .bar-header.has-tabs-top {
-    border-bottom-width: 0px; }
+    border-bottom-width: 0px;
+    background-image: none; }
 
 .tabs-top .bar-header {
-  border-bottom-width: 0px; }
+  border-bottom-width: 0px;
+  background-image: none; }
 
 .bar-footer {
   bottom: 0;
@@ -9733,13 +9740,32 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
 body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-content #_label-0 {
   font-size: small; }
 
+/*banners*/
+ion-header-bar {
+  background-color: transparent !important;
+  border-bottom: 0px !important; }
+
+.header-title {
+  color: white; }
+
+.banner {
+  background-repeat: no-repeat;
+  background-size: 100% auto; }
+
+.community {
+  background-image: url("../img/banners/community.png"); }
+
+.collection {
+  background-image: url("../img/banners/collection.png"); }
+
+.profile {
+  background-image: url("../img/banners/profile.png"); }
+
+/*start screen and input. borders*/
 ion-content {
-  background-image: url("../img/background.jpg"); }
+  background-image: url("../img/backgrounds/dark2.png");
+  background-repeat: no-repeat; }
 
-bar-background {
-  background-color: red; }
-
-/*start screen*/
 input {
   margin: 2%;
   background: transparent;
