@@ -5,7 +5,7 @@
   <ion-content class="padding has-header has-subheader">
 
     <ion-label floating >Nickname:</ion-label>
-    <div class="input-outline">
+    <div class="outline">
       <input class="light profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname" ng-model="number" ng-change="storage.setNumber(number)" ng-required="true">
     </div>
 
@@ -18,11 +18,11 @@
     <textarea id="feedbackarea" msd-elastic ng-model="$parent.feedback">
     </textarea>-->
 
-    <button type="submit" class="btn input-outline" ng-click="sendFeedback()">
+    <button type="submit" class="btn outline" ng-click="sendFeedback()">
       Submit Feedback
     </button>
 
-    <button type="submit" class="btn input-outline" ng-click="updateData()">
+    <button type="submit" class="btn outline" ng-click="updateData()">
       Refresh Data
     </button>
 </ion-view>

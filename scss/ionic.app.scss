@@ -2,25 +2,24 @@
 To customize the look and feel of Ionic, you can override the variables
 in ionic's _variables.scss file.
 For example, you might change some of the default colors:
+*/
+
 $light:                           #fff !default;
-$stable:                          #f8f8f8 !default;
-$positive:                        #387ef5 !default;
-$calm:                            #11c1f3 !default;
-$balanced:                        #33cd5f !default;
+$stable:                          #ECE6E6 !default;
+$calm:                            #efe8e3 !default; // post container
+$positive:                        #5ae8c1 !default;
+$balanced:                        #9a9694 !default;
 $energized:                       #ffc900 !default;
 $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
-*/
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
-
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
 //welcome screen
-
 body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-content {
   > div.scroll {
     > label {
@@ -36,15 +35,44 @@ body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-cont
     font-size: small;
   }
 }
-
-
-/*banners*/
+// background --------------
+ion-content{
+  background-image: url('../img/backgrounds/light2.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+  color: $stable;
+}
+/* --------start screen and input. borders --------------*/
+input{
+  color: $balanced!important;
+  background: transparent;
+  margin-left: auto;
+  margin-right: auto;
+}
+.outline{
+  margin: 2%;
+  border: 2px solid $stable;
+  background: transparent;
+  border-radius: 20px;
+  color: $balanced;
+  width: 90%;
+  height: 50px;
+  display: inline-block;
+}
+.btn:hover{
+  opacity: 0.5;
+  background-color: $light;
+}
+/* ------------- banners ----------------------*/
 ion-header-bar {
   background-color: transparent!important;
   border-bottom: 0px!important;
 }
 .header-title{
-  color:white;
+  color:$light;
 }
 .banner{
   background-repeat: no-repeat;
@@ -59,36 +87,7 @@ ion-header-bar {
 .profile{
   background-image: url('../img/banners/profile.png');
 }
-
-
-/*start screen and input. borders*/
-ion-content{
-  background-image: url('../img/backgrounds/dark2.png');
-  background-repeat: no-repeat;
-}
-input{
-  margin: 2%;
-  background: transparent;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.input-outline{
-  margin: 2%;
-  border: 2px solid white;
-  background: transparent;
-  border-radius: 20px;
-  color: white;
-  width: 90%;
-  height: 50px;
-  display: inline-block;
-}
-.btn:hover{
-  opacity: 0.5;
-  background-color: grey;
-}
-
-/* tab-community */
+/*------------------ tab-community--------------------------- */
 .postContainer{
   display: inline-block;
   width: 100%;
@@ -96,22 +95,21 @@ input{
   margin-bottom: 1em;
   position: relative;
   z-index: 1;
+  background-color: $calm;
 }
 .fromWhoHeading{
+  padding: 1%;
   position: relative;
   z-index: 3;
   width: 100%;
-  background-color: white;
-  -webkit-box-shadow: -30px 5px 20px 25px white, 20px 15px 20px 25px white;
-  -moz-box-shadow: -30px 5px 20px 25px white, 20px 15px 20px 25px white;
-  box-shadow: -30px 5px 20px 25px white, 20px 15px 20px 25px white;
 }
 /*code for simple buttons*/
 .communitySingleImg{
+  padding: 1%;
   width: 100%;
   height: 100%;
   position: relative;
-  border-radius: 0.5%;
+  border-radius: 2%;
 }
 .leftButton{
   width: 50%;
@@ -119,56 +117,19 @@ input{
   float: left;
   position: relative;
   opacity: 0.5;
-  background-color: #5CF1C6;
 }
 .rightButton{
   width: 50%;
   height: 15%;
   float: right;
   opacity: 0.5;
-  background-color: #5CF1C6;
 }
-.col.col-50{
-  padding: 0 2.5px 0 2.5px;
-}
-
-
-/* this here is code for invisibe buttons infront of the images
-.communitySingleImg{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-.leftButton{
-  position: absolute;
-  width: 50%;
-  height: 100%;
-  float: left;
-  /*z-index: 2;*//*
-  opacity: 0.5;
-  background-color: #5CF1C6;
-}
-.leftButton:active, .rightButton:active {
-  opacity: 1;
-}
-.rightButton{
-  position: relative;
-  width: 50%;
-  height: 100%;
-  float: right;
-  opacity: 0.5;
-  /*z-index: 2;*//*
-  background-color: #5CF1C6;
-}
-*/
-
-/* tab-collection */
+/* ---------------------tab-collection-------------------------- */
 .photo-btn {
-  border: 2px solid white;
+  border: 2px solid $stable;
   background: transparent;
   border-radius: 50px;
-  color: white;
+  color: $stable;
   width: 50px;
   height: 50px;
   margin: 10px auto 10px auto;
@@ -210,34 +171,18 @@ input{
   width: 100%;
   height: auto;
 }
-
 .deleteBtn{
   position: absolute;
   z-index: 3;
   border-radius: 50%;
   width: 220px;
   height: 220px;
-  background-color: red;
+  background-color: $assertive;
   opacity: 0.5;
 }
-/* tab-camera */
-div.imagePicked{
-  height: auto;
-  width:500px;
-  display: block;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-.cameraImage {
-  height: 50%;
-  width:50%;
-  display: block;
-  margin-left: 10px;
-  margin-right: 10px;
-}
 .negativevotes{
-  color: red;
+  color: $assertive;
 }
 .positivevote{
-  color: green;
+  color: $positive;
 }
