@@ -54,14 +54,6 @@ $scope.openDetailImage = function (index) {
   $state.go('tab.collection-detail', { imageId: index });
 };
 $scope.getPhoto = function () {
-  if ($scope.collage == true) {
-    $scope.collageorder++; // 1,2,3,4 == number in the collage and define that is acutally part of collage
-    if ($scope.collageorder < 4) {
-      $scope.collageorder = 1;
-    }
-  } else {
-    $scope.collageorder == 0;//  0==no collage
-  }
 
   //first we define a var to set the settings we use calling the cordova camera,
   var cameraSettings = {
@@ -71,7 +63,7 @@ $scope.getPhoto = function () {
     targetWidth: 640,
     targetHeight: 1136,
     saveToPhotoAlbum: true,
-    correctOrientation: true,
+    correctOrientation: true
   };
   //calling our service with asynchronously runs the cordova camera plugin
   Camera.getPicture(cameraSettings).then(function (imageData) {
@@ -83,7 +75,6 @@ $scope.getPhoto = function () {
     socket.emit('new_image', (image));
     //store localy now
     storage.addOwnImage(image);
-    $scope.collage = true;
     setTimeout(function () {
       console.log("dudu");
       $scope.collage = false;
@@ -105,10 +96,10 @@ for (var i = 0; i < $scope.ownImages.length; i++) {
   $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].votes);
 }
 //TODO: replace the image data with an id
-socket.on('vote_sent_from_server', function (package) {
+socket.on('vote_sent_from_server', function (votepackage) {
   for (var i = 0; i < $localStorage.ownImages.length; i++) {
-    if ($localStorage.ownImages[i].imageData == package.imageData) {
-      var vote = { "name": package.number, "vote": package.rating };
+    if ($localStorage.ownImages[i].imageData == votepackage.imageData) {
+      var vote = { "name": votepackage.number, "vote": votepackage.rating };
       $localStorage.ownImages[i].votes.push(vote);
       $localStorage.ownImages[i].percantag = voteservice.getPercentage($localStorage.ownImages[i].votes);
     }
@@ -182,7 +173,7 @@ $scope.resetDelete = function () {
   };
   //hockeyapp.trackEvent(null, null, "at_tab_community");
   console.log("platform: " + ionic.Platform.platform());
-  console.log(Date.parse(Date()));
+  console.log(Date.parse(new Date()));
   //this function is called when you hit a vote button
   $scope.vote = function (voting, indexofvotedimage) {
     voteservice.vote(voting, indexofvotedimage);
