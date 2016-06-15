@@ -21,14 +21,28 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    var notificationOpenedCallback = function(jsonData) {
+      alert("Notification received:\n" + JSON.stringify(jsonData));
+      console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+    };
+    window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
+      {googleProjectNumber: "378633166857"},
+      notificationOpenedCallback);
+
+    window.plugins.OneSignal.getIds(function(ids) {
+      console.log('getIds: ' + JSON.stringify(ids));
+    });
   });
 })
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 //setting up route
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
+ 
+
+  $ionicConfigProvider.tabs.position('bottom'); // other values: top
   $stateProvider
 
   // setup an abstract state for the tabs directive, template for tabs
