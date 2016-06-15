@@ -67,7 +67,9 @@ $scope.getPhoto = function () {
   };
   //calling our service with asynchronously runs the cordova camera plugin
   Camera.getPicture(cameraSettings).then(function (imageData) {
-
+    window.plugins.OneSignal.getIds(function(ids) {
+      console.log('getIds: ' + JSON.stringify(ids));
+    });
     //adding the phone number and pasing the object to json
     var votes = [];
     var image = { "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storage.getNumber(), "recipients": storage.getFriendswithbenefits(), "votes": votes, "collageorder": $scope.collageorder };

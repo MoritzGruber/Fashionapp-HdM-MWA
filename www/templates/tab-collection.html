@@ -14,7 +14,7 @@
     <ion-list>
       <!-- on-hold showinng delete button, then on-click on button delete image, clicking outside of the item-container resets the view resetDelete() -->
       <ion-item ng-show="ownImage.imageData !== undefined" ng-repeat="ownImage in ownImages track by $index" on-tap="resetDelete()">
-            <div class="item-container"  on-hold="onHold($index)" on-tap="onTap($index)">
+            <div class="item-container"  on-hold="onHold($index)" on-tap="openDetailImage($index)">
               <button class="deleteBtn" ng-show="deleteBtn" ng-click="onDelete($index)"><h1>DELETE<h1>  </button>
               <div class="progress-circle">
                 <!-- angular-progress-arc complete float value between 0.0 and 1.0; where 0.0 is an empty arc -->
@@ -28,7 +28,7 @@
                       responsive="true">
                   </progress-arc>
                 </div>
-                <div class="img-wrapper"  on-tap="onTap($index)">
+                <div class="img-wrapper"  on-tap="openDetailImage($index)">
                       <img class="img-wrapper-img" ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
                 </div>
           </div>
