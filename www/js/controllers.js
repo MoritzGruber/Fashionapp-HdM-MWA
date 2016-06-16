@@ -3,9 +3,13 @@ angular.module('starter.controllers', [])
     //hockeyapp.trackEvent(null, null, "at_tab_start");
     $scope.storage = storage;
     $scope.start = function () {
+      //TODO: RIGHT TRY AND CATCH AND SEVER CALLBACK
       if (storage.getNumber().length < 3 || storage.getNumber().length > 10 || storage.getNumber() == "Unknown") {
         alert("Please choose a Nickname between 3 and 10 letters");
       } else {
+        window.plugins.OneSignal.getIds(function(ids) {
+          socket.emit('new_user', storage.getNumber(), ids.userId);
+        });
         $state.go('tab.collection');
       }
     };
@@ -67,12 +71,15 @@ $scope.getPhoto = function () {
   };
   //calling our service with asynchronously runs the cordova camera plugin
   Camera.getPicture(cameraSettings).then(function (imageData) {
+    var onesignal_ids;
     window.plugins.OneSignal.getIds(function(ids) {
       console.log('getIds: ' + JSON.stringify(ids));
-    });
+      onesignal_ids = ids;
+    
+    console.log("onesignal_ids :"+onesignal_ids);
     //adding the phone number and pasing the object to json
     var votes = [];
-    var image = { "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storage.getNumber(), "recipients": storage.getFriendswithbenefits(), "votes": votes, "collageorder": $scope.collageorder };
+    var image = { "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storage.getNumber(), "recipients": storage.getFriendswithbenefits(), "votes": votes, "onesignal_ids": ids };
     //upload the image with our open socket connection
     socket.emit('new_image', (image));
     //store localy now
@@ -82,6 +89,7 @@ $scope.getPhoto = function () {
       $scope.collage = false;
       $scope.$apply();
     }, 3000);
+    });
 
   }, function (err) {
     console.log(err);
