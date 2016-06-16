@@ -3,12 +3,12 @@ angular.module('starter.services', [])
 //this factory is used to establish a socketio connect to our server
 //returning the socket
 .factory('socket',function(socketFactory){
-	//Create socket and connect to (serverip)
- 	var myIoSocket = io.connect('http://46.101.122.130:3000'); //<-- place your ip in here if you docker/etc is running on a diffrent one
-  	mySocket = socketFactory({
-    	ioSocket: myIoSocket
-  	});
-	return mySocket;
+  //Create socket and connect to (serverip)
+  var myIoSocket = io.connect('http://46.101.122.130:3000'); //<-- place your ip in here if you docker/etc is running on a diffrent one
+    mySocket = socketFactory({
+      ioSocket: myIoSocket
+    });
+  return mySocket;
 })
 //this is service is to storage variables globally and share them between tabs/controllers
 .service('storage', function ($localStorage, socket) {

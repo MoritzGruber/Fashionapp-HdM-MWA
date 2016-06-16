@@ -6,12 +6,13 @@
   <a href="#/tab/collection">
   <ion-content class="padding">
     <img class="fullscreenimage" ng-src="data:image/jpeg;base64, {{image.imageData}}">
-
     <div class="row">
-      <div class="col positivevote">
-      <div ng-repeat="vote in image.votes" ng-show="vote.vote==1" >{{vote.name}}</div>
+      <div class="col col-center">
+        <h2 class="positive">YES</h2>
+        <div ng-repeat="vote in image.votes" ng-show="vote.vote==1" >{{vote.name}}</div>
       </div>
-      <div class="col negativevotes">
+      <div class="col">
+        <h2 class="balanced">NO</h2>
         <div ng-repeat="vote in image.votes" ng-show="vote.vote==2" >{{vote.name}}</div>
       </div>
     </div>

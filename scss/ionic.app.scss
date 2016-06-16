@@ -1,9 +1,7 @@
 /*
-To customize the look and feel of Ionic, you can override the variables
-in ionic's _variables.scss file.
-For example, you might change some of the default colors:
+To customize the look and feel of Ionic, it is possible to override the variables in ionic's _variables.scss file.
 */
-
+// custom color pallet
 $light:                           #fff !default;
 $stable:                          #ECE6E6 !default;
 $calm:                            #efe8e3 !default; // post container
@@ -11,31 +9,24 @@ $positive:                        #5ae8c1 !default;
 $balanced:                        #9a9694 !default;
 $energized:                       #ffc900 !default;
 $assertive:                       #ef473a !default;
-$royal:                           #886aea !default;
+$royal:                           transparent !default;
 $dark:                            #444 !default;
-
+//input
+$input-color:                     $balanced !default;
+$bar-default-bg:                  $royal !default;
+$bar-light-border:                $royal !default;
+$input-label-color:               $balanced !default;
+//card
+$card-header-bg:                  $stable !default;
+$card-body-bg:                    $royal !default;
+$card-footer-bg:                  $royal !default;
+//item 
+$item-padding:                    10px !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
-@import "www/lib/ionic/scss/ionic";
-
-//welcome screen
-body > ion-nav-view > ion-tabs > ion-nav-view > ion-view:nth-child(2) > ion-content {
-  > div.scroll {
-    > label {
-      border: transparent;
-    }
-    > button {
-      margin-top: 10%;
-      margin-left: 30%;
-      width: 40%;
-    }
-  }
-  #_label-0 {
-    font-size: small;
-  }
-}
-// background --------------
+ @import "www/lib/ionic/scss/ionic";
+// background --------------------------------
 ion-content{
   background-image: url('../img/backgrounds/light2.png');
   background-repeat: no-repeat;
@@ -45,32 +36,32 @@ ion-content{
     -o-background-size: cover;
   color: $stable;
 }
-/* --------start screen and input. borders --------------*/
-input{
-  color: $balanced!important;
-  background: transparent;
-  margin-left: auto;
-  margin-right: auto;
+// start screen, input------------------------
+.start{
+  margin: 20% auto auto auto;
 }
+input{
+  background: $royal;
+  margin: 10px auto 10px auto;
 .outline{
+  display: inline-block;
   margin: 2%;
   border: 2px solid $stable;
-  background: transparent;
+  background: $royal;
   border-radius: 20px;
   color: $balanced;
   width: 90%;
-  height: 50px;
+  height: 60px;
   display: inline-block;
 }
 .btn:hover{
   opacity: 0.5;
   background-color: $light;
 }
-/* ------------- banners ----------------------*/
-ion-header-bar {
-  background-color: transparent!important;
-  border-bottom: 0px!important;
+.nick-title{
+  margin: 10px auto 0 10px;;
 }
+// banners ----------------------------------
 .header-title{
   color:$light;
 }
@@ -87,23 +78,13 @@ ion-header-bar {
 .profile{
   background-image: url('../img/banners/profile.png');
 }
-/*------------------ tab-community--------------------------- */
-.postContainer{
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  margin-bottom: 1em;
-  position: relative;
-  z-index: 1;
-  background-color: $calm;
-}
+// tab-community -----------------------------
+
 .fromWhoHeading{
   padding: 1%;
   position: relative;
-  z-index: 3;
   width: 100%;
 }
-/*code for simple buttons*/
 .communitySingleImg{
   padding: 1%;
   width: 100%;
@@ -112,22 +93,17 @@ ion-header-bar {
   border-radius: 2%;
 }
 .leftButton{
-  width: 50%;
-  height: 15%;
-  float: left;
-  position: relative;
-  opacity: 0.5;
+  width: 100%;
+  opacity: 0.7;
 }
 .rightButton{
-  width: 50%;
-  height: 15%;
-  float: right;
-  opacity: 0.5;
+  width: 100%;
+  opacity: 0.7;
 }
-/* ---------------------tab-collection-------------------------- */
+// tab-collection -------------------------------
 .photo-btn {
   border: 2px solid $stable;
-  background: transparent;
+  background: $royal;
   border-radius: 50px;
   color: $stable;
   width: 50px;
@@ -136,6 +112,7 @@ ion-header-bar {
   display: block;
 }
 .item-container{
+  background-color: $royal;
   margin-left: auto;
   margin-right: auto;
   z-index: 0;
@@ -161,10 +138,8 @@ ion-header-bar {
 .img-wrapper-img {
   display: inline;
   margin: 0 auto;
-  height: auto;
-  width: 100%;
   position: relative;
-  bottom: 50%;
+  max-width: 300px;
 }
 .fullscreenimage{
   width: 100%;
@@ -178,10 +153,4 @@ ion-header-bar {
   height: 220px;
   background-color: $assertive;
   opacity: 0.5;
-}
-.negativevotes{
-  color: $assertive;
-}
-.positivevote{
-  color: $positive;
 }
