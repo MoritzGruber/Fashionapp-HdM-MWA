@@ -19,7 +19,7 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+      StatusBar.hide();
     }
     var notificationOpenedCallback = function(jsonData) {
       alert("Notification received:\n" + JSON.stringify(jsonData));
