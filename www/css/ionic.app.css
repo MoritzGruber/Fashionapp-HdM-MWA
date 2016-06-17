@@ -9732,7 +9732,7 @@ ion-content {
 
 input {
   background: transparent;
-  margin: auto; }
+  margin: 10px auto 10px auto; }
 
 .outline {
   display: inline-block;
