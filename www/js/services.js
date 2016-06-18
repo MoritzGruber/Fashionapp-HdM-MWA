@@ -175,7 +175,7 @@ angular.module('starter.services', [])
                 "number": storage.getNumber(),
                 "rating": voting
             }
-            socket.emit('vote', package);
+            socket.emit('vote', package); 
                 //succsess:
                     //destory object
                     $localStorage.images.splice(indexofvotedimage, 1);

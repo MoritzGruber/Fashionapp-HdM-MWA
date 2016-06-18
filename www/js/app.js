@@ -8,19 +8,20 @@
 
 angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io','ngCordova', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $localStorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-
+    
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
     }
-    if (window.StatusBar) {
+    if (window.StatusBar && ionic.Platform.isIOS()) {
       // org.apache.cordova.statusbar required
       StatusBar.hide();
     }
+    //initializing prozess
     var notificationOpenedCallback = function(jsonData) {
       alert("Notification received:\n" + JSON.stringify(jsonData));
       console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
@@ -31,7 +32,11 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
 
     window.plugins.OneSignal.getIds(function(ids) {
       console.log('getIds: ' + JSON.stringify(ids));
+      $localStorage.pushId = ids.userId;
     });
+    if($localStorage.localImageId == undefined){
+      $localStorage.localImageId = 0;
+    }
   });
 })
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
