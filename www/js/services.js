@@ -2,17 +2,37 @@ angular.module('starter.services', [])
 
 //this factory is used to establish a socketio connect to our server
 //returning the socket
-.factory('socket',function(socketFactory){
-  //Create socket and connect to (serverip)
-  var myIoSocket = io.connect('http://46.101.122.130:3000'); //<-- place your ip in here if you docker/etc is running on a diffrent one
-    mySocket = socketFactory({
+  .factory('socket', function (socketFactory, $localStorage) {
+    //Create socket and connect to (server ip)
+    var myIoSocket = io.connect('http://46.101.122.130:3000'); //<-- place your ip in here if you docker/etc is running on a other one
+    var mySocket = socketFactory({
       ioSocket: myIoSocket
     });
+    //sending pushId to sever so we mark him as online
+    mySocket.emit('join', $localStorage.pushId);
   return mySocket;
 })
+
 //this is service is to storage variables globally and share them between tabs/controllers
 .service('storage', function ($localStorage, socket) {
   return {
+    //get pushId
+    getPushId: function () {
+      if ($localStorage.pushId == undefined) {
+        window.plugins.OneSignal.getIds(function (ids) {
+          $localStorage.pushId = ids.userId;
+        });
+      }
+      return $localStorage.pushId;
+    },
+    //get localImageId
+    getlocalImageId: function () {
+      if ($localStorage.localImageId == undefined) {
+        $localStorage.localImageId = 0;
+      }
+      //we increase this counter every time so there never are two+ images with the same counter
+      return $localStorage.localImageId++;
+    },
       //get your own number
       getNumber: function () {
           if ($localStorage.ownnumber == undefined){
@@ -174,8 +194,8 @@ angular.module('starter.services', [])
                 "imageData":$localStorage.images[indexofvotedimage].imageData,
                 "number": storage.getNumber(),
                 "rating": voting
-            }
-            socket.emit('vote', package); 
+            };
+        socket.emit('vote', package);
                 //succsess:
                     //destory object
                     $localStorage.images.splice(indexofvotedimage, 1);

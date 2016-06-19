@@ -1,24 +1,38 @@
 angular.module('starter.controllers', [])
   .controller('StartCtrl', function ($scope, $css, storage, $state, socket) {
-    //hockeyapp.trackEvent(null, null, "at_tab_start");
+    //controller for welcome screen, here users creates an account
     $scope.storage = storage;
     $scope.start = function () {
-      //TODO: RIGHT TRY AND CATCH AND SEVER CALLBACK
-      if (storage.getNumber().length < 3 || storage.getNumber().length > 10 || storage.getNumber() == "Unknown") {
-        alert("Please choose a Nickname between 3 and 10 letters");
+      //check if that username fits our style
+      if ($scope.number.length < 3 || $scope.number.length > 10) {
+        //style don't fit ==> try again
+        $scope.errormsg = "Please choose a nickname between 3 and 10 letters";
       } else {
-        window.plugins.OneSignal.getIds(function (ids) {
-          socket.emit('new_user', storage.getNumber(), ids.userId);
-        });
-        $state.go('tab.collection');
+        //now we get the push id to create the user
+        if (storage.getPushId() == undefined) {
+          $scope.errormsg = "Ups, pls check your internet connection";
+        } else {
+          socket.emit('new_user', storage.getNumber(), storage.getPushId());
+        }
       }
+      //we are waiting for green light of the server
+      socket.on('signup', function (msg) {
+        if (msg == "success") {
+          //user was successful created on serverside
+          $state.go('tab.collection');
+        } else {
+          //Tell the user the msg form the server, so he can do better next time
+          $scope.errormsg = msg;
+        }
+      });
     };
   })
   .controller('TabsCtrl', function ($scope, $rootScope, $state) {
     //this controller disables the tab navigation bar for certain views/tabs
     $rootScope.$on('$ionicView.beforeEnter', function () {
+      //on default we see the tabbar
       $rootScope.hideTabs = false;
-      //disable tabbar on start/welcome screen
+      //disable tabbar when you enter the welcome screen start/welcome screen
       if ($state.current.name === 'tab.collectionstart') {
         $rootScope.hideTabs = true;
       }
@@ -26,18 +40,9 @@ angular.module('starter.controllers', [])
   })
   .controller('PhotoCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice, communicationservice) {
     $ionicPlatform.ready(function () {
-      //sendung pushId to sever so he save us as online
-      socket.emit('join', $localStorage.pushId);
-      console.log("join was send");
-      try {
-        hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
-      } catch (e) {
-        console.log("Error at hockeyapp.start(...): " + e);
-      }
-      //hockeyapp.checkForUpdate();
-      //hockeyapp.trackEvent(null, null, "at_tab_collection");
-      if (storage.getNumber().length < 3 || storage.getNumber().length > 10 || storage.getNumber() == "Unknown") {
-        //app opend the first time ==> go to welcome page
+      //checking if users created an usable account
+      if (storage.getNumber() == "Unknown") {
+        //no, then ==> go to welcome page
         $state.go('tab.collectionstart');
       }
     });
@@ -67,14 +72,16 @@ angular.module('starter.controllers', [])
       //calling our service with asynchronously runs the cordova camera plugin
       Camera.getPicture(cameraSettings).then(function (imageData) {
         var onesignal_ids = $localStorage.pushId;
-        $localStorage.localImageId++;
         console.log("onesignal_ids :" + onesignal_ids);
         //adding the phone number and pasing the object to json
         var votes = [];
         //TODO: add local id
         var image = {
           "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storage.getNumber(),
-          "recipients": storage.getFriendswithbenefits(), "votes": votes, "onesignal_ids": onesignal_ids, "localImageId": $localStorage.localImageId
+          "recipients": storage.getFriendswithbenefits(),
+          "votes": votes,
+          "onesignal_ids": onesignal_ids,
+          "localImageId": storage.getlocalImageId()
         };
         //upload the image with our open socket connection
         socket.emit('new_image', (image));

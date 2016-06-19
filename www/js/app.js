@@ -10,36 +10,42 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
 
 .run(function($ionicPlatform, $localStorage) {
   $ionicPlatform.ready(function() {
+
+    //INITIALIZE PROCESS
+    //default setup for keyboard
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
     }
     if (window.StatusBar && ionic.Platform.isIOS()) {
-      // org.apache.cordova.statusbar required
+      // hide statusbar on ios
       StatusBar.hide();
     }
-    //initializing prozess
+    //setting up onesignal for push notifications
     var notificationOpenedCallback = function(jsonData) {
       alert("Notification received:\n" + JSON.stringify(jsonData));
+      //TODO: Call update service here to get new data loaded
       console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
     };
     try{
     window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
       {googleProjectNumber: "378633166857"},
       notificationOpenedCallback);
-
     window.plugins.OneSignal.getIds(function(ids) {
       console.log('getIds: ' + JSON.stringify(ids));
       $localStorage.pushId = ids.userId;
     });} catch(e){
-      console.log("onesignal dont work: "+e);
-    };
-    if($localStorage.localImageId == undefined){
-      $localStorage.localImageId = 0;
+      console.log("onesignal push notifiactions setup failed " + e);
     }
+    //Setup our beta deploy platform hockeyapp
+    try {
+      hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
+    } catch (e) {
+      console.log("hockeyapp start failed " + e);
+    }
+    //TODO: Hockeyapp track events
   });
 })
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
@@ -48,11 +54,9 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
- 
-
-  $ionicConfigProvider.tabs.position('bottom'); // other values: top
+  $ionicConfigProvider.tabs.position('bottom'); //TODO: Remove this, when we have design for android
+  
   $stateProvider
-
   // setup an abstract state for the tabs directive, template for tabs
     .state('tab', {
     url: '/tab', // to navigate from browser
@@ -85,7 +89,6 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
           'tab-collection': {
             templateUrl: 'templates/tab-collection-start.html',
             controller: 'StartCtrl',
-            css: 'css/start.css'
           }
         }
       })

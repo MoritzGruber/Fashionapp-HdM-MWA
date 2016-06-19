@@ -4,10 +4,12 @@
       <h2 class="balanced">Welcome to the Lapica Beta :)</h2>
         <form class="login-form" name="loginForm">
               <div class="outline">
-                  <input class="light profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname" ng-model="number" ng-change="storage.setNumber(number)"> 
+                <input class="light profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname"
+                       ng-model="number">
               </div>
               <button type="submit" class="submit-btn btn outline" ng-click="start()">SIGN IN</button>
         </form>
+      {{errormsg}}
     </section>
   </ion-content>
 </ion-view>
