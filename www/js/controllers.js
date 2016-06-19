@@ -23,7 +23,7 @@ angular.module('starter.controllers', [])
           $state.go('tab.collection');
           storage.setNumber(number);
         } else {
-          //bad news :( 
+          //bad news :(
           //Tell the user the msg form the server, so he can do better next time
           $scope.errormsg = msg;
         }
@@ -90,12 +90,9 @@ angular.module('starter.controllers', [])
         socket.emit('new_image', (image));
         //store localy now
         storage.addOwnImage(image);
-
-
-
       }, function (err) {
         console.log(err);
-        //this function dosnt even get called, have to make a ceetch outside before
+        //this function doesn't even get called, have to make a catch outside before
       });
 
     };
@@ -116,24 +113,16 @@ angular.module('starter.controllers', [])
       for (var i = 0; i < $localStorage.ownImages.length; i++) {
         if ($localStorage.ownImages[i] != undefined) {
           if ($localStorage.ownImages[i].localImageId == clientId) {
-            var temp = localStorage.ownImages[i];
-            localStorage.ownImages[i]._id = serverId;
-            console.log("localImageId: " + clientId + " has also now the _id: " + serverId + " from the server");
+            var temp = $localStorage.ownImages[i];
+            $localStorage.ownImages[i]._id = serverId;
+            console.log("$localImageId: " + clientId + " has also now the _id: " + serverId + " from the server");
           }
         }
       }
     });
     //TODO: replace the image data with an id
     socket.on('vote_sent_from_server', function (votepackage) {
-      for (var i = 0; i < $localStorage.ownImages.length; i++) {
-        if ($localStorage.ownImages[i].imageData != undefined) {
-                  if ($localStorage.ownImages[i].imageData == votepackage.imageData) {
-                    var vote = {"name": votepackage.number, "vote": votepackage.rating};
-                    $localStorage.ownImages[i].votes.push(vote);
-                    $localStorage.ownImages[i].percantag = voteservice.getPercentage($localStorage.ownImages[i].votes);
-                      }
-                  }
-      }
+      storage.addVote(votepackage);
       $scope.ownImages = $localStorage.ownImages;
     });
     socket.on('updateUserData', function (data) {
@@ -159,7 +148,7 @@ angular.module('starter.controllers', [])
     };
     // deleting the image
     $scope.onDelete = function (index) {
-      $localStorage.ownImages.splice(index, 1);
+      storage.deleteOwnImage(index);
       console.log("on delete");
       $scope.deleteBtn = false;
       $scope.detailDisabled = false;

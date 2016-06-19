@@ -8,7 +8,7 @@
 
 angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io','ngCordova', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS'])
 
-.run(function($ionicPlatform, $localStorage) {
+.run(function($ionicPlatform, storage) {
   $ionicPlatform.ready(function() {
 
     //INITIALIZE PROCESS
@@ -23,22 +23,8 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
       // hide statusbar on ios
       StatusBar.hide();
     }
-    //setting up onesignal for push notifications
-    var notificationOpenedCallback = function(jsonData) {
-      alert("Notification received:\n" + JSON.stringify(jsonData));
-      //TODO: Call update service here to get new data loaded
-      console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-    };
-    try{
-    window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
-      {googleProjectNumber: "378633166857"},
-      notificationOpenedCallback);
-    window.plugins.OneSignal.getIds(function(ids) {
-      console.log('getIds: ' + JSON.stringify(ids));
-      $localStorage.pushId = ids.userId;
-    });} catch(e){
-      console.log("onesignal push notifiactions setup failed " + e);
-    }
+    //Setup Onsignal push notification
+    storage.getPushId();
     //Setup our beta deploy platform hockeyapp
     try {
       hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
@@ -55,7 +41,7 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $ionicConfigProvider.tabs.position('bottom'); //TODO: Remove this, when we have design for android
-  
+
   $stateProvider
   // setup an abstract state for the tabs directive, template for tabs
     .state('tab', {

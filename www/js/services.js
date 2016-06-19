@@ -19,9 +19,25 @@ angular.module('starter.services', [])
     //get pushId
     getPushId: function () {
       if ($localStorage.pushId == undefined) {
-        window.plugins.OneSignal.getIds(function (ids) {
-          $localStorage.pushId = ids.userId;
-        });
+        //setting up onesignal for push notifications
+        var notificationOpenedCallback = function(jsonData) {
+          //what happen in the open app on push
+          alert("Notification received:\n" + JSON.stringify(jsonData));
+          //TODO: Call update service here to get new data loaded
+          console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+        };
+        try{
+          //register
+          window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
+            {googleProjectNumber: "378633166857"},
+            notificationOpenedCallback);
+          //get id
+          window.plugins.OneSignal.getIds(function(ids) {
+            console.log('Got onesignal ids: ' + JSON.stringify(ids));
+            $localStorage.pushId = ids.userId;
+          });} catch(e){
+          console.log("onesignal push notifiactions setup failed " + e);
+        }
       }
       return $localStorage.pushId;
     },
@@ -90,6 +106,7 @@ angular.module('starter.services', [])
           }
           return $localStorage.images;
       },
+      //clears the inbox of inmages in the community tab if they are outdated
       clearOldImages: function () {
         if ($localStorage.images == undefined) {
           $localStorage.images= [];
@@ -100,6 +117,25 @@ angular.module('starter.services', [])
             $localStorage.images.splice (i, 1);
           }
 
+        }
+      },
+      //apply the vote form other user to own votes to ownImages
+      addVote: function (votepackage) {
+        for (var i = 0; i < $localStorage.ownImages.length; i++) {
+          if ($localStorage.ownImages[i]._id == votepackage._id) {
+            //check if the same user has already voted
+            for (var j=0; j < $localStorage.ownImages[i].votes.length; j++){
+              //override if already exist
+              if( $localStorage.ownImages[i].votes[j].number == votepackage.number){
+                $localStorage.ownImages[i].votes[j].vote = votepackage.rating;
+              }else{
+                //we create a new vote on that pic
+                var vote = {"number": votepackage.number, "vote": votepackage.rating};
+                $localStorage.ownImages[i].votes.push(vote);
+              }
+            }
+            $localStorage.ownImages[i].percantag = voteservice.getPercentage($localStorage.ownImages[i].votes);
+          }
         }
       },
       //return friendlist / array of friends(phonenumbers)
@@ -179,7 +215,7 @@ angular.module('starter.services', [])
 .service('communicationservice', function (socket, $localStorage) {
   return{
     updateData: function (update_trigger) {
-      //pull incoming votes of the past 30 minutes from the server, and update all own images (the recived votes)
+      //pull incoming votes, etc. of the past 30 minutes from the server
       socket.emit('user_refresh', $localStorage.ownnumber, update_trigger);
     }
   };
@@ -191,11 +227,12 @@ angular.module('starter.services', [])
       vote: function (voting, indexofvotedimage) {
             //send vote
             var package = {
-                "imageData":$localStorage.images[indexofvotedimage].imageData,
+                "_id":$localStorage.images[indexofvotedimage]._id,
                 "number": storage.getNumber(),
                 "rating": voting
             };
         socket.emit('vote', package);
+        //TODO: keep images on connection/server problems
                 //succsess:
                     //destory object
                     $localStorage.images.splice(indexofvotedimage, 1);
@@ -212,9 +249,9 @@ angular.module('starter.services', [])
               return 0;
           }
           for (var i = 0; i < recipenctsarry.length; i++) {
-              if (recipenctsarry[i].vote == 1) {
+              if (recipenctsarry[i].vote == true) {
                   counter_positive++;
-              }else if (recipenctsarry[i].vote == 2 ) {
+              }else if (recipenctsarry[i].vote == false ) {
                   counter_negative++;
               }
           }
@@ -237,8 +274,8 @@ angular.module('starter.services', [])
     getPicture: function(options) {
       // this is the same as try and catch, just asynchronous
       var deferred = $q.defer();
+      //calling codova plugin
       navigator.camera.getPicture(function(result) {
-        //calling codova plugin
         deferred.resolve(result);
       }, function(err) {
         deferred.reject(err);
