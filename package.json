@@ -22,7 +22,8 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-statusbar",
     "onesignal-cordova-plugin",
-    "cordova-plugin-hockeyapp"
+    "cordova-plugin-hockeyapp",
+    "cordova-plugin-camera"
   ],
   "cordovaPlatforms": [
     "android",

@@ -4,9 +4,10 @@
   </ion-nav-title>
   <ion-content class="padding has-header has-subheader">
 
-    <div class="outline"> 
-          <input class="balanced profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname" ng-model="number" ng-change="storage.setNumber(number)" ng-required="true">
-    </div>
+    <!--<div class="outline">-->
+          <!--<input class="balanced profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname" ng-model="number" ng-change="storage.setNumber(number)" ng-required="true">-->
+    <!--</div>-->
+    <h3>{{storage.getNumber()}}</h3>
     <!--
     <a href="#/tab/profile/select">
         <button type="button" name="SelectFriends"> SelectFriends </button>

@@ -2,30 +2,33 @@ angular.module('starter.controllers', [])
   .controller('StartCtrl', function ($scope, $css, storage, $state, socket) {
     //controller for welcome screen, here users creates an account
     $scope.storage = storage;
-    $scope.start = function () {
-      //check if that username fits our style
-      if ($scope.number.length < 3 || $scope.number.length > 10) {
-        //style don't fit ==> try again
-        $scope.errormsg = "Please choose a nickname between 3 and 10 letters";
-      } else {
-        //now we get the push id to create the user
-        if (storage.getPushId() == undefined) {
-          $scope.errormsg = "Ups, pls check your internet connection";
-        } else {
-          socket.emit('new_user', storage.getNumber(), storage.getPushId());
-        }
-      }
+    $scope.start = function (number) {
+      if (number != undefined) { //check if that username fits our style
+              if (number.length < 3 || number.length > 10) {
+                //style don't fit ==> try again
+                $scope.errormsg = "Please choose a nickname between 3 and 10 letters";
+              } else {
+                //now we get the push id to create the user
+                if (storage.getPushId() == undefined) {
+                  $scope.errormsg = "Ups, pls check your internet connection";
+                } else {
+                  socket.emit('new_user', number, storage.getPushId());
+                }
+              }
+    }
       //we are waiting for green light of the server
-      socket.on('signup', function (msg) {
+      socket.on('signup', function (msg, number) {
         if (msg == "success") {
           //user was successful created on serverside
           $state.go('tab.collection');
+          storage.setNumber(number);
         } else {
+          //bad news :( 
           //Tell the user the msg form the server, so he can do better next time
           $scope.errormsg = msg;
         }
       });
-    };
+    }
   })
   .controller('TabsCtrl', function ($scope, $rootScope, $state) {
     //this controller disables the tab navigation bar for certain views/tabs
