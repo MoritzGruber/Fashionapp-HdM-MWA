@@ -26,6 +26,7 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
       alert("Notification received:\n" + JSON.stringify(jsonData));
       console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
     };
+    try{
     window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
       {googleProjectNumber: "378633166857"},
       notificationOpenedCallback);
@@ -33,7 +34,9 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
     window.plugins.OneSignal.getIds(function(ids) {
       console.log('getIds: ' + JSON.stringify(ids));
       $localStorage.pushId = ids.userId;
-    });
+    });} catch(e){
+      console.log("onesignal dont work: "+e);
+    };
     if($localStorage.localImageId == undefined){
       $localStorage.localImageId = 0;
     }
