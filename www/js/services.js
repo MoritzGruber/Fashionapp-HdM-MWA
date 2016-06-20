@@ -19,18 +19,7 @@ angular.module('starter.services', [])
       //get pushId
       getPushId: function () {
         if ($localStorage.pushId == undefined) {
-          //setting up onesignal for push notifications
-          var notificationOpenedCallback = function (jsonData) {
-            //what happen in the open app on push
-            alert("Notification received:\n" + JSON.stringify(jsonData));
-            //TODO: Call update service here to get new data loaded
-            console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-          };
           try {
-            //register
-            window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
-              {googleProjectNumber: "378633166857"},
-              notificationOpenedCallback);
             //get id
             window.plugins.OneSignal.getIds(function (ids) {
               console.log('Got onesignal ids: ' + JSON.stringify(ids));
@@ -122,24 +111,37 @@ angular.module('starter.services', [])
       },
       //apply the vote form other user to own votes to ownImages
       addVote: function (votepackage) {
-        for (var i = 0; i < $localStorage.ownImages.length; i++) {
-          if ($localStorage.ownImages[i]._id == votepackage._id) {
-            var user_has_already_voted = false;
-            //check if the same user has already voted
-            for (var j = 0; j < $localStorage.ownImages[i].votes.length; j++) {
-              //override if already exist
-              if ($localStorage.ownImages[i].votes[j].number == votepackage.number) {
-                $localStorage.ownImages[i].votes[j].vote = votepackage.rating;
-                user_has_already_voted = true;
+        if (Array.isArray(votepackage)) {
+          // its the array from the refrash call
+          //handling the array of packages here
+          //looping through the array and calling the addSingleVote function every time
+          for (var i = 0; i < votepackage.length; i++) {
+            addSingleVote(votepackage[i]);
+          }
+        } else {
+          //its only a single vote in the package
+          addSingleVote(votepackage);
+        }
+        function addSingleVote(vote) {
+          for (var i = 0; i < $localStorage.ownImages.length; i++) {
+            if ($localStorage.ownImages[i]._id == vote._id) {
+              var user_has_already_voted = false;
+              //check if the same user has already voted
+              for (var j = 0; j < $localStorage.ownImages[i].votes.length; j++) {
+                //override if already exist
+                if ($localStorage.ownImages[i].votes[j].number == vote.number) {
+                  $localStorage.ownImages[i].votes[j].vote = vote.rating;
+                  user_has_already_voted = true;
+                }
               }
+              if (!user_has_already_voted) {
+                //otherwise, we create a new vote on that pic
+                var vote = {"number": vote.number, "vote": vote.rating};
+                $localStorage.ownImages[i].votes.push(vote);
+              }
+              //after adding a new vote we have calculate the overall percentage again
+              $localStorage.ownImages[i].percantag = voteservice.getPercentage($localStorage.ownImages[i].votes);
             }
-            if (!user_has_already_voted) {
-              //otherwise, we create a new vote on that pic
-              var vote = {"number": votepackage.number, "vote": votepackage.rating};
-              $localStorage.ownImages[i].votes.push(vote);
-            }
-            //after adding a new vote we have calculate the overall percentage again
-            $localStorage.ownImages[i].percantag = voteservice.getPercentage($localStorage.ownImages[i].votes);
           }
         }
       },
@@ -229,6 +231,7 @@ angular.module('starter.services', [])
           }
         }
         //pull incoming votes, of the past 30 minutes from the server
+        //update_trigger is "community", "collection" or "profile"
         socket.emit('user_refresh', $localStorage.ownnumber, update_trigger, image_ids_to_refresh);
       }
     };

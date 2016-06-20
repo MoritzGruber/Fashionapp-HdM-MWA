@@ -8,7 +8,7 @@
 
 angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io', 'ngCordova', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS'])
 
-  .run(function ($ionicPlatform, storage) {
+  .run(function ($ionicPlatform, storage, communicationservice) {
     $ionicPlatform.ready(function () {
 
       //INITIALIZE PROCESS
@@ -23,7 +23,17 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
         // hide statusbar on ios
         StatusBar.hide();
       }
-      //Setup Onsignal push notification
+      //setting up onesignal for push notifications
+      //this code needs to be run every time app starts otherwise starting the app with push notifications isn't handled
+      var notificationOpenedCallback = function (jsonData) {
+        //refresh data
+        communicationservice.updateData("push");
+      };
+      //register
+      window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
+        {googleProjectNumber: "378633166857"},
+        notificationOpenedCallback);
+      //get id and save it
       storage.getPushId();
       //Setup our beta deploy platform hockeyapp
       try {
