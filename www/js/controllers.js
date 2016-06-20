@@ -4,18 +4,18 @@ angular.module('starter.controllers', [])
     $scope.storage = storage;
     $scope.start = function (number) {
       if (number != undefined) { //check if that username fits our style
-              if (number.length < 3 || number.length > 10) {
-                //style don't fit ==> try again
-                $scope.errormsg = "Please choose a nickname between 3 and 10 letters";
-              } else {
-                //now we get the push id to create the user
-                if (storage.getPushId() == undefined) {
-                  $scope.errormsg = "Ups, pls check your internet connection";
-                } else {
-                  socket.emit('new_user', number, storage.getPushId());
-                }
-              }
-    }
+        if (number.length < 3 || number.length > 10) {
+          //style don't fit ==> try again
+          $scope.errormsg = "Please choose a nickname between 3 and 10 letters";
+        } else {
+          //now we get the push id to create the user
+          if (storage.getPushId() == undefined) {
+            $scope.errormsg = "Ups, pls check your internet connection";
+          } else {
+            socket.emit('new_user', number, storage.getPushId());
+          }
+        }
+      }
       //we are waiting for green light of the server
       socket.on('signup', function (msg, number) {
         if (msg == "success") {
@@ -104,11 +104,11 @@ angular.module('starter.controllers', [])
     for (var i = 0; i < $scope.ownImages.length; i++) {
       $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].votes);
     }
-    socket.on('image_created', function(serverId, clientId){
+    socket.on('image_created', function (serverId, clientId) {
       console.log("image_created called");
       if ($localStorage.ownImages == undefined) {
         console.log("images ware undefined called");
-        $localStorage.ownImages= [];
+        $localStorage.ownImages = [];
       }
       for (var i = 0; i < $localStorage.ownImages.length; i++) {
         if ($localStorage.ownImages[i] != undefined) {
@@ -162,7 +162,7 @@ angular.module('starter.controllers', [])
     };
     $scope.openDetailImage = function (index) {
       console.log("taped");
-      $state.go('tab.collection-detail', { imageId: index });
+      $state.go('tab.collection-detail', {imageId: index});
     };
   })
 
@@ -204,8 +204,8 @@ angular.module('starter.controllers', [])
         if (!image_is_already_in_storage) {
           storage.addImage(image);
           $scope.local = $localStorage.images;
-              $scope.$apply();
-          }
+          $scope.$apply();
+        }
       });
     });
   })
@@ -224,8 +224,8 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('CollectionCtrl', function (
-  ) { })
+  .controller('CollectionCtrl', function () {
+  })
 
   .controller('CollectionDetailCtrl', function ($scope, $stateParams, storage) {
     $scope.image = storage.getOwnImage($stateParams.imageId);

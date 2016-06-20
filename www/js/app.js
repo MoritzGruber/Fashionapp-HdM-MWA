@@ -6,70 +6,70 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io','ngCordova', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS'])
+angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io', 'ngCordova', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS'])
 
-.run(function($ionicPlatform, storage) {
-  $ionicPlatform.ready(function() {
+  .run(function ($ionicPlatform, storage) {
+    $ionicPlatform.ready(function () {
 
-    //INITIALIZE PROCESS
-    //default setup for keyboard
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
-    }
-    if (window.StatusBar && ionic.Platform.isIOS()) {
-      // hide statusbar on ios
-      StatusBar.hide();
-    }
-    //Setup Onsignal push notification
-    storage.getPushId();
-    //Setup our beta deploy platform hockeyapp
-    try {
-      hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
-    } catch (e) {
-      console.log("hockeyapp start failed " + e);
-    }
-    //TODO: Hockeyapp track events
-  });
-})
-.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
+      //INITIALIZE PROCESS
+      //default setup for keyboard
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
+      }
+      if (window.StatusBar && ionic.Platform.isIOS()) {
+        // hide statusbar on ios
+        StatusBar.hide();
+      }
+      //Setup Onsignal push notification
+      storage.getPushId();
+      //Setup our beta deploy platform hockeyapp
+      try {
+        hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
+      } catch (e) {
+        console.log("hockeyapp start failed " + e);
+      }
+      //TODO: Hockeyapp track events
+    });
+  })
+  .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 //setting up route
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
-  $ionicConfigProvider.tabs.position('bottom'); //TODO: Remove this, when we have design for android
+    // Ionic uses AngularUI Router which uses the concept of states
+    // Learn more here: https://github.com/angular-ui/ui-router
+    // Set up the various states which the app can be in.
+    // Each state's controller can be found in controllers.js
+    $ionicConfigProvider.tabs.position('bottom'); //TODO: Remove this, when we have design for android
 
-  $stateProvider
-  // setup an abstract state for the tabs directive, template for tabs
-    .state('tab', {
-    url: '/tab', // to navigate from browser
-    abstract: true,
-    templateUrl: 'templates/tabs.html'
-  })
-  // Each tab has its own nav history stack:
-  //child template of tabs
-  .state('tab.community', {
-    url: '/community',
-    views: {
-      'tab-community': {
-        templateUrl: 'templates/tab-community.html',
-        controller: 'CommunityCtrl'
-      }
-    }
-  })
-  .state('tab.collection', {
-      url: '/collection',
-      views: {
-        'tab-collection': {
-          templateUrl: 'templates/tab-collection.html',
-          controller: 'CollectionCtrl'
+    $stateProvider
+    // setup an abstract state for the tabs directive, template for tabs
+      .state('tab', {
+        url: '/tab', // to navigate from browser
+        abstract: true,
+        templateUrl: 'templates/tabs.html'
+      })
+      // Each tab has its own nav history stack:
+      //child template of tabs
+      .state('tab.community', {
+        url: '/community',
+        views: {
+          'tab-community': {
+            templateUrl: 'templates/tab-community.html',
+            controller: 'CommunityCtrl'
+          }
         }
-      }
-    })
-    .state('tab.collectionstart', {
+      })
+      .state('tab.collection', {
+        url: '/collection',
+        views: {
+          'tab-collection': {
+            templateUrl: 'templates/tab-collection.html',
+            controller: 'CollectionCtrl'
+          }
+        }
+      })
+      .state('tab.collectionstart', {
         url: '/collectionstart',
         views: {
           'tab-collection': {
@@ -78,33 +78,33 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
           }
         }
       })
-    .state('tab.collection-detail', {
-      url: '/collection/:imageId',
-      views: {
-        'tab-collection': {
-          templateUrl: 'templates/collection-detail.html',
-          controller: 'CollectionDetailCtrl'
+      .state('tab.collection-detail', {
+        url: '/collection/:imageId',
+        views: {
+          'tab-collection': {
+            templateUrl: 'templates/collection-detail.html',
+            controller: 'CollectionDetailCtrl'
+          }
         }
-      }
-    })
-    .state('tab.profile-select', {
-      url: '/profile/select',
-      views: {
-        'tab-profile': {
-          templateUrl: 'templates/profile-select.html',
-          controller: 'FriendSelectCtrl'
+      })
+      .state('tab.profile-select', {
+        url: '/profile/select',
+        views: {
+          'tab-profile': {
+            templateUrl: 'templates/profile-select.html',
+            controller: 'FriendSelectCtrl'
+          }
         }
-      }
-    })
-  .state('tab.profile', {
-      url: '/profile',
-      views: {
-        'tab-profile': {
-          templateUrl: 'templates/tab-profile.html',
-          controller: 'ProfileCtrl'
+      })
+      .state('tab.profile', {
+        url: '/profile',
+        views: {
+          'tab-profile': {
+            templateUrl: 'templates/tab-profile.html',
+            controller: 'ProfileCtrl'
+          }
         }
-      }
+      });
+    // if none of the above states are matched, use this as the fallback
+    $urlRouterProvider.otherwise('/tab/collection');
   });
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/collection');
-});
