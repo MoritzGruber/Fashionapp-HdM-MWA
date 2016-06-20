@@ -195,9 +195,17 @@ angular.module('starter.controllers', [])
       //on startup load iamges from storage, if there is sth to load
       //saving reciving images to scope and storage
       socket.on('incoming_image', function (image) {
-        storage.addImage(image);
-        $scope.local = $localStorage.images;
-        $scope.$apply();
+        var image_is_already_in_storage = false;
+        for (var i = 0; i < $localStorage.images.length; i++) {
+          if (image._id == $localStorage.images[i]._id) {
+            image_is_already_in_storage = true;
+          }
+        }
+        if (!image_is_already_in_storage) {
+          storage.addImage(image);
+          $scope.local = $localStorage.images;
+              $scope.$apply();
+          }
       });
     });
   })
