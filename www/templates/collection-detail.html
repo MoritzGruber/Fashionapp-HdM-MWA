@@ -9,11 +9,11 @@
     <div class="row">
       <div class="col col-center">
         <h2 class="positive">YES</h2>
-        <div ng-repeat="vote in image.votes" ng-show="vote.vote==1" >{{vote.name}}</div>
+        <div ng-repeat="vote in image.votes" ng-show="vote.vote==true">{{vote.number}}</div>
       </div>
       <div class="col">
         <h2 class="balanced">NO</h2>
-        <div ng-repeat="vote in image.votes" ng-show="vote.vote==2" >{{vote.name}}</div>
+        <div ng-repeat="vote in image.votes" ng-show="vote.vote==false">{{vote.number}}</div>
       </div>
     </div>
   </ion-content>

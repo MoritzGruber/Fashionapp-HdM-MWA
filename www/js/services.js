@@ -14,7 +14,7 @@ angular.module('starter.services', [])
 })
 
 //this is service is to storage variables globally and share them between tabs/controllers
-.service('storage', function ($localStorage, socket) {
+  .service('storage', function ($localStorage, socket, voteservice) {
   return {
     //get pushId
     getPushId: function () {
@@ -123,17 +123,21 @@ angular.module('starter.services', [])
       addVote: function (votepackage) {
         for (var i = 0; i < $localStorage.ownImages.length; i++) {
           if ($localStorage.ownImages[i]._id == votepackage._id) {
+            var user_has_already_voted = false;
             //check if the same user has already voted
             for (var j=0; j < $localStorage.ownImages[i].votes.length; j++){
               //override if already exist
               if( $localStorage.ownImages[i].votes[j].number == votepackage.number){
                 $localStorage.ownImages[i].votes[j].vote = votepackage.rating;
-              }else{
-                //we create a new vote on that pic
-                var vote = {"number": votepackage.number, "vote": votepackage.rating};
-                $localStorage.ownImages[i].votes.push(vote);
+                user_has_already_voted = true;
               }
             }
+            if (!user_has_already_voted) {
+              //otherwise, we create a new vote on that pic
+              var vote = {"number": votepackage.number, "vote": votepackage.rating};
+              $localStorage.ownImages[i].votes.push(vote);
+            }
+            //after adding a new vote we have calculate the overall percentage again
             $localStorage.ownImages[i].percantag = voteservice.getPercentage($localStorage.ownImages[i].votes);
           }
         }
@@ -221,17 +225,17 @@ angular.module('starter.services', [])
   };
 })
 //service for voting
-.service('voteservice', function ($localStorage, socket, storage) {
+  .service('voteservice', function ($localStorage, socket) {
   return {
       //this is the basic voting function, called in the community tab
       vote: function (voting, indexofvotedimage) {
             //send vote
-            var package = {
+        var package_ = {
                 "_id":$localStorage.images[indexofvotedimage]._id,
-                "number": storage.getNumber(),
+          "number": $localStorage.ownnumber,
                 "rating": voting
             };
-        socket.emit('vote', package);
+        socket.emit('vote', package_);
         //TODO: keep images on connection/server problems
                 //succsess:
                     //destory object

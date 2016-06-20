@@ -122,6 +122,7 @@ angular.module('starter.controllers', [])
     });
     //TODO: replace the image data with an id
     socket.on('vote_sent_from_server', function (votepackage) {
+      console.log(JSON.stringify(votepackage));
       storage.addVote(votepackage);
       $scope.ownImages = $localStorage.ownImages;
     });
