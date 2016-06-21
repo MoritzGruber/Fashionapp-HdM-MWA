@@ -11,6 +11,8 @@ $energized:                       #ffc900 !default;
 $assertive:                       #ef473a !default;
 $royal:                           transparent !default;
 $dark:                            #444 !default;
+
+$base-color:                      $balanced;
 //input
 $input-color:                     $balanced !default;
 $bar-default-bg:                  $royal !default;
@@ -20,7 +22,7 @@ $input-label-color:               $balanced !default;
 $card-header-bg:                  $stable !default;
 $card-body-bg:                    $royal !default;
 $card-footer-bg:                  $royal !default;
-//item 
+//item
 $item-padding:                    10px !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
@@ -154,4 +156,7 @@ input{
   height: 220px;
   background-color: $assertive;
   opacity: 0.5;
+}
+h3 {
+  text-align: center;
 }

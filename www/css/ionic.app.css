@@ -3322,7 +3322,7 @@ body,
   overflow: hidden;
   margin: 0;
   padding: 0;
-  color: #000;
+  color: #9a9694;
   word-wrap: break-word;
   font-size: 14px;
   font-family: -apple-system;
@@ -3582,7 +3582,7 @@ cite {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  color: #000;
+  color: #9a9694;
   font-weight: 500;
   font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
   line-height: 1.2; }
@@ -9840,3 +9840,6 @@ input {
   height: 220px;
   background-color: #ef473a;
   opacity: 0.5; }
+
+h3 {
+  text-align: center; }
