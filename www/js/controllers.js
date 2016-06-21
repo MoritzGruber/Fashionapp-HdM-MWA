@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-  .controller('StartCtrl', function ($scope, $css, storage, $state, socket) {
+  .controller('StartCtrl', function ($scope, $css, storage, $state, socket, $ionicViewService) {
     //controller for welcome screen, here users creates an account
     $scope.storage = storage;
     $scope.start = function (number) {
@@ -19,6 +19,11 @@ angular.module('starter.controllers', [])
       //we are waiting for green light of the server
       socket.on('signup', function (msg, number) {
         if (msg == "success") {
+          //we disable this so the user sees the signup screen only once
+          $ionicViewService.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true
+          });
           //user was successful created on serverside
           $state.go('tab.collection');
           storage.setNumber(number);

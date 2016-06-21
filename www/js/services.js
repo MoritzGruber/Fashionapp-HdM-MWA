@@ -245,7 +245,8 @@ angular.module('starter.services', [])
         var package_ = {
           "_id": $localStorage.images[indexofvotedimage]._id,
           "number": $localStorage.ownnumber,
-          "rating": voting
+          "rating": voting,
+          "recipient_number": $localStorage.images[indexofvotedimage].transmitternumber
         };
         socket.emit('vote', package_);
         //TODO: keep images on connection/server problems
