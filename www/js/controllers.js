@@ -1,8 +1,9 @@
 angular.module('starter.controllers', [])
-  .controller('StartCtrl', function ($scope, $css, storage, $state, socket, $ionicViewService) {
+  .controller('StartCtrl', function ($scope, $css, storage, $state, socket, $ionicHistory) {
     //controller for welcome screen, here users creates an account
     $scope.storage = storage;
     $scope.start = function (number) {
+      hockeyapp.trackEvent(null, null, 'User is on startscreen');
       if (number != undefined) { //check if that username fits our style
         if (number.length < 3 || number.length > 10) {
           //style don't fit ==> try again
@@ -20,13 +21,14 @@ angular.module('starter.controllers', [])
       socket.on('signup', function (msg, number) {
         if (msg == "success") {
           //we disable this so the user sees the signup screen only once
-          $ionicViewService.nextViewOptions({
+          $ionicHistory.nextViewOptions({
             disableAnimate: true,
             disableBack: true
           });
           //user was successful created on serverside
           $state.go('tab.collection');
           storage.setNumber(number);
+          hockeyapp.trackEvent(null, null, 'User signup succsessful');
         } else {
           //bad news :(
           //Tell the user the msg form the server, so he can do better next time
@@ -95,6 +97,7 @@ angular.module('starter.controllers', [])
         socket.emit('new_image', (image));
         //store localy now
         storage.addOwnImage(image);
+        hockeyapp.trackEvent(null, null, 'User made a image');
       }, function (err) {
         console.log(err);
         //this function doesn't even get called, have to make a catch outside before
@@ -152,7 +155,7 @@ angular.module('starter.controllers', [])
         //simulate async response
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
-
+        hockeyapp.trackEvent(null, null, 'User made a refresh in collection');
       }, 1000);
     };
     // called when item-container is on-hold for showing the delete button
@@ -168,6 +171,7 @@ angular.module('starter.controllers', [])
       console.log("on delete");
       $scope.deleteBtn = false;
       $scope.detailDisabled = false;
+      hockeyapp.trackEvent(null, null, 'User deleted own image');
     };
     // hiding the delete button
     $scope.resetDelete = function () {
@@ -178,6 +182,7 @@ angular.module('starter.controllers', [])
     $scope.openDetailImage = function (index) {
       console.log("taped");
       $state.go('tab.collection-detail', {imageId: index});
+      hockeyapp.trackEvent(null, null, 'User viewed his own image on detail');
     };
   })
 
@@ -198,7 +203,7 @@ angular.module('starter.controllers', [])
         communicationservice.updateData("community");
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
-
+        hockeyapp.trackEvent(null, null, 'User made a refresh in community');
       }, 1000);
 
     };
@@ -236,6 +241,7 @@ angular.module('starter.controllers', [])
     $scope.storage = storage;
     $scope.updateData = function () {
       communicationservice.updateData("profile");
+      hockeyapp.trackEvent(null, null, 'User made a refresh in profile');
     };
     $scope.number = $localStorage.ownnumber;
     $scope.sendFeedback = function () {

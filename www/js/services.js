@@ -253,6 +253,7 @@ angular.module('starter.services', [])
         //succsess:
         //destory object
         $localStorage.images.splice(indexofvotedimage, 1);
+        hockeyapp.trackEvent(null, null, 'User made a vote');
         //error:
         //show error message
         //end of send vote
