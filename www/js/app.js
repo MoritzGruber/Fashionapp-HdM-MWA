@@ -84,7 +84,7 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
         views: {
           'tab-collection': {
             templateUrl: 'templates/tab-collection-start.html',
-            controller: 'StartCtrl',
+            controller: 'StartCtrl'
           }
         }
       })
