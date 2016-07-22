@@ -13,7 +13,7 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
 
       //INITIALIZE PROCESS
       //default setup for keyboard
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // Hide the keyboardaccessorybar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -25,27 +25,26 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
       }
       //setting up onesignal for push notifications
       //this code needs to be run every time app starts otherwise starting the app with push notifications isn't handled
-      var notificationOpenedCallback = function (jsonData) {
-        //refresh data
+      var notificationOpenedCallback = function () {
+        //refresh data with our service and tell him that the trigger was a pushNotification
         communicationservice.updateData("push");
       };
-      //register
+      //register for push notification
       window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
         {googleProjectNumber: "378633166857"},
         notificationOpenedCallback);
       //get id and save it
       storage.getPushId();
-      //Setup our beta deploy platform hockeyapp
+      //Setup hockeyapp (our beta deploy platform)
       try {
         hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
       } catch (e) {
         console.log("hockeyapp start failed " + e);
       }
-      //TODO: Hockeyapp track events
     });
   })
   .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-//setting up route
+    //setting up route
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
@@ -94,15 +93,6 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
           'tab-collection': {
             templateUrl: 'templates/collection-detail.html',
             controller: 'CollectionDetailCtrl'
-          }
-        }
-      })
-      .state('tab.profile-select', {
-        url: '/profile/select',
-        views: {
-          'tab-profile': {
-            templateUrl: 'templates/profile-select.html',
-            controller: 'FriendSelectCtrl'
           }
         }
       })

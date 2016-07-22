@@ -1,16 +1,20 @@
+<!-- collection tab-->
+<!-- shows own imagesFromOtherUsers taken with native camera and stored in local storage
+  if the votes exist they are shown in progress bar around the image-->
+
 <ion-view class="banner collection">
   <ion-nav-title class="header-title">
     Collection
   </ion-nav-title>
-  <ion-content class="padding has-header has-subheader" ng-controller="PhotoCtrl" > <!-- controller responsible for camera and popup -->
+  <ion-content class="padding has-header has-subheader" ng-controller="CollectionCtrl" > <!-- controller responsible for camera and popup -->
     <!-- take picture button -->
     <div>
       <button class="photo-btn ion-plus-round" ng-click="getPhoto()"></button>
     </div>
-
+    <!--ionic refresher, refresh on pull down-->
     <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
-  <!-- show array of own pictures and there voting -->
+    <!-- show array of own pictures and there voting -->
     <ion-list no-lines>
       <!-- on-hold showinng delete button, then on-click on button delete image, clicking outside of the item-container resets the view resetDelete() -->
       <ion-item class="item-royal" ng-show="ownImage.imageData !== undefined" ng-repeat="ownImage in ownImages track by $index" on-tap="resetDelete()">
@@ -28,6 +32,7 @@
               responsive="true">
             </progress-arc>
           </div>
+          <!--showing image and switch to detail view on tab-->
           <div class="img-wrapper"  on-tap="openDetailImage($index)">
             <img class="img-wrapper-img" ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
           </div>

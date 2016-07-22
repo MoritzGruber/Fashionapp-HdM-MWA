@@ -8,26 +8,21 @@
     <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
 
-    <!-- ionic/angularjs js -->
+    <!-- ionic bundle js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-    <!-- socket.io.js
-    TODO: this should be replaced by some local source later or provided by our server
-     -->
+    <!-- socket io clint js-->
     <script src="lib/socket.io-client/socket.io.js"></script>
     <!-- agular/socketio support bundle -->
-
     <script src="lib/angular-socket-io/socket.js"></script>
-    <!-- add more libraries -->
+    <!-- add more support libraries -->
     <script src="lib/ngstorage/ngStorage.min.js"></script>
     <script src="lib/angular-base64/angular-base64.js"></script>
     <script src="lib/angular-elastic/elastic.js"></script>
     <script src="lib/angular-progress-arc/angular-progress-arc.js"></script>
     <script src="lib/angular-css/angular-css.min.js"></script>
-
-    <!-- cordova script (this will be a 404 during development) -->
+    <!-- cordova script -->
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
-    <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
+    <!-- You have to implement this, so hockeyapp plugin is loaded correctly  -->
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
@@ -36,22 +31,13 @@
     <script src="js/services.js"></script>
   </head>
   <body ng-app="starter">
-    <!--
-      The nav bar that will be updated as we navigate between views.
-    -->
     <ion-nav-bar class="bar-background">
       <ion-nav-back-button>
       </ion-nav-back-button>
     </ion-nav-bar>
     <!--
-      The views will be rendered in the <ion-nav-view> directive below
-      Templates are in the /templates folder (but you could also
-      have templates inline in this html file if you'd like).
+      Templates are in the /templates folder
     -->
-
-    <!-- tag for all the content -->
     <ion-nav-view></ion-nav-view>
-
-
   </body>
 </html>

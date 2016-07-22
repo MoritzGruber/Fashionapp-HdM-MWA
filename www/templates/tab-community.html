@@ -1,19 +1,26 @@
+<!-- community tab-->
+<!-- shows pictures received from other users of the last 2h
+  allows voting on the pictures and sends the votes to the backend-->
 <ion-view class="banner community">
   <ion-nav-title class="header-title">
     Community
   </ion-nav-title>
   <ion-content class="padding has-header has-subheader">
+    <!--ionic refresher, refresh on pull down-->
     <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
-    <!-- card with images from community -->
+    <!-- card with imagesFromOtherUsers from community repeating -->
     <div class="card" ng-repeat="image in local track by $index">
       <div class="item item-royal">
+          <!--name of the sender -->
           <div class="fromWhoHeading"><h2>Image From: {{image.transmitternumber}}</h2></div>
       </div>
       <div class="item item-royal">
+        <!-- image itself-->
         <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image.imageData}}">
       </div>
       <div class="item item-royal item-divider row">
+        <!-- button for voting -->
           <div class="col col-50">
             <button ng-click="vote(false, $index)" class="button button-balanced leftButton">NO</button>
           </div>
@@ -22,7 +29,7 @@
           </div>
         </div>
     </div>
-    <!-- example-->
+    <!-- example, just for testing-->
     <div class="card card-royal">
       <div class="item item-royal">
           <div class="fromWhoHeading"><h2>Image From: Example</h2></div>
@@ -32,10 +39,10 @@
       </div>
       <div class="item item-royal item-divider row">
         <div class="col col-50">
-          <button ng-click="console.log("this is just an exaple")" class="button button-balanced leftButton">NO</button>
+          <button ng-click="" class="button button-balanced leftButton">NO</button>
         </div>
         <div class="col">
-          <button ng-click="console.log("this is just an exaple")" class="button button-positive rightButton">YES</button>
+          <button ng-click="" class="button button-positive rightButton">YES</button>
         </div>
       </div>
     </div>

@@ -1,26 +1,17 @@
+<!-- profile tab -->
+<!-- shows the nickname and allows user to send feedback and refresh user data -->
 <ion-view class="banner profile">
   <ion-nav-title class="header-title">
     Profile
   </ion-nav-title>
   <ion-content class="padding has-header has-subheader">
-
-    <!--<div class="outline">-->
-          <!--<input class="balanced profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname" ng-model="number" ng-change="storage.setNumber(number)" ng-required="true">-->
-    <!--</div>-->
+    <!-- show own name, which is currently in the number field, will be replaced after we add number authentication-->
     <h3 class="centertext">{{storage.getNumber()}}</h3>
-    <!--
-    <a href="#/tab/profile/select">
-        <button type="button" name="SelectFriends"> SelectFriends </button>
-    </a>
-    -->
-    <!--<ion-label floating >Feedback</ion-label>
-    <textarea id="feedbackarea" msd-elastic ng-model="$parent.feedback">
-    </textarea>-->
-
+    <!--feedback button , hockeyapp-->
     <button type="submit" class="btn outline" ng-click="sendFeedback()">
       Submit Feedback
     </button>
-
+    <!-- sync data with server, refresh -->
     <button type="submit" class="btn outline" ng-click="updateData()">
       Refresh Data
     </button>

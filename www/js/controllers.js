@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-  .controller('StartCtrl', function ($scope, $css, storage, $state, socket, $ionicHistory) {
+  .controller('StartCtrl', function ($scope, storage, $state, socket, $ionicHistory) {
     //controller for welcome screen, here users creates an account
     $scope.storage = storage;
     $scope.start = function (number) {
@@ -37,7 +37,7 @@ angular.module('starter.controllers', [])
       });
     }
   })
-  .controller('TabsCtrl', function ($scope, $rootScope, $state) {
+  .controller('TabsCtrl', function ($scope, $rootScope, $state, socket) {
     //this controller disables the tab navigation bar for certain views/tabs
     $rootScope.$on('$ionicView.beforeEnter', function () {
       //on default we see the tabbar
@@ -48,7 +48,7 @@ angular.module('starter.controllers', [])
       }
     });
   })
-  .controller('PhotoCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice, communicationservice) {
+  .controller('CollectionCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice, communicationservice) {
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
       if (storage.getNumber() == "Unknown") {
@@ -56,19 +56,21 @@ angular.module('starter.controllers', [])
         $state.go('tab.collectionstart');
       }
     });
+    //Initializing
+    //prevent null error if empty
+    if ($localStorage.ownImages == undefined) {
+      $localStorage.ownImages = [];
+    }
+    $scope.ownImages = $localStorage.ownImages;
+    //calling the calculate percentage function for each image
+    for (var i = 0; i < $scope.ownImages.length; i++) {
+      $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].votes);
+    }
+    //listen to the server for new stuff (socket)
+    // communicationservice.listen();
     //functions
-    //remove an Item
-    $scope.removeItem = function (index) {
-      console.log("pls add remove action here");
-      //call this to delete the image:
-      //storage.deleteOwnImage(index);
-
-      //TODO: Some Animation and Delete Button to show up
-    };
-    //switch to the detail view of the selected image
-
+    //make a picture
     $scope.getPhoto = function () {
-
       //first we define a var to set the settings we use calling the cordova camera,
       var cameraSettings = {
         sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
@@ -79,16 +81,14 @@ angular.module('starter.controllers', [])
         saveToPhotoAlbum: true,
         correctOrientation: true
       };
-      //calling our service with asynchronously runs the cordova camera plugin
+      //calling our service which asynchronously and returns a promise that cordova camera plugin worked fine
       Camera.getPicture(cameraSettings).then(function (imageData) {
+        //packing the imageData in a json object with all data we also need to send it to the server
         var onesignal_ids = $localStorage.pushId;
-        console.log("onesignal_ids :" + onesignal_ids);
-        //adding the phone number and pasing the object to json
         var votes = [];
-        //TODO: add local id
         var image = {
           "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storage.getNumber(),
-          "recipients": storage.getFriendswithbenefits(),
+          "recipients": [],
           "votes": votes,
           "onesignal_ids": onesignal_ids,
           "localImageId": storage.getlocalImageId()
@@ -97,59 +97,14 @@ angular.module('starter.controllers', [])
         socket.emit('new_image', (image));
         //store localy now
         storage.addOwnImage(image);
+        //tracking
         hockeyapp.trackEvent(null, null, 'User made a image');
       }, function (err) {
         console.log(err);
-        //this function doesn't even get called, have to make a catch outside before
       });
-
     };
-    if ($localStorage.ownImages == undefined) {
-      $localStorage.ownImages = [];
-    }
-    $scope.ownImages = $localStorage.ownImages;
-    //calling the calculate percentage function for each image
-    for (var i = 0; i < $scope.ownImages.length; i++) {
-      $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].votes);
-    }
-    socket.on('image_created', function (serverId, clientId) {
-      console.log("image_created called");
-      if ($localStorage.ownImages == undefined) {
-        console.log("images ware undefined called");
-        $localStorage.ownImages = [];
-      }
-      for (var i = 0; i < $localStorage.ownImages.length; i++) {
-        if ($localStorage.ownImages[i] != undefined) {
-          if ($localStorage.ownImages[i].localImageId == clientId) {
-            var temp = $localStorage.ownImages[i];
-            $localStorage.ownImages[i]._id = serverId;
-            console.log("$localImageId: " + clientId + " has also now the _id: " + serverId + " from the server");
-          }
-        }
-      }
-    });
-    socket.on('vote_sent_from_server', function (votepackage) {
-      console.log(JSON.stringify(votepackage));
-      storage.addVote(votepackage);
-      $scope.ownImages = $localStorage.ownImages;
-    });
-    socket.on('incoming_image', function (image) {
-      var image_is_already_in_storage = false;
-      for (var i = 0; i < $localStorage.images.length; i++) {
-        if (image._id == $localStorage.images[i]._id) {
-          image_is_already_in_storage = true;
-        }
-      }
-      if (!image_is_already_in_storage) {
-        storage.addImage(image);
-        $scope.local = $localStorage.images;
-        $scope.$apply();
-      }
-    });
-
-
+    //manually refresh for new data, this handles all the pulldowns
     $scope.doRefresh = function () {
-
       communicationservice.updateData("collection");
       $timeout(function () {
         //simulate async response
@@ -163,12 +118,10 @@ angular.module('starter.controllers', [])
       $scope.deleteBtn = true;
       $scope.detailDisabled = true;
       $scope.detailLink = true;
-      console.log($scope.deleteBtn);
     };
     // deleting the image
     $scope.onDelete = function (index) {
       storage.deleteOwnImage(index);
-      console.log("on delete");
       $scope.deleteBtn = false;
       $scope.detailDisabled = false;
       hockeyapp.trackEvent(null, null, 'User deleted own image');
@@ -179,95 +132,59 @@ angular.module('starter.controllers', [])
       $scope.detailDisabled = false;
       $scope.detailLink = false;
     };
+    //open detail view of the image
     $scope.openDetailImage = function (index) {
-      console.log("taped");
       $state.go('tab.collection-detail', {imageId: index});
       hockeyapp.trackEvent(null, null, 'User viewed his own image on detail');
     };
   })
 
   .controller('CommunityCtrl', function ($scope, socket, $ionicPlatform, $timeout, storage, $localStorage, voteservice, communicationservice) {
-    //hockeyapp.trackEvent(null, null, "at_tab_community");
-    console.log("platform: " + ionic.Platform.platform());
-    console.log(Date.parse(new Date()));
+    //Initializing
+    $ionicPlatform.ready(function () {
+      //clear old imagesFromOtherUsers and load imagesFromOtherUsers form storage
+      storage.clearOldImages();
+      $scope.local = $localStorage.imagesFromOtherUsers;
+      //listen to the server for new stuff (socket)
+      // communicationservice.listen();
+    });
+
+    //functions
     //this function is called when you hit a vote button
     $scope.vote = function (voting, indexofvotedimage) {
       voteservice.vote(voting, indexofvotedimage);
     };
+    //manually refresh for new data, this handles all the pulldowns
     $scope.doRefresh = function () {
-
-      console.log('Refreshing!');
       $timeout(function () {
         //simulate async response
-        //TODO: call refresh function here
         communicationservice.updateData("community");
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
         hockeyapp.trackEvent(null, null, 'User made a refresh in community');
       }, 1000);
-
     };
-
-    $ionicPlatform.ready(function () {
-      storage.clearOldImages();
-      $scope.local = $localStorage.images;
-
-      //on startup load iamges from storage, if there is sth to load
-      //saving reciving images to scope and storage
-      socket.on('vote_sent_from_server', function (votepackage) {
-        console.log(JSON.stringify(votepackage));
-        storage.addVote(votepackage);
-        $scope.ownImages = $localStorage.ownImages;
-      });
-      socket.on('incoming_image', function (image) {
-        var image_is_already_in_storage = false;
-        for (var i = 0; i < $localStorage.images.length; i++) {
-          if (image._id == $localStorage.images[i]._id) {
-            image_is_already_in_storage = true;
-          }
-        }
-        if (!image_is_already_in_storage) {
-          storage.addImage(image);
-          $scope.local = $localStorage.images;
-          $scope.$apply();
-        }
-      });
-    });
   })
-
   .controller('ProfileCtrl', function ($scope, $localStorage, storage, socket, communicationservice) {
-    //hockeyapp.trackEvent(null, null, "at_tab_profile");
-    // $scope.friends = $localStorage.friends;
+    //Initializing
+    //listen to the server for new stuff (socket)
+    // communicationservice.listen();
+    //to get the number we use storage service
     $scope.storage = storage;
+
+    //functions
+    //refresh function
     $scope.updateData = function () {
       communicationservice.updateData("profile");
       hockeyapp.trackEvent(null, null, 'User made a refresh in profile');
     };
-    $scope.number = $localStorage.ownnumber;
+    //feedback function, hockeyapp
     $scope.sendFeedback = function () {
       hockeyapp.feedback();
-      console.log("feedback called");
     }
   })
 
-  .controller('CollectionCtrl', function () {
-  })
-
-  .controller('CollectionDetailCtrl', function ($scope, $stateParams, storage) {
+  .controller('CollectionDetailCtrl', function ($scope, $stateParams, storage, socket) {
+    //just get the right image to show out of the link params
     $scope.image = storage.getOwnImage($stateParams.imageId);
-  })
-
-  .controller('FriendSelectCtrl', function ($scope, storage, $ionicPlatform) {
-    $ionicPlatform.ready(function () {
-      $scope.contacts = storage.getContacts();
-    });
-    //  save/delete contact to localStorage
-    $scope.checkFriend = function (index, number, value) {
-      storage.editFriend(index, number, value);
-    };
-    //fetch all data from the phone again
-    $scope.updateContacts = function () {
-      console.log("updated");
-      $scope.contacts = storage.loadContacts();
-    }
   });
