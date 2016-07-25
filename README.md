@@ -6,6 +6,12 @@ This app helps people to make better purchase decisions, based on feedback of th
 
 Tools, Frameworks we will use: Angular,Ionic, Sass, Docker, Node, ....
 
+## Configuration
+### Server IP:
+If you don't use our Backend Server you have to change the Ip at the following point:
+./www/js/services.js (Line 7, var myIoSocket = io.connect('http://46.101.122.130:3000');)
+
+
 ## Using this project
 
 Requirements:
@@ -30,4 +36,13 @@ Build and Emulate the first time:
 
 ```bash 
 $ ionic run android
+$ ionic run ios
 ```
+
+##Programming Team: 
+  - Christop Muth
+  - Sylwia Calka
+  - Moritz Gruber
+## Mentors: 
+  - Ansgar Gerlicher
+  - Fankhauser Thomas

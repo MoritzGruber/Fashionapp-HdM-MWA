@@ -25,7 +25,6 @@ angular.module('starter.services', [])
     //receive a vote
     mySocket.on('vote_sent_from_server', function (votepackage) {
       storage.addVote(votepackage);
-      //$scope.ownImages = $localStorage.ownImages;
     });
     //images form other users are incoming
     mySocket.on('incoming_image', function (image) {
@@ -233,7 +232,7 @@ angular.module('starter.services', [])
       getPicture: function (options) {
         // this is the same as try and catch, just asynchronous, and we return a promise instead of a callback
         var deferred = $q.defer();
-        //calling codova plugin
+        //calling cordova pluign
         navigator.camera.getPicture(function (result) {
           deferred.resolve(result);
         }, function (err) {
