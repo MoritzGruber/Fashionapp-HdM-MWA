@@ -38,6 +38,8 @@ angular.module('starter.controllers', [])
     }
   })
   .controller('TabsCtrl', function ($scope, $rootScope, $state, socket) {
+    //listen to the server for new stuff (socket)
+    $scope.socket = socket;
     //this controller disables the tab navigation bar for certain views/tabs
     $rootScope.$on('$ionicView.beforeEnter', function () {
       //on default we see the tabbar
@@ -48,7 +50,7 @@ angular.module('starter.controllers', [])
       }
     });
   })
-  .controller('CollectionCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, voteservice, communicationservice) {
+  .controller('CollectionCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, supportservice, communicationservice) {
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
       if (storage.getNumber() == "Unknown") {
@@ -64,10 +66,10 @@ angular.module('starter.controllers', [])
     $scope.ownImages = $localStorage.ownImages;
     //calling the calculate percentage function for each image
     for (var i = 0; i < $scope.ownImages.length; i++) {
-      $scope.ownImages[i].percantag = voteservice.getPercentage($scope.ownImages[i].votes);
+      $scope.ownImages[i].percantag = supportservice.calculatePercentage($scope.ownImages[i].votes);
     }
     //listen to the server for new stuff (socket)
-    // communicationservice.listen();
+    $scope.socket = socket;
     //functions
     //make a picture
     $scope.getPhoto = function () {
@@ -146,7 +148,7 @@ angular.module('starter.controllers', [])
       storage.clearOldImages();
       $scope.local = $localStorage.imagesFromOtherUsers;
       //listen to the server for new stuff (socket)
-      // communicationservice.listen();
+      $scope.socket = socket;
     });
 
     //functions
@@ -168,7 +170,7 @@ angular.module('starter.controllers', [])
   .controller('ProfileCtrl', function ($scope, $localStorage, storage, socket, communicationservice) {
     //Initializing
     //listen to the server for new stuff (socket)
-    // communicationservice.listen();
+    $scope.socket = socket;
     //to get the number we use storage service
     $scope.storage = storage;
 
@@ -185,6 +187,8 @@ angular.module('starter.controllers', [])
   })
 
   .controller('CollectionDetailCtrl', function ($scope, $stateParams, storage, socket) {
+    //listen to the server for new stuff (socket)
+    $scope.socket = socket;
     //just get the right image to show out of the link params
     $scope.image = storage.getOwnImage($stateParams.imageId);
   });
