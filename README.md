@@ -43,6 +43,7 @@ $ ionic run ios
   - Christop Muth
   - Sylwia Calka
   - Moritz Gruber
-## Mentors: 
+
+##Mentors: 
   - Ansgar Gerlicher
   - Fankhauser Thomas
