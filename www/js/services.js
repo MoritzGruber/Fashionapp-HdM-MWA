@@ -29,6 +29,9 @@ angular.module('starter.services', [])
     //images form other users are incoming
     mySocket.on('incoming_image', function (image) {
       var image_is_already_in_storage = false;
+      if ($localStorage.imagesFromOtherUsers == null || $localStorage.imagesFromOtherUsers == undefined) {
+        $localStorage.imagesFromOtherUsers = [];
+      }
       for (var i = 0; i < $localStorage.imagesFromOtherUsers.length; i++) {
         if (image._id == $localStorage.imagesFromOtherUsers[i]._id) {
           image_is_already_in_storage = true;
