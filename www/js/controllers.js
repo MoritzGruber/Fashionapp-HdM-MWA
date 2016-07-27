@@ -50,7 +50,7 @@ angular.module('starter.controllers', [])
       }
     });
   })
-  .controller('CollectionCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $localStorage, $ionicPlatform, $state, supportservice, communicationservice) {
+  .controller('CollectionCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $ionicPlatform, $state, supportservice, communicationservice) {
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
       if (storage.getNumber() == "Unknown") {
@@ -59,11 +59,8 @@ angular.module('starter.controllers', [])
       }
     });
     //Initializing
-    //prevent null error if empty
-    if ($localStorage.ownImages == undefined) {
-      $localStorage.ownImages = [];
-    }
-    $scope.ownImages = $localStorage.ownImages;
+    //load own images into the scope
+    $scope.ownImages = storage.getOwnImages();
     //calling the calculate percentage function for each image
     for (var i = 0; i < $scope.ownImages.length; i++) {
       $scope.ownImages[i].percantag = supportservice.calculatePercentage($scope.ownImages[i].votes);
@@ -86,14 +83,14 @@ angular.module('starter.controllers', [])
       //calling our service which asynchronously and returns a promise that cordova camera plugin worked fine
       Camera.getPicture(cameraSettings).then(function (imageData) {
         //packing the imageData in a json object with all data we also need to send it to the server
-        var onesignal_ids = $localStorage.pushId;
+        var onesignal_ids = storage.getPushId();
         var votes = [];
         var image = {
           "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storage.getNumber(),
           "recipients": [],
           "votes": votes,
           "onesignal_ids": onesignal_ids,
-          "localImageId": storage.getlocalImageId()
+          "localImageId": storage.getLocalImageId()
         };
         //upload the image with our open socket connection
         socket.emit('new_image', (image));
@@ -141,12 +138,12 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('CommunityCtrl', function ($scope, socket, $ionicPlatform, $timeout, storage, $localStorage, voteservice, communicationservice) {
+  .controller('CommunityCtrl', function ($scope, socket, $ionicPlatform, $timeout, storage, voteservice, communicationservice) {
     //Initializing
     $ionicPlatform.ready(function () {
       //clear old imagesFromOtherUsers and load imagesFromOtherUsers form storage
-      storage.clearOldImages();
-      $scope.local = $localStorage.imagesFromOtherUsers;
+      storage.clearOldImagesFromOtherUsers();
+      $scope.local = storage.getImagesFromOtherUsers();
       //listen to the server for new stuff (socket)
       $scope.socket = socket;
     });
@@ -167,7 +164,7 @@ angular.module('starter.controllers', [])
       }, 1000);
     };
   })
-  .controller('ProfileCtrl', function ($scope, $localStorage, storage, socket, communicationservice) {
+  .controller('ProfileCtrl', function ($scope, storage, socket, communicationservice) {
     //Initializing
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
