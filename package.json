@@ -23,7 +23,8 @@
     "cordova-plugin-statusbar",
     "onesignal-cordova-plugin",
     "cordova-plugin-hockeyapp",
-    "cordova-plugin-camera"
+    "cordova-plugin-camera",
+    "cordova-sqlite-storage"
   ],
   "cordovaPlatforms": [
     "android",
