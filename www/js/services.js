@@ -16,7 +16,7 @@ angular.module('starter.services', [])
     });
     //receive a vote
     mySocket.on('vote_sent_from_server', function (votepackage) {
-      storage.addVote(votepackage);
+      storage.addVoteToOwnImage(votepackage);
     });
     //images form other users are incoming
     mySocket.on('incoming_image', function (image) {
@@ -117,7 +117,7 @@ angular.module('starter.services', [])
         }
       },
       //apply the vote form other user to own votes to ownImages
-      addVote: function (votepackage) {
+      addVoteToOwnImage: function (votepackage) {
         if (Array.isArray(votepackage)) {
           // this is the array from the refrash call
           //handling the array of packages here
