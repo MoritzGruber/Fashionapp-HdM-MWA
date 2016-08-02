@@ -4,17 +4,18 @@
   //user data ==
   // push id, number, local image id (that is the counter to match the server ids)
 
-  angular.module('starter.services').factory('storageService', ['$q', storageService]);
+  angular.module('starter.services').factory('storageService', ['$q', 'Loki', storageService]);
   function storageService($q) {
-    var ownImageDB;
-    var imagesFromOtherUsersDB;
+    var _db;
+    var _ownImages;
+    //COLLECTIOS: ownImages, imagesFromOtherUsers
 
     return {
       //local storage user data
       getNumber: getNumber,
       getPushId: getPushId,
       getLocalImageId: getLocalImageId,
-      //sql storage
+      //lokijs storage
       initDB: initDB,
       //own Images (collection)
       addOwnImage: addOwnImage,
@@ -33,17 +34,30 @@
     };
 
     function initDB() {
-      // Creates the database or opens if it already exists
-      ownImageDB = new PouchDB('ownImages', {adapter: 'websql'});
-      imagesFromOtherUsersDB = new PouchDB('imagesFromOtherUsers', {adapter: 'websql'});
+      var adapter = new LokiCordovaFSAdapter({"prefix": "loki"});
+      _db = new Loki('fittshotDB',
+        {
+          autosave: true,
+          autosaveInterval: 1000, // 1 second
+          adapter: adapter
+        });
     };
+    // get all all own Images
+    function getOwnImages() {
 
-    function addOwnImage(ownImage) {
-      return $q.when(ownImageDB.post(ownImage));
-    };
+      return $q(function (resolve, reject) {
+        var options = {};
 
-    function deleteOwnImage(ownImage) {
-      return $q.when(ownImageDB.remove(ownImage));
-    };
+        _db.loadDatabase(options, function () {
+          _ownImages = _db.getCollection('ownImages');
+
+          if (!_birthdays) {
+            _ownImages = _db.addCollection('ownImages');
+          }
+
+          resolve(_ownImages);
+        });
+      });
+    }
   }
 })();
