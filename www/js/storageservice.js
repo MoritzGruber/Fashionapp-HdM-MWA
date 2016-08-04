@@ -16,7 +16,7 @@
     return {
       //local storage user data
       getNumber: getNumber,
-      //addNumber: addNumber,
+      addNumber: addNumber,
       //getPushId: getPushId,
       // getLocalImageId: getLocalImageId,
       initDB: initDB,
@@ -39,7 +39,7 @@
     function initDB() {
       // Creates the database or opens if it already exists
       _db = window.sqlitePlugin.openDatabase({name: "fittshot.db", location: 'default'});
-      //create user dataTable
+      //create userData Table
       _db.transaction(function(transaction) {
         transaction.executeSql('CREATE TABLE IF NOT EXISTS userData (_id integer PRIMARY KEY AUTOINCREMENT, ownNumber text, pushId text)', [],
             function(tx, result) {
@@ -49,13 +49,14 @@
               alert("Error occurred while creating the table.");
             });
       });
+      //create User in the userData Tabel
       _db.transaction(function(transaction) {
         transaction.executeSql('INSERT INTO userData (ownNumber, pushId) VALUES ("unknown", "") WHERE NOT EXISTS (SELECT name FROM table_listnames WHERE name="value")', [],
             function(tx, result) {
               alert("Table created successfully");
             },
             function(error) {
-              alert("Error occurred while creating the table.");
+              alert("//create User in the userData Tabel");
             });
       });
     }
@@ -64,6 +65,16 @@
         transaction.executeSql('SELECT * FROM userData', [], function (tx, results) {
           alert(results);
         }, null);
+      });
+    }
+    function addNumber(ownNUmber) {
+      _db.transaction(function(transaction) {
+        var executeQuery = "UPDATE userData SET ownNumber=? WHERE id=?";
+        transaction.executeSql(executeQuery, [ownNumber,1],
+          //On Success
+          function(tx, result) {alert('Updated successfully');},
+          //On Error
+          function(error){alert('Something went Wrong');});
       });
     }
     function insertUserNumber (ownNumber) {

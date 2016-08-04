@@ -52,7 +52,7 @@ angular.module('starter.controllers', [])
   })
   .controller('CollectionCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $ionicPlatform, $state, supportservice, communicationservice, storageService) {
     $ionicPlatform.ready(function () {
-      storageService.initDB();
+      storageService.addNumber("mynewnumber");
       storageService.getNumber();
       //checking if users created an usable account
       if (storage.getNumber() == "Unknown") {
