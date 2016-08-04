@@ -16,41 +16,46 @@
     return {
       //local storage user data
       getNumber: getNumber,
-      getPushId: getPushId,
-      getLocalImageId: getLocalImageId,
-      //lokijs storage
+      //addNumber: addNumber,
+      //getPushId: getPushId,
+      // getLocalImageId: getLocalImageId,
       initDB: initDB,
       //own Images (collection)
-      addOwnImage: addOwnImage,
-      deleteOwnImage: deleteOwnImage,
-      getOwnImage: getOwnImage,
-      addServerImageIdToOwnImage: addServerImageIdToOwnImage,
-      addVoteToOwnImage: addVoteToOwnImage,
-      getOwnImages: getOwnImages,
-      getIdsFromOwnImages: getIdsFromOwnImages,
+      //addOwnImage: addOwnImage,
+      // deleteOwnImage: deleteOwnImage,
+      // getOwnImage: getOwnImage,
+      // addServerImageIdToOwnImage: addServerImageIdToOwnImage,
+      // addVoteToOwnImage: addVoteToOwnImage,
+      // getOwnImages: getOwnImages,
+      // getIdsFromOwnImages: getIdsFromOwnImages,
       //Images from other users (community)
-      addImageFromOtherUser: addIaddImageFromOtherUser,
-      deleteImageFromOtherUser: deleteImageFromOtherUser,
-      getImagesFromOtherUsers: getImagesFromOtherUsers,
-      getIdsFromImagesFromOtherUsers: getIdsFromImagesFromOtherUsers,
-      clearOldImagesFromOtherUsers: clearOldImagesFromOtherUsers
+      // addImageFromOtherUser: addIaddImageFromOtherUser,
+      // deleteImageFromOtherUser: deleteImageFromOtherUser,
+      // getImagesFromOtherUsers: getImagesFromOtherUsers,
+      // getIdsFromImagesFromOtherUsers: getIdsFromImagesFromOtherUsers,
+      // clearOldImagesFromOtherUsers: clearOldImagesFromOtherUsers
     };
 
     function initDB() {
       // Creates the database or opens if it already exists
-      _db = new PouchDB('fittshot', {adapter: 'websql'});
-    };
-    //
-    // function addBirthday(birthday) {
-    //   return $q.when(_db.post(birthday));
-    // };
-    //
-    // function updateBirthday(birthday) {
-    //   return $q.when(_db.put(birthday));
-    // };
-    //
-    // function deleteBirthday(birthday) {
-    //   return $q.when(_db.remove(birthday));
-    // };
+      _db = window.sqlitePlugin.openDatabase({name: "fittshot.db", location: 'default'});
+      //create user dataTable
+      _db.transaction(function(transaction) {
+        transaction.executeSql('CREATE TABLE IF NOT EXISTS userData (_id integer PRIMARY KEY AUTOINCREMENT, ownNumber text, pushId text)', [],
+          function(tx, result) {
+            alert("Table created successfully");
+          },
+          function(error) {
+            alert("Error occurred while creating the table.");
+          });
+      });
+    }
+    function getNumber() {
+      _db.transaction(function(transaction) {
+        transaction.executeSql('SELECT * FROM userData', [], function (tx, results) {
+          alert(results);
+        }, null);
+      });
+    }
   }
 })();
