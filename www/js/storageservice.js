@@ -4,11 +4,14 @@
   //user data ==
   // push id, number, local image id (that is the counter to match the server ids)
 
-  angular.module('starter.services').factory('storageService', ['$q', 'Loki', storageService]);
+  angular.module('starter.services').factory('storageService', ['$q', storageService]);
   function storageService($q) {
     var _db;
     var _ownImages;
-    //COLLECTIOS: ownImages, imagesFromOtherUsers
+    var _userData;
+    var _imagesFromOtherUsers;
+    var _votes;
+    var _recipients;
 
     return {
       //local storage user data
@@ -34,30 +37,20 @@
     };
 
     function initDB() {
-      var adapter = new LokiCordovaFSAdapter({"prefix": "loki"});
-      _db = new Loki('fittshotDB',
-        {
-          autosave: true,
-          autosaveInterval: 1000, // 1 second
-          adapter: adapter
-        });
+      // Creates the database or opens if it already exists
+      _db = new PouchDB('fittshot', {adapter: 'websql'});
     };
-    // get all all own Images
-    function getOwnImages() {
-
-      return $q(function (resolve, reject) {
-        var options = {};
-
-        _db.loadDatabase(options, function () {
-          _ownImages = _db.getCollection('ownImages');
-
-          if (!_birthdays) {
-            _ownImages = _db.addCollection('ownImages');
-          }
-
-          resolve(_ownImages);
-        });
-      });
-    }
+    //
+    // function addBirthday(birthday) {
+    //   return $q.when(_db.post(birthday));
+    // };
+    //
+    // function updateBirthday(birthday) {
+    //   return $q.when(_db.put(birthday));
+    // };
+    //
+    // function deleteBirthday(birthday) {
+    //   return $q.when(_db.remove(birthday));
+    // };
   }
 })();
