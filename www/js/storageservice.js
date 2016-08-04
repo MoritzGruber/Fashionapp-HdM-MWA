@@ -42,12 +42,21 @@
       //create user dataTable
       _db.transaction(function(transaction) {
         transaction.executeSql('CREATE TABLE IF NOT EXISTS userData (_id integer PRIMARY KEY AUTOINCREMENT, ownNumber text, pushId text)', [],
-          function(tx, result) {
-            alert("Table created successfully");
-          },
-          function(error) {
-            alert("Error occurred while creating the table.");
-          });
+            function(tx, result) {
+              alert("Table created successfully");
+            },
+            function(error) {
+              alert("Error occurred while creating the table.");
+            });
+      });
+      _db.transaction(function(transaction) {
+        transaction.executeSql('INSERT INTO userData (ownNumber, pushId) VALUES ("unknown", "") WHERE NOT EXISTS (SELECT name FROM table_listnames WHERE name="value")', [],
+            function(tx, result) {
+              alert("Table created successfully");
+            },
+            function(error) {
+              alert("Error occurred while creating the table.");
+            });
       });
     }
     function getNumber() {
@@ -55,6 +64,14 @@
         transaction.executeSql('SELECT * FROM userData', [], function (tx, results) {
           alert(results);
         }, null);
+      });
+    }
+    function insertUserNumber (ownNumber) {
+      var query = "INSERT INTO userData (ownNumber, pushId) VALUES (?,?)";
+      $cordovaSQLite.execute(db, query, [ownNumber, pushId]).then(function(res) {
+        console.log("Insert ID: " + res.insertId);
+      }, function (err) {
+        console.error(err);
       });
     }
   }
