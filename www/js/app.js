@@ -6,13 +6,12 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io', 'ngCordova', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS'])
+angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io', 'ngCordova', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS', 'lokijs'])
 
   .run(function ($ionicPlatform, storage, communicationservice, storageService) {
     $ionicPlatform.ready(function () {
 
       //INITIALIZE PROCESS
-      //setup sql db
       storageService.initDB();
       //default setup for keyboard
       // Hide the keyboardaccessorybar by default (remove this to show the accessory bar above the keyboard

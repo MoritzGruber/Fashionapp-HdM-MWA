@@ -51,22 +51,26 @@ angular.module('starter.controllers', [])
     });
   })
   .controller('CollectionCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $ionicPlatform, $state, supportservice, communicationservice, storageService) {
+    $scope.ownImages = [];
     $ionicPlatform.ready(function () {
-      storageService.addNumber("mynewnumber");
-      storageService.getNumber();
       //checking if users created an usable account
       if (storage.getNumber() == "Unknown") {
         //no, then ==> go to welcome page
         $state.go('tab.collectionstart');
       }
+      //Initializing
+      //load own images into the scope
+      storageService.getOwnImages().then(function (loadedOwnImages) {
+        $scope.ownImages = loadedOwnImages;
+        //calling the calculate percentage function for each image
+        for (var i = 0; i < $scope.ownImages.length; i++) {
+          $scope.ownImages[i].percantag = supportservice.calculatePercentage($scope.ownImages[i].votes);
+        }
+        console.log('run TROUGH!');
+      }).catch(function (err) {
+        console.log('error @storageService.getOwnImages: '+err);
+      });
     });
-    //Initializing
-    //load own images into the scope
-    $scope.ownImages = storage.getOwnImages();
-    //calling the calculate percentage function for each image
-    for (var i = 0; i < $scope.ownImages.length; i++) {
-      $scope.ownImages[i].percantag = supportservice.calculatePercentage($scope.ownImages[i].votes);
-    }
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     //functions
@@ -95,9 +99,10 @@ angular.module('starter.controllers', [])
           "localImageId": storage.getLocalImageId()
         };
         //upload the image with our open socket connection
-        socket.emit('new_image', (image));
+        //socket.emit('new_image', (image));
         //store localy now
-        storage.addOwnImage(image);
+        storageService.addOwnImage(image);
+        //storage.addOwnImage(image);
         //tracking
         hockeyapp.trackEvent(null, null, 'User made a image');
       }, function (err) {
