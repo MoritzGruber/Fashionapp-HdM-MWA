@@ -22,7 +22,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       //own Images (collection)
       addOwnImage: addOwnImage,
       // deleteOwnImage: deleteOwnImage,
-      // getOwnImage: getOwnImage,
+      getOwnImage: getOwnImage,
       // addServerImageIdToOwnImage: addServerImageIdToOwnImage,
       // addVoteToOwnImage: addVoteToOwnImage,
       getOwnImages: getOwnImages,
@@ -156,5 +156,38 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
         });
       });
     }
+    //get one own image  with specific index
+    function getOwnImage(index) {
+
+      return $q(function (resolve, reject) {
+        var options = {};
+
+        db.loadDatabase(options, function () {
+          ownImages = db.getCollection('ownImages');
+
+          if (!ownImages) {
+            ownImages = db.addCollection('ownImages');
+          }
+          resolve(ownImages.get(index));
+        });
+      });
+    }
+    //add server image id to the local image, found by the local image id
+    function getOwnImage(index) {
+
+      return $q(function (resolve, reject) {
+        var options = {};
+
+        db.loadDatabase(options, function () {
+          ownImages = db.getCollection('ownImages');
+
+          if (!ownImages) {
+            ownImages = db.addCollection('ownImages');
+          }
+          resolve(ownImages.get(index));
+        });
+      });
+    }
+
   }]);
 
