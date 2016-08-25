@@ -1,0 +1,24 @@
+<ion-view>
+  <ion-nav-title class="header-title">
+    Manage Friends
+  </ion-nav-title>
+  <ion-content class="padding">
+    <label class="item item-input">
+      <span class="input-label">Username</span>
+      <input type="text" ng-model="friendNumber">
+    </label>
+    <button class="button button-small" ng-click="addFriend(friendNumber)">
+      Submit
+    </button>
+    <button class="button button-small" ng-click="deleteSelectedFriends()" ng-show="deleteMode==true">
+      Delete all selecte Friends
+    </button>
+    <ion-item class="item-royal" ng-repeat="friend in friendList track by $index" on-hold="toggleDeleteMode()">
+      <div>
+          <h1 class="title">{{friend.userName}}</h1>
+          <h2 ng-show="deleteMode==true">you noob{{friend.lokiID}}</h2>
+      </div>
+    </ion-item>
+  </ion-content>
+</ion-view>
+

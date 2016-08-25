@@ -2,7 +2,7 @@ angular.module('starter.services', [])
 
 //this factory is used to establish a socketio connect to our server
 //returning the socket
-  .factory('socket', function (socketFactory, storage) {
+  .factory('socket', function (socketFactory, storage, storageService) {
     //Create socket and connect to (server ip)
     var myIoSocket = io.connect('http://46.101.122.130:3000'); //<-- place your ip in here if you docker/etc is running on a other one
     var mySocket = socketFactory({
@@ -12,7 +12,7 @@ angular.module('starter.services', [])
     mySocket.emit('join', storage.getPushId());
     //this event is fired when when the image was successful created and we get the id from the server back
     mySocket.on('image_created', function (serverId, clientId) {
-      storage.addServerImageIdToOwnImage(serverId, clientId);
+      storageService.addServerImageIdToOwnImage(serverId, clientId);
     });
     //receive a vote
     mySocket.on('vote_sent_from_server', function (votepackage) {

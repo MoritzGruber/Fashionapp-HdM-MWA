@@ -7,6 +7,12 @@
   <ion-content class="padding has-header has-subheader">
     <!-- show own name, which is currently in the number field, will be replaced after we add number authentication-->
     <h3 class="centertext">{{storage.getNumber()}}</h3>
+    <!--Checkbox if you want to send to friends only-->
+    <ion-checkbox ng-model="filter.blue">Send to Friends only</ion-checkbox>
+    <!--freinds button , add and remove friends-->
+    <button type="submit" class="btn outline" ng-click="selectFriends()">
+      Manage Friends
+    </button>
     <!--feedback button , hockeyapp-->
     <button type="submit" class="btn outline" ng-click="sendFeedback()">
       Submit Feedback

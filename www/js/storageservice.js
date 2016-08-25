@@ -9,7 +9,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     var ownImages;
     var pushId;
     var ownNumber;
-    var localImageIdCounter;
+    var friends;
     var imagesFromOtherUsers;
     return {
       initDB: initDB,
@@ -17,22 +17,23 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       getNumber: getNumber,
       addNumber: addNumber,
       getPushId: getPushId,
-      getLocalImageId: getLocalImageIdCounter,
-
       //own Images (collection)
       addOwnImage: addOwnImage,
       // deleteOwnImage: deleteOwnImage,
       getOwnImage: getOwnImage,
-      // addServerImageIdToOwnImage: addServerImageIdToOwnImage,
+      addServerImageIdToOwnImage: addServerImageIdToOwnImage,
       // addVoteToOwnImage: addVoteToOwnImage,
       getOwnImages: getOwnImages,
       // getIdsFromOwnImages: getIdsFromOwnImages,
       //Images from other users (community)
-      // addImageFromOtherUser: addIaddImageFromOtherUser,
+      // addImageFromOtherUser: addImageFromOtherUser,
       // deleteImageFromOtherUser: deleteImageFromOtherUser,
       // getImagesFromOtherUsers: getImagesFromOtherUsers,
       // getIdsFromImagesFromOtherUsers: getIdsFromImagesFromOtherUsers,
       // clearOldImagesFromOtherUsers: clearOldImagesFromOtherUsers
+      //FRIEND FUNCTIONS:
+      addFriend: addFriend,
+      getFriends: getFriends
     };
 
     function initDB() {
@@ -113,33 +114,16 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       });
     }
 
-    // get localImageId (vurrent counter)
-    function getLocalImageIdCounter() {
-      return $q(function (resolve, reject) {
-        var options = {};
-
-        db.loadDatabase(options, function () {
-          localImageIdCounter = db.getCollection('localImageIdCounter');
-
-          if (!localImageIdCounter) {
-            //if there is no counter we start from zero
-            localImageIdCounter.insert(0);
-            localImageIdCounter = db.addCollection('localImageIdCounter');
-          } else {
-            //add one to the counter and save it again
-            var tmp = localImageIdCounter.data[0];
-            tmp++;
-            localImageIdCounter = db.addCollection('localImageIdCounter');
-            localImageIdCounter.insert(tmp);
-            resolve(tmp);
-          }
-        });
-      });
-    }
     //add a new own image
     function addOwnImage(image) {
-      ownImages.insert(image);
+      console.log("started");
+      return $q(function (resolve, reject) {
+        var tmp = ownImages.insert(image);
+        //return the id
+        resolve(tmp.$loki);
+      });
     }
+
     //get all the own images
     function getOwnImages() {
 
@@ -156,6 +140,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
         });
       });
     }
+
     //get one own image  with specific index
     function getOwnImage(index) {
 
@@ -172,8 +157,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
         });
       });
     }
+
     //add server image id to the local image, found by the local image id
-    function getOwnImage(index) {
+    function addServerImageIdToOwnImage(serverId, localImageId) {
 
       return $q(function (resolve, reject) {
         var options = {};
@@ -184,10 +170,59 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           if (!ownImages) {
             ownImages = db.addCollection('ownImages');
           }
-          resolve(ownImages.get(index));
+          var imageToUpdate = ownImages.find({$loki: localImageId});
+          if (!imageToUpdate) {
+            imageToUpdate._id = serverId;
+            ownImages.update(imageToUpdate);
+            resolve(true);
+          }
+          resolve(false);
+        });
+      });
+
+    }
+
+    //Friends Functions
+    function getFriends() {
+      return $q(function (resolve, reject) {
+        var options = {};
+        if (db == undefined) {
+          initDB().then(function () {
+              loadFriends();
+            } 
+          );
+        } else {
+          loadFriends();
+        }
+        function loadFriends() {
+          db.loadDatabase(options, function () {
+            friends = db.getCollection('friends');
+            if (!friends) {
+              friends = db.addCollection('friends');
+            }
+            resolve(friends.data);
+          });
+        }
+      });
+    }
+
+    function addFriend(friend) {
+      return $q(function (resolve, reject) {
+        var options = {};
+        db.loadDatabase(options, function () {
+          friends = db.getCollection('friends');
+
+          if (!friends) {
+            friends = db.addCollection('friends');
+          }
+          //insert the friend to the collection
+          var tmp = friends.insert(friend);
+          //return the id
+          resolve(tmp.$loki);
         });
       });
     }
+
 
   }]);
 

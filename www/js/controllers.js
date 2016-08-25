@@ -68,7 +68,7 @@ angular.module('starter.controllers', [])
         }
         console.log('run TROUGH!');
       }).catch(function (err) {
-        console.log('error @storageService.getOwnImages: '+err);
+        console.log('error @storageService.getOwnImages: ' + err);
       });
     });
     //listen to the server for new stuff (socket)
@@ -96,12 +96,17 @@ angular.module('starter.controllers', [])
           "recipients": [],
           "votes": votes,
           "onesignal_ids": onesignal_ids,
-          "localImageId": storage.getLocalImageId()
+          "localImageId": storageService.getLocalImageId()
         };
-        //upload the image with our open socket connection
-        //socket.emit('new_image', (image));
-        //store localy now
-        storageService.addOwnImage(image);
+
+        //store localy now and get local id
+        console.log("before addOwnImagecall");
+        storageService.addOwnImage(image).then(function (localImageId) {
+          image.localImageId = localImageId;
+          console.log("we got it");
+          //upload the image with our open socket connection
+          //socket.emit('new_image', (image));
+        });
         //storage.addOwnImage(image);
         //tracking
         hockeyapp.trackEvent(null, null, 'User made a image');
@@ -171,7 +176,7 @@ angular.module('starter.controllers', [])
       }, 1000);
     };
   })
-  .controller('ProfileCtrl', function ($scope, storage, socket, communicationservice) {
+  .controller('ProfileCtrl', function ($scope, storage, socket, communicationservice, $state) {
     //Initializing
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
@@ -187,12 +192,51 @@ angular.module('starter.controllers', [])
     //feedback function, hockeyapp
     $scope.sendFeedback = function () {
       hockeyapp.feedback();
+    };
+    $scope.selectFriends = function () {
+      $state.go('tab.profile-friends');
     }
   })
 
-  .controller('CollectionDetailCtrl', function ($scope, $stateParams, storage, socket) {
+  .controller('CollectionDetailCtrl', function ($scope, $stateParams, storage, socket, storageService) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     //just get the right image to show out of the link params
-    $scope.image = storage.getOwnImage($stateParams.imageId);
+    $scope.image = storageService.getOwnImage($stateParams.imageId);
+  })
+
+  .controller('FriendsCtrl', function ($scope, storage, socket, storageService) {
+    //listen to the server for new stuff (socket)
+    $scope.socket = socket;
+    $scope.friendList = [];
+    $scope.friendsToDelete = [];
+    $scope.deleteMode = false;
+    //get all friends and fill the array to show it
+    storageService.getFriends().then(function (resultArrayOfFriends) {
+      $scope.friendList = resultArrayOfFriends;
+    });
+    // add a friend to the array
+    $scope.addFriend = function (userName) {
+      if (userName != "") {
+        storageService.addFriend(userName).then(function (lokiID) {
+          console.log('Added friend successfully');
+          $scope.friendList.push({'userName': userName, 'lokiID': lokiID});
+          $scope.friendNumber = "";
+        });
+      }
+    };
+    //toggle deleteMode
+    $scope.toggleDeleteMode = function () {
+      $scope.deleteMode = !$scope.deleteMode;
+    };
+    //delete all selcted Friends
+    $scope.deleteSelectedFriends = function () {
+      //delete all selected friends in the array
+      for (var i = 0; i < $scope.friendsToDelete.length; i++) {
+        var obj = $scope.friendsToDelete[i];
+
+      }
+      //clear the array
+      $scope.friendsToDelete = [];
+    }
   });
