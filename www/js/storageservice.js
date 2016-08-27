@@ -35,7 +35,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       addFriend: addFriend,
       getFriends: getFriends,
       deleteFriends: deleteFriends,
-      getFriendsNumbers: getFriendsNumbers
+      getFriendsNumbers: getFriendsNumbers,
+      getNameForNumber: getNameForNumber
     };
 
     function initDB() {
@@ -202,11 +203,11 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             if (!friends) {
               friends = db.addCollection('friends');
             }
-            var justFriendsArray = [];
+            var friendsWithlokiID = [];
             for (var i = 0; i < friends.data.length; i++) {
-              justFriendsArray.push({'userName': friends.data[i].item, 'lokiID': friends.data[i].$loki});
+              friendsWithlokiID.push({'number': friends.data[i].number, 'lokiID': friends.data[i].$loki});
             }
-            resolve(justFriendsArray);
+            resolve(friendsWithlokiID);
           });
         }
       });
@@ -232,7 +233,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             }
             var justFriendsArray = [];
             for (var i = 0; i < friends.data.length; i++) {
-              justFriendsArray.push(friends.data[i].item);
+              justFriendsArray.push(friends.data[i].number);
             }
             resolve(justFriendsArray);
           });
@@ -250,7 +251,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             friends = db.addCollection('friends');
           }
           //insert the friend to the collection
-          var tmp = friends.insert({'item': friend});
+          var tmp = friends.insert(friend);
           //return the id
           resolve(tmp.$loki);
         });
@@ -266,7 +267,6 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           if (!friends) {
             friends = db.addCollection('friends');
           }
-          //insert the friend to the collection
           for (var i = 0; i < arrayOfFriendIds.length; i++) {
             var list = friends.get(arrayOfFriendIds[i]);
             friends.remove(list);
@@ -276,5 +276,25 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       });
     }
 
+    //getNameForNumber
+    function getNameForNumber(number) {
+      return $q(function (resolve, reject) {
+        var options = {};
+        db.loadDatabase(options, function () {
+          friends = db.getCollection('friends');
+
+          if (!friends) {
+            friends = db.addCollection('friends');
+          }
+          var name = friends.find({'number': number}).name;
+          if (name == "" || name == undefined) {
+            console.log('To this number was no name found');
+            resolve(number);
+          } else {
+            resolve(name);
+          }
+        });
+      });
+    }
   }]);
 

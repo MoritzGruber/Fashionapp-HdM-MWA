@@ -4,7 +4,7 @@ angular.module('starter.controllers', [])
     $scope.storage = storage;
     $scope.start = function (number) {
       hockeyapp.trackEvent(null, null, 'User is on startscreen');
-      if (number != undefined) { //check if that username fits our style
+      if (number != undefined) { //check if that number fits our style
         if (number.length < 3 || number.length > 10) {
           //style don't fit ==> try again
           $scope.errormsg = "Please choose a nickname between 3 and 10 letters";
@@ -238,10 +238,10 @@ angular.module('starter.controllers', [])
       $scope.friendList = resultArrayOfFriends;
     });
     // add a friend to the array
-    $scope.addFriend = function (userName) {
-      if (userName != "") {
-        storageService.addFriend(userName).then(function (lokiID) {
-          $scope.friendList.push({'userName': userName, 'lokiID': lokiID});
+    $scope.addFriend = function (number) {
+      if (number != "") {
+        storageService.addFriend({'number':number, 'name': 'anonym'}).then(function (lokiID) {
+          $scope.friendList.push({'number': number, 'lokiID': lokiID});
           console.log('Added friend successfully');
         });
       }

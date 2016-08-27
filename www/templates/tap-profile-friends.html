@@ -19,7 +19,7 @@
     </div>
     <ion-item class="item-royal" ng-repeat="friend in friendList track by $index" on-hold="toggleDeleteMode(friend.lokiID)" on-tap="toggleDeleteList(friend.lokiID)">
       <div>
-          <h3 ng-class="{markedForDelete: (friendsToDelete.indexOf(friend.lokiID) > -1)}" >{{friend.userName}}</h3>
+          <h3 ng-class="{markedForDelete: (friendsToDelete.indexOf(friend.lokiID) > -1)}" >{{friend.number}}</h3>
       </div>
     </ion-item>
   </ion-content>
