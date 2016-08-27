@@ -290,4 +290,66 @@ angular.module('starter.services', [])
       }
 
     }
-  }]);
+  }])
+  //for getting all contacts
+  .factory('contacts', function() {
+
+    var allContacts ;
+    var callBackFunction ;
+
+    function readContacts(callback) {
+
+      callBackFunction = callback ;
+      var options = new ContactFindOptions();
+      options.filter = "";          // empty search string returns all contacts
+      options.multiple = true;      // return multiple results
+      var filter = ["*"];
+
+      navigator.contacts.find(
+        filter ,
+        gotContacts,
+        errorHandler,
+        options);
+    }
+
+    function errorHandler(e) {
+      alert("errorHandler: "+e);
+    }
+
+    function gotContacts(contact) {
+
+      var phone ;
+      allContacts = new Array();
+
+      // alert('printout: ' + JSON.stringify(contact) );
+      allContacts = contact ;
+
+      // BELOW IS THE CODE FOR ACCESSING EACH PHONE NUMBER
+      // IT IS NOT USED CURRENTLY FOR THIS DEMO
+      // IT IS HERE FOR EXAMPLE OF HOWTO
+
+      try{ // safer to use try for this
+
+        for(var i=0; i<contact.length; i++) {
+
+          if ( contact[i].phoneNumbers) // check if there are numbers
+            for (var j=0 ; j<contact[i].phoneNumbers.length;j++) {
+              phone = JSON.stringify(contact[i].phoneNumbers[j].value) ; // if you want to modify any data directly
+            }
+        }
+        callBackFunction(); // notify controller that we got the numbers
+
+      }
+      catch(err){
+        console.log(" catch error " + err );
+      }
+    }
+
+    return {
+
+      readContacts: readContacts,
+      getContacts: function(){
+        return allContacts ;
+      }
+    };
+  });

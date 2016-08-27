@@ -221,12 +221,18 @@ angular.module('starter.controllers', [])
     $scope.image = storageService.getOwnImage($stateParams.imageId);
   })
 
-  .controller('FriendsCtrl', function ($scope, storage, socket, storageService) {
+  .controller('FriendsCtrl', function ($scope, storage, socket, storageService, $state) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     $scope.friendList = [];
     $scope.friendsToDelete = [];
     $scope.deleteMode = false;
+
+    //select from phone
+    $scope.selectFromPhone = function () {
+      $state.go('tab.profile-phonecontacts');
+    };
+
     //get all friends and fill the array to show it
     storageService.getFriends().then(function (resultArrayOfFriends) {
       $scope.friendList = resultArrayOfFriends;
@@ -281,4 +287,23 @@ angular.module('starter.controllers', [])
         }
       }
     }
+  })
+  .controller('SelectFriendCtrl', function ($scope, socket, storageService, contacts, $ionicPlatform) {
+    //listen to the server for new stuff (socket)
+    $scope.socket = socket;
+
+    $ionicPlatform.ready(function() {
+      contacts.readContacts(callback); // need to use a callback because reading contacts takes time
+    });
+
+    $scope.$on('$ionicView.enter', function(e) {
+      contacts.readContacts(callback); // you can read contacts again on enter
+    });
+
+    function callback(){ // will get called once all the contacts get read
+
+      $scope.contacts = contacts.getContacts();
+    }
+
+
   });

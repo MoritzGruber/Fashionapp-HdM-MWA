@@ -8,6 +8,7 @@
              ng-model="friendNumber.name">
     </div>
     <button type="submit" class="submit-btn btn outline" ng-click="addFriend(friendNumber.name); friendNumber.name = ''">Add</button>
+    <button type="submit" class="submit-btn btn outline" ng-click="selectFromPhone()">Select from phone</button>
     <div>
       <button class="button markedForDelete friendsDeleteButtons" ng-click="deleteSelectedFriends()" ng-show="deleteMode==true" >
         Delete

@@ -32,7 +32,8 @@
     "cordova-plugin-camera",
     "cordova-sqlite-storage",
     "cordova-plugin-file",
-    "cordova-plugin-network-information"
+    "cordova-plugin-network-information",
+    "cordova-plugin-contacts"
   ],
   "cordovaPlatforms": [
     "android",

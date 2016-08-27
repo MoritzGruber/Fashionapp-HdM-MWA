@@ -1,0 +1,22 @@
+<ion-view>
+  <ion-nav-title class="header-title">
+    Manage Friends
+  </ion-nav-title>
+  <ion-content class="padding">
+
+
+    <div ng-repeat="contact in contacts">
+      <div ng-if="contact.phoneNumbers[0].value.length > 1">
+        <div id="id+{{contact.id}}" class="item item-divider" >
+
+          <p class="floatLeft" style="font-weight: bold;">{{contact.name.formatted}}   {{contact.phoneNumbers[0].value}}</p>
+
+        </div>
+
+      </div>
+    </div>
+
+
+  </ion-content>
+</ion-view>
+
