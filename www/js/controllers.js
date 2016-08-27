@@ -80,9 +80,9 @@ angular.module('starter.controllers', [])
       var cameraSettings = {
         sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
         destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
-        quality: 100,
-        targetWidth: 640,
-        targetHeight: 1136,
+        quality: 50,
+        targetWidth: 320,
+        targetHeight: 640,
         saveToPhotoAlbum: true,
         correctOrientation: true
       };
@@ -93,10 +93,10 @@ angular.module('starter.controllers', [])
         var votes = [];
         var image = {
           "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storage.getNumber(),
-          "recipients": [],
+          "recipients": storageService.getFriendsNumbers(),
           "votes": votes,
           "onesignal_ids": onesignal_ids,
-          "localImageId": storageService.getLocalImageId()
+          "localImageId": storage.getLocalImageId()
         };
 
         //store localy now and get local id
@@ -219,24 +219,50 @@ angular.module('starter.controllers', [])
     $scope.addFriend = function (userName) {
       if (userName != "") {
         storageService.addFriend(userName).then(function (lokiID) {
-          console.log('Added friend successfully');
           $scope.friendList.push({'userName': userName, 'lokiID': lokiID});
-          $scope.friendNumber = "";
+          console.log('Added friend successfully');
         });
       }
     };
     //toggle deleteMode
-    $scope.toggleDeleteMode = function () {
+    $scope.toggleDeleteMode = function (index) {
       $scope.deleteMode = !$scope.deleteMode;
+      $scope.toggleDeleteList(index);
     };
     //delete all selcted Friends
     $scope.deleteSelectedFriends = function () {
       //delete all selected friends in the array
-      for (var i = 0; i < $scope.friendsToDelete.length; i++) {
-        var obj = $scope.friendsToDelete[i];
+      storageService.deleteFriends($scope.friendsToDelete).then(function () {
+        //also delte the friends in the scope then when done in db
+        for (var i = 0; i < $scope.friendList.length; i++) {
+          for (var j = 0; j < $scope.friendsToDelete.length; j++) {
+            if($scope.friendList[i].lokiID == $scope.friendsToDelete[j]){
+              $scope.friendList.splice(i,1);
+            }
+          }
+        }
+        //clear the array
+        $scope.friendsToDelete = [];
+        $scope.deleteMode = false;
+      });
 
-      }
+    };
+    $scope.cancelDelete = function () {
       //clear the array
       $scope.friendsToDelete = [];
+      $scope.deleteMode = false;
+    };
+    //add or remove a friend from the list for friends to be delted
+    $scope.toggleDeleteList = function (lokiID) {
+      if($scope.deleteMode){
+        var indexOf = $scope.friendsToDelete.indexOf(lokiID);
+        if(indexOf !== -1){
+          //if already exists then remove
+          $scope.friendsToDelete.splice(indexOf, 1);
+        } else {
+          //else we add the friend to the list
+          $scope.friendsToDelete.push(lokiID);
+        }
+      }
     }
   });

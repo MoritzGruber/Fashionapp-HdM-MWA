@@ -2,52 +2,55 @@
 To customize the look and feel of Ionic, it is possible to override the variables in ionic's _variables.scss file.
 */
 // custom color pallet
-$light:                           #fff !default;
-$stable:                          #ECE6E6 !default;
-$calm:                            #efe8e3 !default; // post container
-$positive:                        #5ae8c1 !default;
-$balanced:                        #9a9694 !default;
-$energized:                       #ffc900 !default;
-$assertive:                       #ef473a !default;
-$royal:                           transparent !default;
-$dark:                            #444 !default;
+$light: #fff !default;
+$stable: #ECE6E6 !default;
+$calm: #efe8e3 !default; // post container
+$positive: #5ae8c1 !default;
+$balanced: #9a9694 !default;
+$energized: #ffc900 !default;
+$assertive: #ef473a !default;
+$royal: transparent !default;
+$dark: #444 !default;
 
-$base-color:                      $balanced;
+$base-color: $balanced;
 //input
-$input-color:                     $balanced !default;
-$bar-default-bg:                  $royal !default;
-$bar-light-border:                $royal !default;
-$input-label-color:               $balanced !default;
+$input-color: $balanced !default;
+$bar-default-bg: $royal !default;
+$bar-light-border: $royal !default;
+$input-label-color: $balanced !default;
 //card
-$card-header-bg:                  $stable !default;
-$card-body-bg:                    $royal !default;
-$card-footer-bg:                  $royal !default;
+$card-header-bg: $stable !default;
+$card-body-bg: $royal !default;
+$card-footer-bg: $royal !default;
 //item
-$item-padding:                    10px !default;
+$item-padding: 10px !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
- @import "www/lib/ionic/scss/ionic";
+@import "www/lib/ionic/scss/ionic";
 // background --------------------------------
-ion-content{
+ion-content {
   background-image: url('../img/backgrounds/light2.png');
   background-repeat: no-repeat;
   background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   color: $stable;
 }
+
 // start screen, input------------------------
-.start{
+.start {
   margin: 20% auto auto auto;
 }
-input{
+
+input {
   background: $royal;
   margin: 10px auto 10px auto;
 }
+
 //outline for inputfield and buttons
-.outline{
+.outline {
   display: inline-block;
   margin: 2%;
   border: 2px solid $stable;
@@ -58,52 +61,64 @@ input{
   height: 60px;
   display: inline-block;
 }
-.btn:hover{
+
+.btn:hover {
   opacity: 0.5;
   background-color: $light;
 }
-.nick-title{
+
+.nick-title {
   margin: 10px auto 0 10px;;
 }
+
 // banners ----------------------------------
-.header-title{
-  color:$light;
+.header-title {
+  color: $light;
 }
-.banner{
+
+.banner {
   background-repeat: no-repeat;
   background-size: 100% auto;
 }
-.community{
+
+.community {
   background-image: url('../img/banners/community.png');
 }
-.collection{
+
+.collection {
   background-image: url('../img/banners/collection.png');
 }
-.profile{
+
+.profile {
   background-image: url('../img/banners/profile.png');
 }
+
 // tab-community -----------------------------
 
-.fromWhoHeading{
+.fromWhoHeading {
   padding: 1%;
   position: relative;
   width: 100%;
 }
-.communitySingleImg{
+
+.communitySingleImg {
   padding: 1%;
   width: 100%;
   height: 100%;
   position: relative;
   border-radius: 2%;
 }
-.leftButton{
+
+.leftButton {
   width: 100%;
   opacity: 0.7;
 }
-.rightButton{
+
+.rightButton {
   width: 100%;
   opacity: 0.7;
 }
+
 // tab-collection -------------------------------
 .photo-btn {
   border: 2px solid $stable;
@@ -115,7 +130,8 @@ input{
   margin: 10px auto 10px auto;
   display: block;
 }
-.item-container{
+
+.item-container {
   background-color: $royal;
   margin-left: auto;
   margin-right: auto;
@@ -123,10 +139,12 @@ input{
   width: 220px;
   height: 220px;
 }
-.progress-circle{
+
+.progress-circle {
   position: absolute;
   z-index: 1;
 }
+
 .img-wrapper {
   z-index: 2;
   width: 200px;
@@ -139,17 +157,20 @@ input{
   -moz-border-radius: 50%;
   border-radius: 50%;
 }
+
 .img-wrapper-img {
   display: inline;
   margin: 0 auto;
   position: relative;
   max-width: 300px;
 }
-.fullscreenimage{
+
+.fullscreenimage {
   width: 100%;
   height: auto;
 }
-.deleteBtn{
+
+.deleteBtn {
   position: absolute;
   z-index: 3;
   border-radius: 50%;
@@ -158,7 +179,21 @@ input{
   background-color: $assertive;
   opacity: 0.5;
 }
+
 //for profile name in profile tab
 .centertext {
   text-align: center;
+}
+
+//for the friends selection
+.markedForDelete {
+  color: indianred;
+  text-decoration-color: indianred;
+}
+
+.friendsDeleteButtons {
+  width: 50%;
+  float: left;
+  padding-left: 1%;
+  padding-right: 1%;
 }

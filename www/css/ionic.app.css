@@ -9843,3 +9843,13 @@ input {
 
 .centertext {
   text-align: center; }
+
+.markedForDelete {
+  color: indianred;
+  text-decoration-color: indianred; }
+
+.friendsDeleteButtons {
+  width: 50%;
+  float: left;
+  padding-left: 1%;
+  padding-right: 1%; }

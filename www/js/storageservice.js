@@ -33,7 +33,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       // clearOldImagesFromOtherUsers: clearOldImagesFromOtherUsers
       //FRIEND FUNCTIONS:
       addFriend: addFriend,
-      getFriends: getFriends
+      getFriends: getFriends,
+      deleteFriends: deleteFriends,
+      getFriendsNumbers: getFriendsNumbers
     };
 
     function initDB() {
@@ -189,7 +191,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
         if (db == undefined) {
           initDB().then(function () {
               loadFriends();
-            } 
+            }
           );
         } else {
           loadFriends();
@@ -200,7 +202,39 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             if (!friends) {
               friends = db.addCollection('friends');
             }
-            resolve(friends.data);
+            var justFriendsArray = [];
+            for (var i = 0; i < friends.data.length; i++) {
+              justFriendsArray.push({'userName': friends.data[i].item, 'lokiID': friends.data[i].$loki});
+            }
+            resolve(justFriendsArray);
+          });
+        }
+      });
+    }
+
+    //get just the numbers of the friends for backend
+    function getFriendsNumbers() {
+      return $q(function (resolve, reject) {
+        var options = {};
+        if (db == undefined) {
+          initDB().then(function () {
+              loadFriends();
+            }
+          );
+        } else {
+          loadFriends();
+        }
+        function loadFriends() {
+          db.loadDatabase(options, function () {
+            friends = db.getCollection('friends');
+            if (!friends) {
+              friends = db.addCollection('friends');
+            }
+            var justFriendsArray = [];
+            for (var i = 0; i < friends.data.length; i++) {
+              justFriendsArray.push(friends.data[i].item);
+            }
+            resolve(justFriendsArray);
           });
         }
       });
@@ -216,13 +250,31 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             friends = db.addCollection('friends');
           }
           //insert the friend to the collection
-          var tmp = friends.insert(friend);
+          var tmp = friends.insert({'item': friend});
           //return the id
           resolve(tmp.$loki);
         });
       });
     }
 
+    function deleteFriends(arrayOfFriendIds) {
+      return $q(function (resolve, reject) {
+        var options = {};
+        db.loadDatabase(options, function () {
+          friends = db.getCollection('friends');
+
+          if (!friends) {
+            friends = db.addCollection('friends');
+          }
+          //insert the friend to the collection
+          for (var i = 0; i < arrayOfFriendIds.length; i++) {
+            var list = friends.get(arrayOfFriendIds[i]);
+            friends.remove(list);
+          }
+          resolve();
+        });
+      });
+    }
 
   }]);
 
