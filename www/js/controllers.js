@@ -77,15 +77,31 @@ angular.module('starter.controllers', [])
     //make a picture
     $scope.getPhoto = function () {
       //first we define a var to set the settings we use calling the cordova camera,
-      var cameraSettings = {
-        sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
-        destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
-        quality: 50,
-        targetWidth: 320,
-        targetHeight: 640,
-        saveToPhotoAlbum: true,
-        correctOrientation: true
-      };
+      var cameraSettings;
+      if (navigator.connection.type == Connection.WIFI || navigator.connection.type == Connection.ETHERNET) {
+        //Setting for good internet speed
+        cameraSettings = {
+          sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
+          destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
+          quality: 100,
+          targetWidth: 640,
+          targetHeight: 1136,
+          saveToPhotoAlbum: true,
+          correctOrientation: true
+        };
+      } else {
+        //settings for bad internet speed
+        cameraSettings = {
+          sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
+          destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
+          quality: 70,
+          targetWidth: 320,
+          targetHeight: 640,
+          saveToPhotoAlbum: true,
+          correctOrientation: true
+        };
+      }
+
       //calling our service which asynchronously and returns a promise that cordova camera plugin worked fine
       Camera.getPicture(cameraSettings).then(function (imageData) {
         //packing the imageData in a json object with all data we also need to send it to the server
@@ -236,8 +252,8 @@ angular.module('starter.controllers', [])
         //also delte the friends in the scope then when done in db
         for (var i = 0; i < $scope.friendList.length; i++) {
           for (var j = 0; j < $scope.friendsToDelete.length; j++) {
-            if($scope.friendList[i].lokiID == $scope.friendsToDelete[j]){
-              $scope.friendList.splice(i,1);
+            if ($scope.friendList[i].lokiID == $scope.friendsToDelete[j]) {
+              $scope.friendList.splice(i, 1);
             }
           }
         }
@@ -254,9 +270,9 @@ angular.module('starter.controllers', [])
     };
     //add or remove a friend from the list for friends to be delted
     $scope.toggleDeleteList = function (lokiID) {
-      if($scope.deleteMode){
+      if ($scope.deleteMode) {
         var indexOf = $scope.friendsToDelete.indexOf(lokiID);
-        if(indexOf !== -1){
+        if (indexOf !== -1) {
           //if already exists then remove
           $scope.friendsToDelete.splice(indexOf, 1);
         } else {
