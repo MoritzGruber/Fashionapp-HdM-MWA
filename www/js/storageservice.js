@@ -36,7 +36,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       getFriends: getFriends,
       deleteFriends: deleteFriends,
       getFriendsNumbers: getFriendsNumbers,
-      getNameForNumber: getNameForNumber
+      getNameForNumber: getNameForNumber,
+      updateFriends: updateFriends
     };
 
     function initDB() {
@@ -203,11 +204,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             if (!friends) {
               friends = db.addCollection('friends');
             }
-            var friendsWithlokiID = [];
-            for (var i = 0; i < friends.data.length; i++) {
-              friendsWithlokiID.push({'number': friends.data[i].number, 'lokiID': friends.data[i].$loki});
-            }
-            resolve(friendsWithlokiID);
+            console.log(friends.data.length);
+            resolve(friends.data);
           });
         }
       });
@@ -295,6 +293,51 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           }
         });
       });
+    }
+
+    function updateFriends(arrayWithContacts) {
+      return $q(function (resolve, reject) {
+        var arrayOfFriendsIds = [];
+        var options = {};
+        if (db == undefined) {
+          initDB().then(function () {
+              loadFriends();
+            }
+          );
+        } else {
+          loadFriends();
+        }
+        function loadFriends() {
+          db.loadDatabase(options, function () {
+            friends = db.getCollection('friends');
+            if (!friends) {
+              friends = db.addCollection('friends');
+            }
+            //get all friends that have the isFriend state (just get the id)
+            for (var j = 0; j < friends.data.length; j++) {
+              if (friends.data[j].isFriend != null && friends.data[j].isFriend == true) {
+                arrayOfFriendsIds.push(friends.data[j].id);
+              }
+            }
+            //clear the old collection by overriding it
+            friends.clear();
+
+            //add this states to the new array and add them to the new collection
+            for (var j = 0; j < arrayWithContacts.length; j++) {
+              if (arrayOfFriendsIds.indexOf(arrayWithContacts[j].id > -1)) {
+                arrayWithContacts[j].isFriend = true;
+                friends.insert(arrayWithContacts[j]);
+              }
+            }
+            resolve(arrayWithContacts);
+          });
+        }
+      });
+      //get an array of all the contacts, that have the flag isFriend
+      //Ceep the states of isFriend
+      //if there are changes on a item then replace the item and copy the state from the old contact
+      //if there are no changes just skip
+      //if contact does not exist create it
     }
   }]);
 

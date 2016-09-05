@@ -84,9 +84,11 @@ angular.module('starter.services', [])
       getIdsFromOwnImages: function () {
         //make a list of all image_ids that are in collection (ownImages)
         var image_ids = [];
-        for (var i = 0; i < $localStorage.ownImages.length; i++) {
-          if ($localStorage.ownImages[i]._id != undefined) {
-            image_ids.push($localStorage.ownImages[i]._id);
+        if($localStorage.ownImages){
+          for (var i = 0; i < $localStorage.ownImages.length; i++) {
+            if ($localStorage.ownImages[i]._id != undefined) {
+              image_ids.push($localStorage.ownImages[i]._id);
+            }
           }
         }
         return image_ids;
@@ -292,64 +294,71 @@ angular.module('starter.services', [])
     }
   }])
   //for getting all contacts
-  .factory('contacts', function() {
+  .factory('contacts', ['$q' , function ($q) {
 
-    var allContacts ;
-    var callBackFunction ;
+    var allContacts;
+    var callBackFunction;
+
+    function getContacts() {
+      return $q(function (resolve, reject) {
+        readContacts(function () {
+          resolve(allContacts);
+        });
+      });
+    }
 
     function readContacts(callback) {
 
-      callBackFunction = callback ;
+      callBackFunction = callback;
       var options = new ContactFindOptions();
       options.filter = "";          // empty search string returns all contacts
-      options.multiple = true;      // return multiple results
+      options.multiple = true;
+      options.hasPhoneNumber = true;// return multiple results
       var filter = ["*"];
 
       navigator.contacts.find(
-        filter ,
+        filter,
         gotContacts,
         errorHandler,
         options);
     }
 
     function errorHandler(e) {
-      alert("errorHandler: "+e);
+      alert("errorHandler: " + e);
     }
 
     function gotContacts(contact) {
 
-      var phone ;
+      var phone;
       allContacts = new Array();
 
       // alert('printout: ' + JSON.stringify(contact) );
-      allContacts = contact ;
+      allContacts = contact;
 
       // BELOW IS THE CODE FOR ACCESSING EACH PHONE NUMBER
       // IT IS NOT USED CURRENTLY FOR THIS DEMO
       // IT IS HERE FOR EXAMPLE OF HOWTO
 
-      try{ // safer to use try for this
+      try { // safer to use try for this
 
-        for(var i=0; i<contact.length; i++) {
+        for (var i = 0; i < contact.length; i++) {
 
-          if ( contact[i].phoneNumbers) // check if there are numbers
-            for (var j=0 ; j<contact[i].phoneNumbers.length;j++) {
-              phone = JSON.stringify(contact[i].phoneNumbers[j].value) ; // if you want to modify any data directly
+          if (contact[i].phoneNumbers) // check if there are numbers
+            for (var j = 0; j < contact[i].phoneNumbers.length; j++) {
+              phone = JSON.stringify(contact[i].phoneNumbers[j].value); // if you want to modify any data directly
             }
         }
         callBackFunction(); // notify controller that we got the numbers
 
       }
-      catch(err){
-        console.log(" catch error " + err );
+      catch (err) {
+        console.log(" catch error " + err);
       }
     }
 
     return {
 
       readContacts: readContacts,
-      getContacts: function(){
-        return allContacts ;
-      }
+      getContacts: getContacts
     };
-  });
+  }]);

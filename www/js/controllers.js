@@ -221,26 +221,41 @@ angular.module('starter.controllers', [])
     $scope.image = storageService.getOwnImage($stateParams.imageId);
   })
 
-  .controller('FriendsCtrl', function ($scope, storage, socket, storageService, $state) {
+  .controller('FriendsCtrl', function ($scope, storage, socket, storageService, $state, $localStorage, contacts) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     $scope.friendList = [];
     $scope.friendsToDelete = [];
     $scope.deleteMode = false;
 
+    //get all friends and fill the array to show it
+    storageService.getFriends().then(function (resultArrayOfFriends) {
+      if (resultArrayOfFriends.length == 0){
+        $scope.syncWithPhone();
+      }
+      $scope.friendList = resultArrayOfFriends;
+    });
+    //syncWithPhone == override all contacts with the ones from the phone
+    $scope.syncWithPhone = function () {
+      $scope.loadingContacts = true;
+      contacts.getContacts().then(function (resultArrayOfContacts) {
+        storageService.updateFriends(resultArrayOfContacts).then(function (res) {
+            $scope.friendList = res;
+            $scope.loadingContacts = false;
+            console.log("contacts succsessful loaded and saved to database");
+        });
+      });
+    };
     //select from phone
     $scope.selectFromPhone = function () {
       $state.go('tab.profile-phonecontacts');
     };
 
-    //get all friends and fill the array to show it
-    storageService.getFriends().then(function (resultArrayOfFriends) {
-      $scope.friendList = resultArrayOfFriends;
-    });
+
     // add a friend to the array
     $scope.addFriend = function (number) {
       if (number != "") {
-        storageService.addFriend({'number':number, 'name': 'anonym'}).then(function (lokiID) {
+        storageService.addFriend({'number': number, 'name': 'anonym'}).then(function (lokiID) {
           $scope.friendList.push({'number': number, 'lokiID': lokiID});
           console.log('Added friend successfully');
         });
@@ -292,17 +307,34 @@ angular.module('starter.controllers', [])
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
 
-    $ionicPlatform.ready(function() {
+    $ionicPlatform.ready(function () {
       contacts.readContacts(callback); // need to use a callback because reading contacts takes time
     });
 
-    $scope.$on('$ionicView.enter', function(e) {
+    $scope.$on('$ionicView.enter', function (e) {
       contacts.readContacts(callback); // you can read contacts again on enter
     });
 
-    function callback(){ // will get called once all the contacts get read
-
+    function callback() { // will get called once all the contacts get read
       $scope.contacts = contacts.getContacts();
+      setTimeout(function () {
+        for (var i = 0; i < $scope.contacts.length; i++) {
+          var contact = $scope.contacts[i];
+          if (contact.phoneNumbers != null && contact.phoneNumbers[0].value.length > 1) {
+            storageService.addFriend({
+              'number': contact.phoneNumbers[0].value,
+              'name': contact.name.formatted
+            }).then(function (lokiID) {
+              // $scope.friendList.push({'number': contact.phoneNumbers[0].value, 'lokiID': lokiID});
+              // console.log('Added friend successfully');
+              console.log("one item");
+            });
+          }
+        }
+        console.log("run t a");
+      }, 3000);
+
+
     }
 
 

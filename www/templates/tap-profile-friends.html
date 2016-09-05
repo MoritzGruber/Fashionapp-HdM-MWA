@@ -9,6 +9,7 @@
     </div>
     <button type="submit" class="submit-btn btn outline" ng-click="addFriend(friendNumber.name); friendNumber.name = ''">Add</button>
     <button type="submit" class="submit-btn btn outline" ng-click="selectFromPhone()">Select from phone</button>
+    <button type="submit" class="submit-btn btn outline" ng-hide="loadingContacts" ng-click="syncWithPhone()">syncWithPhone</button>
     <div>
       <button class="button markedForDelete friendsDeleteButtons" ng-click="deleteSelectedFriends()" ng-show="deleteMode==true" >
         Delete
@@ -17,9 +18,11 @@
         Cancel
       </button>
     </div>
-    <ion-item class="item-royal" ng-repeat="friend in friendList track by $index" on-hold="toggleDeleteMode(friend.lokiID)" on-tap="toggleDeleteList(friend.lokiID)">
+    <ion-item class="item-royal" ng-repeat="friend in friendList track by $index" >
+      <!--on-hold="toggleDeleteMode(friend.lokiID)" on-tap="toggleDeleteList(friend.lokiID)"-->
       <div>
-          <h3 ng-class="{markedForDelete: (friendsToDelete.indexOf(friend.lokiID) > -1)}" >{{friend.number}}</h3>
+        <!--ng-class="{markedForDelete: (friendsToDelete.indexOf(friend.lokiID) > -1)}"-->
+          <h3  >{{friend.displayName}}</h3>
       </div>
     </ion-item>
   </ion-content>
