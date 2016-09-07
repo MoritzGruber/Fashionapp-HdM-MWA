@@ -227,6 +227,10 @@ angular.module('starter.controllers', [])
     $scope.friendList = [];
     $scope.friendsToDelete = [];
     $scope.deleteMode = false;
+    $scope.selectedFriends = [];
+    storageService.getSelectedFriendsIdsArray().then(function (resArray) {
+      $scope.selectedFriends = resArray;
+    });
 
     //get all friends and fill the array to show it
     storageService.getFriends().then(function (resultArrayOfFriends) {
@@ -265,6 +269,23 @@ angular.module('starter.controllers', [])
     $scope.toggleDeleteMode = function (index) {
       $scope.deleteMode = !$scope.deleteMode;
       $scope.toggleDeleteList(index);
+    };
+    $scope.toggleSelect = function (id) {
+
+      var index = $scope.selectedFriends.indexOf(id);
+      if(index < 0){
+        //fried was not selected
+        //so he gets selected
+        storageService.addSelectedFriendByID(id).then(function () {
+          $scope.selectedFriends.push(id);
+        });
+      }else{
+        //friend was already selected
+        //so we deselct him
+        storageService.removeSelectedFriendByID(id).then(function () {
+          $scope.selectedFriends.splice(index,1 );
+        })
+      }
     };
     //delete all selcted Friends
     $scope.deleteSelectedFriends = function () {

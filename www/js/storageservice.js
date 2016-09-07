@@ -11,6 +11,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     var ownNumber;
     var friends;
     var imagesFromOtherUsers;
+    var selectedFriends;
     return {
       initDB: initDB,
       //userData
@@ -37,7 +38,11 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       deleteFriends: deleteFriends,
       getFriendsNumbers: getFriendsNumbers,
       getNameForNumber: getNameForNumber,
-      updateFriends: updateFriends
+      updateFriends: updateFriends,
+      getSelectedFriendsNumberArray: getSelectedFriendsNumberArray,
+      getSelectedFriendsIdsArray: getSelectedFriendsIdsArray,
+      addSelectedFriendByID: addSelectedFriendByID,
+      removeSelectedFriendByID: removeSelectedFriendByID
     };
 
     function initDB() {
@@ -204,6 +209,10 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             if (!friends) {
               friends = db.addCollection('friends');
             }
+            selectedFriends = db.getCollection('selectedFriends');
+            if (!selectedFriends) {
+              selectedFriends = db.addCollection('selectedFriends');
+            }
             console.log(friends.data.length);
             resolve(friends.data);
           });
@@ -339,5 +348,124 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       //if there are no changes just skip
       //if contact does not exist create it
     }
+
+    function getSelectedFriendsNumberArray() {
+      return $q(function (resolve, reject) {
+        var options = {};
+        if (db == undefined) {
+          initDB().then(function () {
+              loadFriends();
+            }
+          );
+        } else {
+          loadFriends();
+        }
+        function loadFriends() {
+          db.loadDatabase(options, function () {
+            selectedFriends = db.getCollection('selectedFriends');
+            friends = db.getCollection('friends');
+
+            if (!selectedFriends) {
+              selectedFriends = db.addCollection('selectedFriends');
+            }
+            if (!friends) {
+              friends = db.addCollection('friends');
+            }
+            var resArray = [];
+            var tmp = [];
+            for (var i = 0; i < selectedFriends.data.length; i++) {
+              tmp.push(selectedFriends.data[i].id);
+            }
+            var tmpResult = friends.find({'id': {'$in': tmp}});
+            for (var j = 0; j < tmpResult.length; j++) {
+              if (tmpResult[j].phoneNumbers[0].value != undefined) {
+                resArray.push(tmpResult[j].phoneNumbers[0].value);
+              } else {
+                console.log("trying to send an image to and contact with no usable number");
+              }
+            }
+            resolve(resArray);
+          });
+        }
+      });
+    }
+
+    function getSelectedFriendsIdsArray() {
+      return $q(function (resolve, reject) {
+        var options = {};
+        if (db == undefined) {
+          initDB().then(function () {
+              loadFriends();
+            }
+          );
+        } else {
+          loadFriends();
+        }
+        function loadFriends() {
+          db.loadDatabase(options, function () {
+            selectedFriends = db.getCollection('selectedFriends');
+            if (!selectedFriends) {
+              selectedFriends = db.addCollection('selectedFriends');
+            }
+            console.log("Currently " + selectedFriends.data.length + " are selected");
+            var tmp = [];
+            for (var i = 0; i < selectedFriends.data.length; i++) {
+              tmp.push(selectedFriends.data[i].id);
+            }
+            resolve(tmp);
+          });
+        }
+      });
+    }
+
+    function addSelectedFriendByID(idOfTheFriendThatWasSelected) {
+      return $q(function (resolve, reject) {
+        var options = {};
+        if (db == undefined) {
+          initDB().then(function () {
+              loadFriends();
+            }
+          );
+        } else {
+          loadFriends();
+        }
+        function loadFriends() {
+          db.loadDatabase(options, function () {
+            selectedFriends = db.getCollection('selectedFriends');
+            if (!selectedFriends) {
+              selectedFriends = db.addCollection('selectedFriends');
+            }
+            selectedFriends.insert({id: idOfTheFriendThatWasSelected});
+            resolve(true);
+          });
+        }
+      });
+    }
+
+    function removeSelectedFriendByID(idOfTheFriendThatWasDeselected) {
+      return $q(function (resolve, reject) {
+        var options = {};
+        if (db == undefined) {
+          initDB().then(function () {
+              loadFriends();
+            }
+          );
+        } else {
+          loadFriends();
+        }
+        function loadFriends() {
+          db.loadDatabase(options, function () {
+            selectedFriends = db.getCollection('selectedFriends');
+            if (!selectedFriends) {
+              selectedFriends = db.addCollection('selectedFriends');
+            }
+            var result = selectedFriends.find({'id': idOfTheFriendThatWasDeselected});
+            selectedFriends.remove(result);
+            resolve(true);
+          });
+        }
+      });
+    }
+
   }]);
 

@@ -18,11 +18,11 @@
         Cancel
       </button>
     </div>
-    <ion-item class="item-royal" ng-repeat="friend in friendList track by $index" >
+    <ion-item class="item-royal" ng-repeat="friend in friendList track by $index" on-tap="toggleSelect(friend.id)" >
       <!--on-hold="toggleDeleteMode(friend.lokiID)" on-tap="toggleDeleteList(friend.lokiID)"-->
       <div>
         <!--ng-class="{markedForDelete: (friendsToDelete.indexOf(friend.lokiID) > -1)}"-->
-          <h3  >{{friend.displayName}}</h3>
+          <h3 ng-class="{friendIsSelected: (selectedFriends.indexOf(friend.id) > -1)}"> {{friend.displayName}}</h3>
       </div>
     </ion-item>
   </ion-content>

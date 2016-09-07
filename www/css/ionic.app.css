@@ -9853,3 +9853,7 @@ input {
   float: left;
   padding-left: 1%;
   padding-right: 1%; }
+
+.friendIsSelected {
+  color: green;
+  text-decoration-color: green; }
