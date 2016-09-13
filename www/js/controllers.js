@@ -68,7 +68,7 @@ angular.module('starter.controllers', [])
         }
         console.log('run TROUGH!');
       }).catch(function (err) {
-        console.log('error @storageService.getOwnImages: '+err);
+        console.log('error @storageService.getOwnImages: ' + err);
       });
     });
     //listen to the server for new stuff (socket)
@@ -77,15 +77,31 @@ angular.module('starter.controllers', [])
     //make a picture
     $scope.getPhoto = function () {
       //first we define a var to set the settings we use calling the cordova camera,
-      var cameraSettings = {
-        sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
-        destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
-        quality: 100,
-        targetWidth: 640,
-        targetHeight: 1136,
-        saveToPhotoAlbum: true,
-        correctOrientation: true
-      };
+      var cameraSettings;
+      if (navigator.connection.type == Connection.WIFI || navigator.connection.type == Connection.ETHERNET) {
+        //Setting for good internet speed
+        cameraSettings = {
+          sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
+          destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
+          quality: 100,
+          targetWidth: 640,
+          targetHeight: 1136,
+          saveToPhotoAlbum: true,
+          correctOrientation: true
+        };
+      } else {
+        //settings for bad internet speed
+        cameraSettings = {
+          sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
+          destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
+          quality: 70,
+          targetWidth: 320,
+          targetHeight: 640,
+          saveToPhotoAlbum: true,
+          correctOrientation: true
+        };
+      }
+
       //calling our service which asynchronously and returns a promise that cordova camera plugin worked fine
       Camera.getPicture(cameraSettings).then(function (imageData) {
         //packing the imageData in a json object with all data we also need to send it to the server
@@ -93,15 +109,20 @@ angular.module('starter.controllers', [])
         var votes = [];
         var image = {
           "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storage.getNumber(),
-          "recipients": [],
+          "recipients": storageService.getFriendsNumbers(),
           "votes": votes,
           "onesignal_ids": onesignal_ids,
           "localImageId": storage.getLocalImageId()
         };
-        //upload the image with our open socket connection
-        //socket.emit('new_image', (image));
-        //store localy now
-        storageService.addOwnImage(image);
+
+        //store localy now and get local id
+        console.log("before addOwnImagecall");
+        storageService.addOwnImage(image).then(function (localImageId) {
+          image.localImageId = localImageId;
+          console.log("we got it");
+          //upload the image with our open socket connection
+          //socket.emit('new_image', (image));
+        });
         //storage.addOwnImage(image);
         //tracking
         hockeyapp.trackEvent(null, null, 'User made a image');
@@ -171,7 +192,7 @@ angular.module('starter.controllers', [])
       }, 1000);
     };
   })
-  .controller('ProfileCtrl', function ($scope, storage, socket, communicationservice) {
+  .controller('ProfileCtrl', function ($scope, storage, socket, communicationservice, $state) {
     //Initializing
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
@@ -187,12 +208,77 @@ angular.module('starter.controllers', [])
     //feedback function, hockeyapp
     $scope.sendFeedback = function () {
       hockeyapp.feedback();
+    };
+    $scope.selectFriends = function () {
+      $state.go('tab.profile-friends');
     }
   })
 
-  .controller('CollectionDetailCtrl', function ($scope, $stateParams, storage, socket) {
+  .controller('CollectionDetailCtrl', function ($scope, $stateParams, storage, socket, storageService) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     //just get the right image to show out of the link params
-    $scope.image = storage.getOwnImage($stateParams.imageId);
+    $scope.image = storageService.getOwnImage($stateParams.imageId);
+  })
+
+  .controller('FriendsCtrl', function ($scope, storage, socket, storageService) {
+    //listen to the server for new stuff (socket)
+    $scope.socket = socket;
+    $scope.friendList = [];
+    $scope.friendsToDelete = [];
+    $scope.deleteMode = false;
+    //get all friends and fill the array to show it
+    storageService.getFriends().then(function (resultArrayOfFriends) {
+      $scope.friendList = resultArrayOfFriends;
+    });
+    // add a friend to the array
+    $scope.addFriend = function (userName) {
+      if (userName != "") {
+        storageService.addFriend(userName).then(function (lokiID) {
+          $scope.friendList.push({'userName': userName, 'lokiID': lokiID});
+          console.log('Added friend successfully');
+        });
+      }
+    };
+    //toggle deleteMode
+    $scope.toggleDeleteMode = function (index) {
+      $scope.deleteMode = !$scope.deleteMode;
+      $scope.toggleDeleteList(index);
+    };
+    //delete all selcted Friends
+    $scope.deleteSelectedFriends = function () {
+      //delete all selected friends in the array
+      storageService.deleteFriends($scope.friendsToDelete).then(function () {
+        //also delte the friends in the scope then when done in db
+        for (var i = 0; i < $scope.friendList.length; i++) {
+          for (var j = 0; j < $scope.friendsToDelete.length; j++) {
+            if ($scope.friendList[i].lokiID == $scope.friendsToDelete[j]) {
+              $scope.friendList.splice(i, 1);
+            }
+          }
+        }
+        //clear the array
+        $scope.friendsToDelete = [];
+        $scope.deleteMode = false;
+      });
+
+    };
+    $scope.cancelDelete = function () {
+      //clear the array
+      $scope.friendsToDelete = [];
+      $scope.deleteMode = false;
+    };
+    //add or remove a friend from the list for friends to be delted
+    $scope.toggleDeleteList = function (lokiID) {
+      if ($scope.deleteMode) {
+        var indexOf = $scope.friendsToDelete.indexOf(lokiID);
+        if (indexOf !== -1) {
+          //if already exists then remove
+          $scope.friendsToDelete.splice(indexOf, 1);
+        } else {
+          //else we add the friend to the list
+          $scope.friendsToDelete.push(lokiID);
+        }
+      }
+    }
   });

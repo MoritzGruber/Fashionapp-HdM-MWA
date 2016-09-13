@@ -30,7 +30,9 @@
     "onesignal-cordova-plugin",
     "cordova-plugin-hockeyapp",
     "cordova-plugin-camera",
-    "cordova-sqlite-storage"
+    "cordova-sqlite-storage",
+    "cordova-plugin-file",
+    "cordova-plugin-network-information"
   ],
   "cordovaPlatforms": [
     "android",

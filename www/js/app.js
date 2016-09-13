@@ -105,6 +105,15 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
             controller: 'ProfileCtrl'
           }
         }
+      })
+      .state('tab.profile-friends', {
+        url: '/profile/friends',
+        views: {
+          'tab-profile': {
+            templateUrl: 'templates/tap-profile-friends.html',
+            controller: 'FriendsCtrl'
+          }
+        }
       });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/collection');
