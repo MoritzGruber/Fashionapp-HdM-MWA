@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
-  .controller('StartCtrl', function ($scope, storage, $state, socket, $ionicHistory) {
+  .controller('StartCtrl', function ($scope, storage, $state, socket, $ionicHistory, storageService) {
     //controller for welcome screen, here users creates an account
-    $scope.storage = storage;
+    $scope.storage = storageService;
     $scope.start = function (number) {
       hockeyapp.trackEvent(null, null, 'User is on startscreen');
       if (number != undefined) { //check if that number fits our style
@@ -10,10 +10,10 @@ angular.module('starter.controllers', [])
           $scope.errormsg = "Please choose a nickname between 3 and 10 letters";
         } else {
           //now we get the push id to create the user
-          if (storage.getPushId() == undefined) {
+          if (storageService.getPushId() == undefined) {
             $scope.errormsg = "Ups, pls check your internet connection";
           } else {
-            socket.emit('new_user', number, storage.getPushId());
+            socket.emit('new_user', number, storageService.getPushId());
           }
         }
       }
@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
           });
           //user was successful created on serverside
           $state.go('tab.collection');
-          storage.setNumber(number);
+          storageService.setNumber(number);
           hockeyapp.trackEvent(null, null, 'User signup succsessful');
         } else {
           //bad news :(
@@ -54,7 +54,7 @@ angular.module('starter.controllers', [])
     $scope.ownImages = [];
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
-      if (storage.getNumber() == "Unknown") {
+      if (storageService.getNumber() == "Unknown") {
         //no, then ==> go to welcome page
         $state.go('tab.collectionstart');
       }
@@ -105,14 +105,14 @@ angular.module('starter.controllers', [])
       //calling our service which asynchronously and returns a promise that cordova camera plugin worked fine
       Camera.getPicture(cameraSettings).then(function (imageData) {
         //packing the imageData in a json object with all data we also need to send it to the server
-        var onesignal_ids = storage.getPushId();
+        var onesignal_ids = storageService.getPushId();
         var votes = [];
         var image = {
-          "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storage.getNumber(),
+          "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storageService.getNumber(),
           "recipients": storageService.getFriendsNumbers(),
           "votes": votes,
           "onesignal_ids": onesignal_ids,
-          "localImageId": storage.getLocalImageId()
+          "localImageId": storageService.getLocalImageId()
         };
 
         //store localy now and get local id
@@ -123,7 +123,7 @@ angular.module('starter.controllers', [])
           //upload the image with our open socket connection
           //socket.emit('new_image', (image));
         });
-        //storage.addOwnImage(image);
+        //storageService.addOwnImage(image);
         //tracking
         hockeyapp.trackEvent(null, null, 'User made a image');
       }, function (err) {
@@ -148,7 +148,7 @@ angular.module('starter.controllers', [])
     };
     // deleting the image
     $scope.onDelete = function (index) {
-      storage.deleteOwnImage(index);
+      storageService.deleteOwnImage(index);
       $scope.deleteBtn = false;
       $scope.detailDisabled = false;
       hockeyapp.trackEvent(null, null, 'User deleted own image');
@@ -166,12 +166,12 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('CommunityCtrl', function ($scope, socket, $ionicPlatform, $timeout, storage, voteservice, communicationservice) {
+  .controller('CommunityCtrl', function ($scope, socket, $ionicPlatform, $timeout, storage, voteservice, communicationservice, storageService) {
     //Initializing
     $ionicPlatform.ready(function () {
       //clear old imagesFromOtherUsers and load imagesFromOtherUsers form storage
-      storage.clearOldImagesFromOtherUsers();
-      $scope.local = storage.getImagesFromOtherUsers();
+      storageService.clearOldImagesFromOtherUsers();
+      $scope.local = storageService.getImagesFromOtherUsers();
       //listen to the server for new stuff (socket)
       $scope.socket = socket;
     });
@@ -192,12 +192,12 @@ angular.module('starter.controllers', [])
       }, 1000);
     };
   })
-  .controller('ProfileCtrl', function ($scope, storage, socket, communicationservice, $state) {
+  .controller('ProfileCtrl', function ($scope, storage, socket, communicationservice, $state, storageService) {
     //Initializing
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     //to get the number we use storage service
-    $scope.storage = storage;
+    $scope.storage = storageService;
 
     //functions
     //refresh function
