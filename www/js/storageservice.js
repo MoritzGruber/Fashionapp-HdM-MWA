@@ -18,6 +18,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       getNumber: getNumber,
       addNumber: addNumber,
       getPushId: getPushId,
+      getLocalImageId: getLocalImageIdCounter,
       //own Images (collection)
       addOwnImage: addOwnImage,
       deleteOwnImage: deleteOwnImage,
@@ -80,7 +81,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
               //get id
               window.plugins.OneSignal.getIds(function (ids) {
                 console.log('Got onesignal ids: ' + JSON.stringify(ids));
-                pushId.insert(ids.userId);
+                pushId.insert({'userId': ids.userId});
                 resolve(ids.userId);
               });
             } catch (e) {
@@ -133,7 +134,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
 
           if (!localImageIdCounter) {
             //if there is no counter we start from zero
-            localImageIdCounter.insert(0);
+            localImageIdCounter.insert({'localImageId': 0});
             localImageIdCounter = db.addCollection('localImageIdCounter');
           } else {
             //add one to the counter and save it again
@@ -149,7 +150,18 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
 
     //add a new own image
     function addOwnImage(image) {
-      ownImages.insert(image);
+      return $q(function (resolve, reject) {
+        var options = {};
+
+        db.loadDatabase(options, function () {
+          ownImages = db.getCollection('ownImages');
+
+          if (!ownImages) {
+            ownImages = db.addCollection('ownImages');
+          }
+          resolve(ownImages.insert(image).$loki);
+        });
+      });
     }
 
     //get all the own images
@@ -170,7 +182,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     }
 
     //delete an own image
-    function deleteOwnImage() {
+    function deleteOwnImage(index) {
 
       return $q(function (resolve, reject) {
         var options = {};

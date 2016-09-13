@@ -111,8 +111,7 @@ angular.module('starter.controllers', [])
           "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storageService.getNumber(),
           "recipients": storageService.getFriendsNumbers(),
           "votes": votes,
-          "onesignal_ids": onesignal_ids,
-          "localImageId": storageService.getLocalImageId()
+          "onesignal_ids": onesignal_ids
         };
 
         //store localy now and get local id
@@ -121,7 +120,7 @@ angular.module('starter.controllers', [])
           image.localImageId = localImageId;
           console.log("we got it");
           //upload the image with our open socket connection
-          //socket.emit('new_image', (image));
+          socket.emit('new_image', (image));
         });
         //storageService.addOwnImage(image);
         //tracking
@@ -234,7 +233,7 @@ angular.module('starter.controllers', [])
 
     //get all friends and fill the array to show it
     storageService.getFriends().then(function (resultArrayOfFriends) {
-      if (resultArrayOfFriends.length == 0){
+      if (resultArrayOfFriends.length == 0) {
         $scope.syncWithPhone();
       }
       $scope.friendList = resultArrayOfFriends;
@@ -244,9 +243,9 @@ angular.module('starter.controllers', [])
       $scope.loadingContacts = true;
       contacts.getContacts().then(function (resultArrayOfContacts) {
         storageService.updateFriends(resultArrayOfContacts).then(function (res) {
-            $scope.friendList = res;
-            $scope.loadingContacts = false;
-            console.log("contacts succsessful loaded and saved to database");
+          $scope.friendList = res;
+          $scope.loadingContacts = false;
+          console.log("contacts succsessful loaded and saved to database");
         });
       });
     };
@@ -273,17 +272,17 @@ angular.module('starter.controllers', [])
     $scope.toggleSelect = function (id) {
 
       var index = $scope.selectedFriends.indexOf(id);
-      if(index < 0){
+      if (index < 0) {
         //fried was not selected
         //so he gets selected
         storageService.addSelectedFriendByID(id).then(function () {
           $scope.selectedFriends.push(id);
         });
-      }else{
+      } else {
         //friend was already selected
         //so we deselct him
         storageService.removeSelectedFriendByID(id).then(function () {
-          $scope.selectedFriends.splice(index,1 );
+          $scope.selectedFriends.splice(index, 1);
         })
       }
     };
