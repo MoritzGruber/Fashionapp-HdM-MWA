@@ -18,7 +18,6 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       getNumber: getNumber,
       addNumber: addNumber,
       getPushId: getPushId,
-      getLocalImageId: getLocalImageIdCounter,
       //own Images (collection)
       addOwnImage: addOwnImage,
       deleteOwnImage: deleteOwnImage,
@@ -60,7 +59,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
         ownImages = db.getCollection('ownImages');
 
         if (!ownImages) {
-          console.log("creating neew db");
+          console.log("creating new db");
           ownImages = db.addCollection('ownImages');
         }
       });
@@ -124,30 +123,6 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       });
     }
 
-    // get localImageId (vurrent counter)
-    function getLocalImageIdCounter() {
-      return $q(function (resolve, reject) {
-        var options = {};
-
-        db.loadDatabase(options, function () {
-          localImageIdCounter = db.getCollection('localImageIdCounter');
-
-          if (!localImageIdCounter) {
-            //if there is no counter we start from zero
-            localImageIdCounter.insert({'localImageId': 0});
-            localImageIdCounter = db.addCollection('localImageIdCounter');
-          } else {
-            //add one to the counter and save it again
-            var tmp = localImageIdCounter.data[0];
-            tmp++;
-            localImageIdCounter = db.addCollection('localImageIdCounter');
-            localImageIdCounter.insert(tmp);
-            resolve(tmp);
-          }
-        });
-      });
-    }
-
     //add a new own image
     function addOwnImage(image) {
       return $q(function (resolve, reject) {
@@ -194,8 +169,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             ownImages = db.addCollection('ownImages');
           }
 
-          if (ownImages[index] != undefined && ownImages[index] != null) {
-            ownImages.splice(index, 1);
+          if (ownImages.data[index] != undefined && ownImages.data[index] != null) {
+            ownImages.remove(ownImages.data[index]);
             resolve(true);
           } else {
             resolve(false);
@@ -216,7 +191,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           if (!ownImages) {
             ownImages = db.addCollection('ownImages');
           }
-          resolve(ownImages.get(index));
+          resolve(ownImages.data[index]);
         });
       });
     }
@@ -234,10 +209,10 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             ownImages = db.addCollection('ownImages');
           }
 
-          for (var i = 0; i < ownImages.length; i++) {
-            if (ownImages[i] != undefined) {
-              if (ownImages[i].localImageId == localImageId) {
-                ownImages[i]._id = serverId;
+          for (var i = 0; i < ownImages.data.length; i++) {
+            if (ownImages.data[i] != undefined) {
+              if (ownImages.data[i].localImageId == localImageId) {
+                ownImages.data[i]._id = serverId;
               }
             }
           }
@@ -273,23 +248,23 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           }
           //add a single vote to one of my own images
           function addSingleVote(vote) {
-            for (var i = 0; i < ownImages.length; i++) {
-              if (ownImages[i]._id == vote._id) {
+            for (var i = 0; i < ownImages.data.length; i++) {
+              if (ownImages.data[i]._id == vote._id) {
                 var user_has_already_voted = false;
                 //check if the same user has already voted
-                for (var j = 0; j < ownImages[i].votes.length; j++) {
+                for (var j = 0; j < ownImages.data[i].votes.length; j++) {
                   //override if already exist
-                  if (ownImages[i].votes[j].number == vote.number) {
-                    ownImages[i].votes[j].vote = vote.rating;
+                  if (ownImages.data[i].votes[j].number == vote.number) {
+                    ownImages.data[i].votes[j].vote = vote.rating;
                     user_has_already_voted = true;
                   }
                 }
                 if (!user_has_already_voted) {
                   //otherwise, we create a new vote on that pic
-                  ownImages[i].votes.push({"number": vote.number, "vote": vote.rating});
+                  ownImages.data[i].votes.push({"number": vote.number, "vote": vote.rating});
                 }
                 //after adding a new vote we have calculate the overall percentage again
-                ownImages[i].percantag = supportservice.calculatePercentage(ownImages[i].votes);
+                ownImages.data[i].percantag = supportservice.calculatePercentage(ownImages.data[i].votes);
               }
             }
           }
@@ -311,9 +286,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           }
 
           var image_ids = [];
-          for (var i = 0; i < ownImages.length; i++) {
-            if (ownImages[i]._id != undefined) {
-              image_ids.push(ownImages[i]._id);
+          for (var i = 0; i < ownImages.data.length; i++) {
+            if (ownImages.data[i]._id != undefined) {
+              image_ids.push(ownImages.data[i]._id);
             }
           }
           resolve(image_ids);
@@ -334,7 +309,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             imagesFromOtherUsers = db.addCollection('imagesFromOtherUsers');
           }
 
-          imagesFromOtherUsers.push(image);
+          imagesFromOtherUsers.data.push(image);
         });
       });
     }
@@ -348,11 +323,11 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
         db.loadDatabase(options, function () {
           imagesFromOtherUsers = db.getCollection('imagesFromOtherUsers');
 
-          if (!imagesFromOtherUsers) {
+          if (!imagesFromOtherUsers.data) {
             return;
           }
 
-          imagesFromOtherUsers.splice(index, 1);
+          imagesFromOtherUsers.remove(imagesFromOtherUsers.data[index]);
         });
       });
     }
@@ -370,7 +345,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             imagesFromOtherUsers = db.addCollection('imagesFromOtherUsers');
           }
 
-          resolve(imagesFromOtherUsers);
+          resolve(imagesFromOtherUsers.data);
         });
       });
     }
@@ -390,9 +365,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
 
           //make a list of all image_ids that are in collection (ownImages)
           var image_ids = [];
-          for (var i = 0; i < imagesFromOtherUsers.length; i++) {
-            if (imagesFromOtherUsers[i]._id != undefined) {
-              image_ids.push(imagesFromOtherUsers[i]._id);
+          for (var i = 0; i < imagesFromOtherUsers.data.length; i++) {
+            if (imagesFromOtherUsers.data[i]._id != undefined) {
+              image_ids.push(imagesFromOtherUsers.data[i]._id);
             }
           }
           return image_ids;
@@ -413,9 +388,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             imagesFromOtherUsers = db.addCollection('imagesFromOtherUsers');
           }
 
-          for (var i = 0; i < imagesFromOtherUsers.length; i++) {
-            if (imagesFromOtherUsers[i].timestamp < (Date.parse(Date()) - (1000 * minutesWhenImagesFromOtherUsersAreOutdated * 60))) {  //minutesWhenImagesFromOtherUsersAreOutdated stands for some minutes, thats the time when the imagesFromOtherUsers get deleted
-              imagesFromOtherUsers.splice(i, 1);
+          for (var i = 0; i < imagesFromOtherUsers.data.length; i++) {
+            if (imagesFromOtherUsers.data[i].timestamp < (Date.parse(Date()) - (1000 * minutesWhenImagesFromOtherUsersAreOutdated * 60))) {  //minutesWhenImagesFromOtherUsersAreOutdated stands for some minutes, thats the time when the imagesFromOtherUsers get deleted
+              imagesFromOtherUsers.remove(imagesFromOtherUsers.data[i]);
             }
           }
         });

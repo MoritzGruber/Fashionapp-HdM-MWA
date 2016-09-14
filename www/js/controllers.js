@@ -118,6 +118,7 @@ angular.module('starter.controllers', [])
         console.log("before addOwnImagecall");
         storageService.addOwnImage(image).then(function (localImageId) {
           image.localImageId = localImageId;
+          $scope.ownImages.push(image);
           console.log("we got it");
           //upload the image with our open socket connection
           socket.emit('new_image', (image));
@@ -148,6 +149,7 @@ angular.module('starter.controllers', [])
     // deleting the image
     $scope.onDelete = function (index) {
       storageService.deleteOwnImage(index);
+      $scope.ownImages.splice(index, 1);
       $scope.deleteBtn = false;
       $scope.detailDisabled = false;
       hockeyapp.trackEvent(null, null, 'User deleted own image');
@@ -160,8 +162,10 @@ angular.module('starter.controllers', [])
     };
     //open detail view of the image
     $scope.openDetailImage = function (index) {
-      $state.go('tab.collection-detail', {imageId: index});
-      hockeyapp.trackEvent(null, null, 'User viewed his own image on detail');
+      if (!$scope.deleteBtn) {
+        $state.go('tab.collection-detail', {imageId: index});
+        hockeyapp.trackEvent(null, null, 'User viewed his own image on detail');
+      }
     };
   })
 
@@ -217,13 +221,17 @@ angular.module('starter.controllers', [])
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     //just get the right image to show out of the link params
-    $scope.image = storageService.getOwnImage($stateParams.imageId);
+    storageService.getOwnImage($stateParams.imageId).then(function (image) {
+      $scope.image = image;
+    });
+
   })
 
   .controller('FriendsCtrl', function ($scope, storage, socket, storageService, $state, $localStorage, contacts) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     $scope.friendList = [];
+    $scope.friendsToDelete = [];
     $scope.friendsToDelete = [];
     $scope.deleteMode = false;
     $scope.selectedFriends = [];
