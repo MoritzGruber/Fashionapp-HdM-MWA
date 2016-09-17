@@ -1,7 +1,22 @@
 angular.module('starter.controllers', [])
   .controller('StartCtrl', function ($scope, storage, $state, socket, $ionicHistory, storageService) {
     //controller for welcome screen, here users creates an account
+    $scope.showNumberField = true;
+    $scope.number = null;
+    $scope.showCodeField = false;
     $scope.storage = storageService;
+    lastSubmittedNumber = 0;
+    $scope.verify = function (code) {
+      socket.emit('checkVerify', lastSubmittedNumber, code);
+      $scope.code = null;
+
+    };
+    $scope.back = function () {
+      $scope.showNumberField = true;
+      $scope.number = null;
+      $scope.showCodeField = false;
+      $scope.code = null;
+    };
     $scope.start = function (number) {
       hockeyapp.trackEvent(null, null, 'User is on startscreen');
       if (number != undefined) { //check if that number fits our style
@@ -13,7 +28,11 @@ angular.module('starter.controllers', [])
           if (storageService.getPushId() == undefined) {
             $scope.errormsg = "Ups, pls check your internet connection";
           } else {
-            socket.emit('new_user', number, storageService.getPushId());
+            $scope.showCodeField = true;
+            $scope.showNumberField = false;
+            lastSubmittedNumber = number;
+            socket.emit('startVerify', number);
+            $scope.number = null;
           }
         }
       }
@@ -54,10 +73,13 @@ angular.module('starter.controllers', [])
     $scope.ownImages = [];
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
-      if (storageService.getNumber() == "Unknown") {
-        //no, then ==> go to welcome page
-        $state.go('tab.collectionstart');
-      }
+      storageService.getNumber().then(function (result) {
+        if (result == "Unknown") {
+          //no, then ==> go to welcome page
+          $state.go('tab.collectionstart');
+        }
+      });
+
       //Initializing
       //load own images into the scope
       storageService.getOwnImages().then(function (loadedOwnImages) {

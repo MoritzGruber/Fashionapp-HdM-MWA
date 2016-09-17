@@ -4,14 +4,20 @@
 <ion-view view-title="Welcome" hide-nav-bar="true">
   <ion-content class="padding">
     <section class="start">
-      <h2 class="balanced centertext" >Welcome to Lapica Beta</h2>
-        <form class="login-form" name="loginForm">
-              <div class="outline">
-                <input class="light profile_phonenumber" id="profile_phonenumber" type="text" placeholder="Nickname"
-                       ng-model="number">
-              </div>
-              <button type="submit" class="submit-btn btn outline" ng-click="start(number)">SIGN IN</button>
-        </form>
+      <h2 class="balanced centertext">Welcome to Lapica Beta</h2>
+      <form class="login-form" name="loginForm">
+        <div class="outline" ng-if="showNumberField">
+          <input class="light profile_phonenumber" id="profile_phonenumber" type="number" placeholder="Nummer"
+                 ng-model="$parent.$parent.number">
+        </div>
+        <button type="submit" ng-if="showNumberField" class="submit-btn btn outline" ng-click="start(number)">Verify</button>
+        <div class="outline" ng-if="showCodeField">
+          <input class="light profile_phonenumber" id="profile_code" type="number" placeholder="Code"
+                 ng-model="$parent.$parent.code">
+        </div>
+        <button type="submit" ng-if="showCodeField" class="submit-btn btn outline" ng-click="verify(code)">Sign in</button>
+        <button type="submit" ng-if="showCodeField" class="submit-btn btn outline" ng-click="back()">Cancel</button>
+      </form>
       {{errormsg}}
     </section>
   </ion-content>
