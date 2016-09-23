@@ -21,9 +21,9 @@ angular.module('starter.controllers', [])
     $scope.start = function (number) {
       hockeyapp.trackEvent(null, null, 'User is on startscreen');
       if (number != undefined) { //check if that number fits our style
-        if (number.length < 3 || number.length > 10) {
+        if (number.length < 4 || number.length > 16) {
           //style don't fit ==> try again
-          $scope.errormsg = "Please choose a nickname between 3 and 10 letters";
+          $scope.errormsg = "Please choose a real mobile phone number";
         } else {
           //now we get the push id to create the user
           storageService.getPushId().then(function (resPushID) {

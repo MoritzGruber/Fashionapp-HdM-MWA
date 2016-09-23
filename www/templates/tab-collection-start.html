@@ -7,7 +7,7 @@
       <h2 class="balanced centertext">Welcome to Lapica Beta</h2>
       <form class="login-form" name="loginForm">
         <div class="outline" ng-if="showNumberField">
-          <input class="light profile_phonenumber" id="profile_phonenumber" type="number" placeholder="Nummer"
+          <input class="light profile_phonenumber" id="profile_phonenumber" type="tel" placeholder="Nummer"
                  ng-model="$parent.$parent.number">
         </div>
         <button type="submit" ng-if="showNumberField" class="submit-btn btn outline" ng-click="start(number)">Verify</button>
