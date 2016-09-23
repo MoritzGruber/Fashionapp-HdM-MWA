@@ -5,9 +5,10 @@ angular.module('starter.controllers', [])
     $scope.number = null;
     $scope.showCodeField = false;
     $scope.storage = storageService;
-    lastSubmittedNumber = 0;
+    var lastSubmittedNumber = 0;
+    var pushID = 0;
     $scope.verify = function (code) {
-      socket.emit('checkVerify', lastSubmittedNumber, code);
+      socket.emit('checkVerify', lastSubmittedNumber, pushID ,code);
       $scope.code = null;
 
     };
@@ -25,15 +26,16 @@ angular.module('starter.controllers', [])
           $scope.errormsg = "Please choose a nickname between 3 and 10 letters";
         } else {
           //now we get the push id to create the user
-          if (storageService.getPushId() == undefined) {
-            $scope.errormsg = "Ups, pls check your internet connection";
-          } else {
+          storageService.getPushId().then(function (resPushID) {
+            pushID = resPushID;
             $scope.showCodeField = true;
             $scope.showNumberField = false;
             lastSubmittedNumber = number;
-            socket.emit('startVerify', number);
+            socket.emit('startVerify', number, pushID );
             $scope.number = null;
-          }
+          }).catch(function (err) {
+            $scope.errormsg = "Ups, something went wrong";
+          });
         }
       }
       //we are waiting for green light of the server
@@ -69,12 +71,16 @@ angular.module('starter.controllers', [])
       }
     });
   })
-  .controller('CollectionCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $ionicPlatform, $state, supportservice, communicationservice, storageService) {
+  .controller('CollectionCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, storageService) {
     $scope.ownImages = [];
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
       storageService.getNumber().then(function (result) {
         if (result == "Unknown") {
+          $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true
+          });
           //no, then ==> go to welcome page
           $state.go('tab.collectionstart');
         }

@@ -70,6 +70,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     function getPushId() {
       return $q(function (resolve, reject) {
         var options = {};
+        var object = {};
 
         db.loadDatabase(options, function () {
           pushId = db.getCollection('pushId');
@@ -79,15 +80,15 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
               pushId = db.addCollection('pushId');
               //get id
               window.plugins.OneSignal.getIds(function (ids) {
-                console.log('Got onesignal ids: ' + JSON.stringify(ids));
-                pushId.insert(ids.userId);
+                object.pushId = ids.userId;
+                pushId.insert(object);
                 resolve(ids.userId);
               });
             } catch (e) {
               reject("onesignal push notifiactions setup failed " + e);
             }
           } else {
-            resolve(pushId.data[0]);
+            resolve(pushId.data[0].pushId);
           }
         });
       });
@@ -103,8 +104,10 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
 
           if (!ownNumber) {
             resolve("Unknown");
-          } else {
-            resolve(ownNumber.data[0]);
+          } else if(ownNumber.data[0].number.length < 4){
+            resolve("Unknown");
+          }else {
+              resolve(ownNumber.data[0].number);
           }
         });
       });
@@ -114,10 +117,10 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     function addNumber(newOwnNumber) {
       return $q(function (resolve, reject) {
         var options = {};
-
+        var object = {'number': newOwnNumber};
         db.loadDatabase(options, function () {
           ownNumber = db.addCollection('ownNumber');
-          ownNumber.insert(newOwnNumber);
+          ownNumber.insert(object);
           resolve(true);
         });
       });
