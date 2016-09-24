@@ -71,7 +71,7 @@ angular.module('starter.controllers', [])
       }
     });
   })
-  .controller('CollectionCtrl', function ($scope, $base64, $timeout, socket, Camera, storage, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, storageService) {
+  .controller('CollectionCtrl', function ($scope, $q, $base64, $timeout, socket, Camera, storage, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, storageService) {
     $scope.ownImages = [];
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
@@ -133,30 +133,32 @@ angular.module('starter.controllers', [])
       //calling our service which asynchronously and returns a promise that cordova camera plugin worked fine
       Camera.getPicture(cameraSettings).then(function (imageData) {
         //packing the imageData in a json object with all data we also need to send it to the server
-        var onesignal_ids = storageService.getPushId();
-        var votes = [];
-        var image = {
-          "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": storageService.getNumber(),
-          "recipients": storageService.getFriendsNumbers(),
-          "votes": votes,
-          "onesignal_ids": onesignal_ids,
-          "localImageId": storageService.getLocalImageId()
-        };
-
-        //store localy now and get local id
-        console.log("before addOwnImagecall");
-        storageService.addOwnImage(image).then(function (localImageId) {
-          image.localImageId = localImageId;
-          console.log("we got it");
-          //upload the image with our open socket connection
-          //socket.emit('new_image', (image));
-        });
-        //storageService.addOwnImage(image);
-        //tracking
-        hockeyapp.trackEvent(null, null, 'User made a image');
-      }, function (err) {
-        console.log(err);
-      });
+        var image;
+        // Promise.join(storageService.getPushId(),storageService.getNumber(), function (pushId, number) {
+        //   console.log("Push id: "+pushId+ " Number: "+number);
+        // });
+        $q.all([storageService.getPushId(), storageService.getNumber()]).then(function (result) {
+          var votes = [];
+          image = {
+            "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": result[1],
+            "recipients": storageService.getFriendsNumbers(),
+            "votes": votes,
+            "onesignal_ids": result[0]
+          };
+          storageService.addOwnImage(image).then(function (localImageId) {
+            console.log(localImageId);
+            //store localy now and get local id
+            image.localImageId = localImageId;
+            console.log("we got it");
+            //upload the image with our open socket connection
+            socket.emit('new_image', (image));
+          });
+          //tracking
+          hockeyapp.trackEvent(null, null, 'User made a image');
+        })
+      }).catch(function (err) {
+        console.log('err in camera get pictue: ' + err);
+      })
     };
     //manually refresh for new data, this handles all the pulldowns
     $scope.doRefresh = function () {
@@ -225,7 +227,11 @@ angular.module('starter.controllers', [])
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     //to get the number we use storage service
-    $scope.storage = storageService;
+    storageService.getNumber().then(function (resnumber) {
+      $scope.number = resnumber;
+    }).catch(function (err) {
+      console.log('error getting number: ' +err);
+    });
 
     //functions
     //refresh function

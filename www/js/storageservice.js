@@ -107,7 +107,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           } else if(ownNumber.data[0].number.length < 4){
             resolve("Unknown");
           }else {
-              resolve(ownNumber.data[0].number);
+              resolve(""+ownNumber.data[0].number);
           }
         });
       });
@@ -152,7 +152,10 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
 
     //add a new own image
     function addOwnImage(image) {
-      ownImages.insert(image);
+      return $q(function (resolve, reject) {
+          var res = ownImages.insert(image);
+          resolve(res.$loki);
+      });
     }
 
     //get all the own images
