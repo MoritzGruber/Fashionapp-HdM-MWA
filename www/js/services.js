@@ -2,217 +2,53 @@ angular.module('starter.services', [])
 
 //this factory is used to establish a socketio connect to our server
 //returning the socket
-  .factory('socket', function (socketFactory, storage, storageService) {
+  .factory('socket', function (socketFactory, storageService, $ionicPlatform) {
     //Create socket and connect to (server ip)
     var myIoSocket = io.connect('http://192.168.0.100:3000'); //<-- place your ip in here if you docker/etc is running on a other one
     var mySocket = socketFactory({
       ioSocket: myIoSocket
     });
     //sending pushId to sever so we mark him as online
-    mySocket.emit('join', storage.getPushId());
+
+    storageService.getPushId().then(function (res) {
+      mySocket.emit('join', res);
+    }).catch(function (err) {
+      console.log(err);
+    });
     //this event is fired when when the image was successful created and we get the id from the server back
     mySocket.on('image_created', function (serverId, clientId) {
       storageService.addServerImageIdToOwnImage(serverId, clientId);
     });
     //receive a vote
     mySocket.on('vote_sent_from_server', function (votepackage) {
-      storage.addVoteToOwnImage(votepackage);
+      storageService.addVoteToOwnImage(votepackage).then(function (res) {
+          }).catch(function (err) {
+            console.log(err);
+          });
     });
     //images form other users are incoming
     mySocket.on('incoming_image', function (image) {
       var image_is_already_in_storage = false;
-      var imageIdsAlreadyExistingInCommunity = storage.getIdsFromImagesFromOtherUsers();
-      for (var i = 0; i < imageIdsAlreadyExistingInCommunity.length; i++) {
-        if (image._id == imageIdsAlreadyExistingInCommunity[i]._id) {
-          //there is a image with the same id
-          imageIdsAlreadyExistingInCommunity = true;
+      storageService.getIdsFromImagesFromOtherUsers().then(function (res) {
+        var imageIdsAlreadyExistingInCommunity = res;
+        for (var i = 0; i < imageIdsAlreadyExistingInCommunity.length; i++) {
+          if (image._id == imageIdsAlreadyExistingInCommunity[i]._id) {
+            //there is a image with the same id
+            imageIdsAlreadyExistingInCommunity = true;
+          }
         }
-      }
-      if (!image_is_already_in_storage) {
-        //there was no image with the same id
-        storage.addImageFromOtherUser(image);
-      }
+        if (!image_is_already_in_storage) {
+          //there was no image with the same id
+          storageService.addImageFromOtherUser(image).then(function (res) {
+          }).catch(function (err) {
+            console.log(err);
+          });
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
     });
     return mySocket;
-  })
-
-  //this is service is to storage variables globally and share them between tabs/controllers
-  .service('storage', function ($localStorage, supportservice) {
-    var minutesWhenImagesFromOtherUsersAreOutdated = 120;
-    return {
-      //get pushId
-      getPushId: function () {
-        if ($localStorage.pushId == undefined) {
-          try {
-            //get id
-            window.plugins.OneSignal.getIds(function (ids) {
-              console.log('Got onesignal ids: ' + JSON.stringify(ids));
-              $localStorage.pushId = ids.userId;
-            });
-          } catch (e) {
-            console.log("onesignal push notifiactions setup failed " + e);
-          }
-        }
-        return $localStorage.pushId;
-      },
-      //get your own number
-      getNumber: function () {
-        if ($localStorage.ownnumber == undefined) {
-          return "Unknown";
-        } else {
-          return $localStorage.ownnumber;
-        }
-      },
-      //set your own number, currently not in usage
-      setNumber: function (value) {
-        console.log("number saved to localStorage");
-        $localStorage.ownnumber = value;
-      },
-      addOwnImage: function (image) {
-        if ($localStorage.ownImages == undefined) {
-          $localStorage.ownImages = [];
-        }
-        $localStorage.ownImages.unshift(image);
-      },
-      getOwnImages: function () {
-        if ($localStorage.ownImages == undefined) {
-          $localStorage.ownImages = [];
-        }
-        return $localStorage.ownImages;
-      },
-      //just return a array of ids, from all images that have a id
-      getIdsFromOwnImages: function () {
-        //make a list of all image_ids that are in collection (ownImages)
-        var image_ids = [];
-        if($localStorage.ownImages){
-          for (var i = 0; i < $localStorage.ownImages.length; i++) {
-            if ($localStorage.ownImages[i]._id != undefined) {
-              image_ids.push($localStorage.ownImages[i]._id);
-            }
-          }
-        }
-        return image_ids;
-      },
-      getOwnImage: function (index) {
-        if ($localStorage.ownImages == undefined) {
-          $localStorage.ownImages = [];
-        }
-        return $localStorage.ownImages[index];
-      },
-      deleteOwnImage: function (index) {
-        if ($localStorage.ownImages[index] != undefined && $localStorage.ownImages[index] != null) {
-          $localStorage.ownImages.splice(index, 1);
-          return true;
-        } else {
-          return false;
-        }
-      },
-      //apply the id given from the server to our local image, finding the correct image with the local image id
-      addServerImageIdToOwnImage: function (serverId, localImageId) {
-        //apply the id given by the server to our clint image
-        for (var i = 0; i < $localStorage.ownImages.length; i++) {
-          if ($localStorage.ownImages[i] != undefined) {
-            if ($localStorage.ownImages[i].localImageId == localImageId) {
-              $localStorage.ownImages[i]._id = serverId;
-            }
-          }
-        }
-      },
-      //apply the vote form other user to own votes to ownImages
-      addVoteToOwnImage: function (votepackage) {
-        if (Array.isArray(votepackage)) {
-          // this is the array from the refrash call
-          //handling the array of packages here
-          //looping through the array and calling the addSingleVote function every time
-          for (var i = 0; i < votepackage.length; i++) {
-            addSingleVote(votepackage[i]);
-          }
-        } else {
-          //its only a single vote in the package
-          addSingleVote(votepackage);
-        }
-        //add a single vote to one of my own images
-        function addSingleVote(vote) {
-          for (var i = 0; i < $localStorage.ownImages.length; i++) {
-            if ($localStorage.ownImages[i]._id == vote._id) {
-              var user_has_already_voted = false;
-              //check if the same user has already voted
-              for (var j = 0; j < $localStorage.ownImages[i].votes.length; j++) {
-                //override if already exist
-                if ($localStorage.ownImages[i].votes[j].number == vote.number) {
-                  $localStorage.ownImages[i].votes[j].vote = vote.rating;
-                  user_has_already_voted = true;
-                }
-              }
-              if (!user_has_already_voted) {
-                //otherwise, we create a new vote on that pic
-                $localStorage.ownImages[i].votes.push({"number": vote.number, "vote": vote.rating});
-              }
-              //after adding a new vote we have calculate the overall percentage again
-              $localStorage.ownImages[i].percantag = supportservice.calculatePercentage($localStorage.ownImages[i].votes);
-            }
-          }
-        }
-      },
-      //get localImageId, so we can apply the serverImageId later to the right image
-      getLocalImageId: function () {
-        if ($localStorage.localImageId == undefined) {
-          $localStorage.localImageId = 0;
-        }
-        //we increase this counter every time so there never are two+ imagesFromOtherUsers with the same counter
-        return $localStorage.localImageId++;
-      },
-      //get all images for community
-      getImagesFromOtherUsers: function () {
-        if ($localStorage.imagesFromOtherUsers == undefined) {
-          $localStorage.imagesFromOtherUsers = [];
-        }
-        return $localStorage.imagesFromOtherUsers;
-      },
-      //just get all ids form the images form other users
-      getIdsFromImagesFromOtherUsers: function () {
-        //make a list of all image_ids that are in collection (ownImages)
-        var image_ids = [];
-        for (var i = 0; i < $localStorage.imagesFromOtherUsers.length; i++) {
-          if ($localStorage.imagesFromOtherUsers[i]._id != undefined) {
-            image_ids.push($localStorage.imagesFromOtherUsers[i]._id);
-          }
-        }
-        return image_ids;
-      },
-      //get one image from community
-      getImageFromOtherUser: function (index) {
-        if ($localStorage.imagesFromOtherUsers == undefined) {
-          $localStorage.imagesFromOtherUsers = [];
-        }
-        return $localStorage.imagesFromOtherUsers[index];
-      },
-      //adding a image in the community
-      addImageFromOtherUser: function (image) {
-        if ($localStorage.imagesFromOtherUsers == undefined) {
-          $localStorage.imagesFromOtherUsers = [];
-        }
-        $localStorage.imagesFromOtherUsers.push(image);
-      },
-      //removing a image in the community
-      deleteImageFromOtherUser: function (index) {
-        if ($localStorage.imagesFromOtherUsers[index] == undefined) {
-          return;
-        }
-        $localStorage.imagesFromOtherUsers.splice(index, 1);
-      },
-      //clears the inbox of inmages in the community tab if they are outdated
-      clearOldImagesFromOtherUsers: function () {
-        if ($localStorage.imagesFromOtherUsers == undefined) {
-          $localStorage.imagesFromOtherUsers = [];
-        }
-        for (var i = 0; i < $localStorage.imagesFromOtherUsers.length; i++) {
-          if ($localStorage.imagesFromOtherUsers[i].timestamp < (Date.parse(Date()) - (1000 * minutesWhenImagesFromOtherUsersAreOutdated * 60))) {  //minutesWhenImagesFromOtherUsersAreOutdated stands for some minutes, thats the time when the imagesFromOtherUsers get deleted
-            $localStorage.imagesFromOtherUsers.splice(i, 1);
-          }
-        }
-      }
-    };
   })
   .service('communicationservice', function (socket, storageService, $q) {
     return {
@@ -227,22 +63,25 @@ angular.module('starter.services', [])
     };
   })
   //service for voting
-  .service('voteservice', function (socket, storage) {
+  .service('voteservice', function (socket, storageService) {
     return {
       //this is the voting function, called in the community tab
       vote: function (voting, indexofvotedimage) {
-        //send vote
-        var image = storage.getImageFromOtherUser(indexofvotedimage);
-        var package_ = {
-          "_id": image._id,
-          "number": storage.getNumber(),
-          "rating": voting,
-          "recipient_number": image.transmitternumber
-        };
-        socket.emit('vote', package_);
-        //destory object after sending the vote, currently we assume internet always works
-        storage.deleteImageFromOtherUser(indexofvotedimage);
-        hockeyapp.trackEvent(null, null, 'User made a vote');
+        $q.all([ storageService.getNumber(), getImageFromOtherUser(indexofvotedimage) ]).then(function (result) {
+          //send vote
+          var package_ = {
+            "_id": result[1]._id,
+            "number": result[0],
+            "rating": voting,
+            "recipient_number": result[1].transmitternumber
+          };
+          socket.emit('vote', package_);
+          //destory object after sending the vote, currently we assume internet always works
+          hockeyapp.trackEvent(null, null, 'User made a vote');
+          return storageService.deleteImageFromOtherUser(indexofvotedimage);
+        }).catch(function (err) {
+          console.log(err);
+        });
       }
     };
   })

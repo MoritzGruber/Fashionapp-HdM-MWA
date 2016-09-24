@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-  .controller('StartCtrl', function ($scope, storage, $state, socket, $ionicHistory, storageService) {
+  .controller('StartCtrl', function ($scope, $state, socket, $ionicHistory, storageService) {
     //controller for welcome screen, here users creates an account
     $scope.showNumberField = true;
     $scope.number = null;
@@ -59,8 +59,9 @@ angular.module('starter.controllers', [])
     }
   })
   .controller('TabsCtrl', function ($scope, $rootScope, $state, socket) {
+
     //listen to the server for new stuff (socket)
-    $scope.socket = socket;
+    ionic.Platform.ready(function(){$scope.socket = socket;});
     //this controller disables the tab navigation bar for certain views/tabs
     $rootScope.$on('$ionicView.beforeEnter', function () {
       //on default we see the tabbar
@@ -71,11 +72,14 @@ angular.module('starter.controllers', [])
       }
     });
   })
-  .controller('CollectionCtrl', function ($scope, $q, $base64, $timeout, socket, Camera, storage, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, storageService) {
+  .controller('CollectionCtrl', function ($scope, $q, $base64, $timeout, socket, Camera, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, storageService) {
     $scope.ownImages = [];
+
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
-      storageService.getNumber().then(function (result) {
+      storageService.initDB().then(function () {
+        return storageService.getNumber()
+      }).then(function (result) {
         if (result == "Unknown") {
           $ionicHistory.nextViewOptions({
             disableAnimate: true,
@@ -84,23 +88,22 @@ angular.module('starter.controllers', [])
           //no, then ==> go to welcome page
           $state.go('tab.collectionstart');
         }
-      });
-
-      //Initializing
-      //load own images into the scope
-      storageService.getOwnImages().then(function (loadedOwnImages) {
+        //Initializing
+        //load own images into the scope
+        return storageService.getOwnImages();
+      }).then(function (loadedOwnImages) {
         $scope.ownImages = loadedOwnImages;
         //calling the calculate percentage function for each image
         for (var i = 0; i < $scope.ownImages.length; i++) {
           $scope.ownImages[i].percantag = supportservice.calculatePercentage($scope.ownImages[i].votes);
         }
-        console.log('run TROUGH!');
+        //listen to the server for new stuff (socket)
+        $scope.socket = socket;
       }).catch(function (err) {
-        console.log('error @storageService.getOwnImages: ' + err);
+        console.log(err);
       });
     });
-    //listen to the server for new stuff (socket)
-    $scope.socket = socket;
+
     //functions
     //make a picture
     $scope.getPhoto = function () {
@@ -196,7 +199,7 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('CommunityCtrl', function ($scope, socket, $ionicPlatform, $timeout, storage, voteservice, communicationservice, storageService) {
+  .controller('CommunityCtrl', function ($scope, socket, $ionicPlatform, $timeout, voteservice, communicationservice, storageService) {
     //Initializing
     $ionicPlatform.ready(function () {
       //clear old imagesFromOtherUsers and load imagesFromOtherUsers form storage
@@ -222,7 +225,7 @@ angular.module('starter.controllers', [])
       }, 1000);
     };
   })
-  .controller('ProfileCtrl', function ($scope, storage, socket, communicationservice, $state, storageService) {
+  .controller('ProfileCtrl', function ($scope, socket, communicationservice, $state, storageService) {
     //Initializing
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
@@ -248,14 +251,18 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('CollectionDetailCtrl', function ($scope, $stateParams, storage, socket, storageService) {
+  .controller('CollectionDetailCtrl', function ($scope, $stateParams, socket, storageService) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     //just get the right image to show out of the link params
-    $scope.image = storageService.getOwnImage($stateParams.imageId);
+    storageService.getOwnImage($stateParams.imageId).then(function (res) {
+      $scope.image = res;
+    }).catch(function (err) {
+      console.log(err);
+    });
   })
 
-  .controller('FriendsCtrl', function ($scope, storage, socket, storageService, $state, $localStorage, contacts) {
+  .controller('FriendsCtrl', function ($scope, socket, storageService, $state, contacts) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     $scope.friendList = [];

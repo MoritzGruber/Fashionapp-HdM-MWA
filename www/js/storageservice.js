@@ -13,7 +13,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     var imagesFromOtherUsers;
     var selectedFriends;
     return {
-      initDB: initDB,
+      initDB: initDB(),
       //userData
       getNumber: getNumber,
       addNumber: addNumber,
@@ -44,24 +44,30 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       addSelectedFriendByID: addSelectedFriendByID,
       removeSelectedFriendByID: removeSelectedFriendByID
     };
-
+    function asdf(){}
     function initDB() {
-      console.log('intidb called');
-      var adapter = new LokiCordovaFSAdapter({"prefix": "loki"});
-      db = new Loki('fittshot.json', {
-        autosave: true,
-        autosaveInterval: 1000, // 1 second
-        adapter: adapter
-      });
-      var options = {};
+      return $q(function (resolve, reject) {
+          ionic.Platform.ready(function () {
+            console.log('intidb called');
+            var adapter = new LokiCordovaFSAdapter({"prefix": "loki"});
+            db = new Loki('fittshot.json', {
+              autosave: true,
+              autosaveInterval: 1000, // 1 second
+              adapter: adapter
+            });
+            var options = {};
 
-      db.loadDatabase(options, function () {
-        ownImages = db.getCollection('ownImages');
+            db.loadDatabase(options, function () {
+              ownImages = db.getCollection('ownImages');
 
-        if (!ownImages) {
-          console.log("creating neew db");
-          ownImages = db.addCollection('ownImages');
-        }
+              if (!ownImages) {
+                console.log("creating neew db");
+                ownImages = db.addCollection('ownImages');
+              }
+            });
+            resolve(true);
+          });
+
       });
     }
 
@@ -69,45 +75,50 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     //get the push id and if not found call onesignal plugin
     function getPushId() {
       return $q(function (resolve, reject) {
-        var options = {};
-        var object = {};
+        ionic.Platform.ready(function () {
+          var options = {};
+          var object = {};
+          console.log(' getPushId called');
+          db.loadDatabase(options, function () {
+            pushId = db.getCollection('pushId');
 
-        db.loadDatabase(options, function () {
-          pushId = db.getCollection('pushId');
-
-          if (!pushId) {
-            try {
-              pushId = db.addCollection('pushId');
-              //get id
-              window.plugins.OneSignal.getIds(function (ids) {
-                object.pushId = ids.userId;
-                pushId.insert(object);
-                resolve(ids.userId);
-              });
-            } catch (e) {
-              reject("onesignal push notifiactions setup failed " + e);
+            if (!pushId) {
+              try {
+                pushId = db.addCollection('pushId');
+                //get id
+                window.plugins.OneSignal.getIds(function (ids) {
+                  object.pushId = ids.userId;
+                  pushId.insert(object);
+                  resolve(ids.userId);
+                });
+              } catch (e) {
+                reject("onesignal push notifiactions setup failed " + e);
+              }
+            } else {
+              resolve(pushId.data[0].pushId);
             }
-          } else {
-            resolve(pushId.data[0].pushId);
-          }
+          });
         });
+
       });
     }
 
     //getting own number
     function getNumber() {
+
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('getNumber  called');
         db.loadDatabase(options, function () {
           ownNumber = db.getCollection('ownNumber');
 
           if (!ownNumber) {
             resolve("Unknown");
-          } else if(ownNumber.data[0].number.length < 4){
+          } else if (ownNumber.data[0].number.length < 4) {
             resolve("Unknown");
-          }else {
-              resolve(""+ownNumber.data[0].number);
+          } else {
+            resolve("" + ownNumber.data[0].number);
           }
         });
       });
@@ -118,6 +129,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
         var object = {'number': newOwnNumber};
+        console.log(' addNumber called');
         db.loadDatabase(options, function () {
           ownNumber = db.addCollection('ownNumber');
           ownNumber.insert(object);
@@ -131,6 +143,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('getLocalImageIdCounter  called');
         db.loadDatabase(options, function () {
           localImageIdCounter = db.getCollection('localImageIdCounter');
 
@@ -153,8 +166,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     //add a new own image
     function addOwnImage(image) {
       return $q(function (resolve, reject) {
-          var res = ownImages.insert(image);
-          resolve(res.$loki);
+        var res = ownImages.insert(image);
+        resolve(res.$loki);
       });
     }
 
@@ -164,6 +177,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('getOwnImages  called');
         db.loadDatabase(options, function () {
           ownImages = db.getCollection('ownImages');
 
@@ -181,6 +195,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log(' deleteOwnImage called');
         db.loadDatabase(options, function () {
           ownImages = db.getCollection('ownImages');
 
@@ -204,6 +219,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('getOwnImage  called');
         db.loadDatabase(options, function () {
           ownImages = db.getCollection('ownImages');
 
@@ -221,6 +237,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('addServerImageIdToOwnImage  called');
         db.loadDatabase(options, function () {
           ownImages = db.getCollection('ownImages');
 
@@ -247,6 +264,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('addVoteToOwnImage  called');
         db.loadDatabase(options, function () {
           ownImages = db.getCollection('ownImages');
 
@@ -297,6 +315,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('getIdsFromOwnImages  called');
         db.loadDatabase(options, function () {
           ownImages = db.getCollection('ownImages');
 
@@ -321,6 +340,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('addImageFromOtherUser  called');
         db.loadDatabase(options, function () {
           imagesFromOtherUsers = db.getCollection('imagesFromOtherUsers');
 
@@ -339,6 +359,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('deleteImageFromOtherUser  called');
         db.loadDatabase(options, function () {
           imagesFromOtherUsers = db.getCollection('imagesFromOtherUsers');
 
@@ -357,6 +378,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('getImagesFromOtherUsers  called');
         db.loadDatabase(options, function () {
           imagesFromOtherUsers = db.getCollection('imagesFromOtherUsers');
 
@@ -375,6 +397,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log('getIdsFromImagesFromOtherUsers  called');
         db.loadDatabase(options, function () {
           imagesFromOtherUsers = db.getCollection('imagesFromOtherUsers');
 
@@ -400,6 +423,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       return $q(function (resolve, reject) {
         var options = {};
 
+        console.log(' clearOldImagesFromOtherUsers called');
         db.loadDatabase(options, function () {
           imagesFromOtherUsers = db.getCollection('imagesFromOtherUsers');
 
@@ -429,6 +453,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           loadFriends();
         }
         function loadFriends() {
+          console.log('  called');
           db.loadDatabase(options, function () {
             friends = db.getCollection('friends');
             if (!friends) {
@@ -458,6 +483,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           loadFriends();
         }
         function loadFriends() {
+          console.log('  called');
           db.loadDatabase(options, function () {
             friends = db.getCollection('friends');
             if (!friends) {
@@ -476,6 +502,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     function addFriend(friend) {
       return $q(function (resolve, reject) {
         var options = {};
+        console.log('addFriend  called');
         db.loadDatabase(options, function () {
           friends = db.getCollection('friends');
 
@@ -493,6 +520,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     function deleteFriends(arrayOfFriendIds) {
       return $q(function (resolve, reject) {
         var options = {};
+        console.log('deleteFriends  called');
         db.loadDatabase(options, function () {
           friends = db.getCollection('friends');
 
@@ -512,6 +540,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     function getNameForNumber(number) {
       return $q(function (resolve, reject) {
         var options = {};
+        console.log('getNameForNumber  called');
         db.loadDatabase(options, function () {
           friends = db.getCollection('friends');
 
@@ -542,6 +571,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           loadFriends();
         }
         function loadFriends() {
+          console.log('updateFriends  called');
           db.loadDatabase(options, function () {
             friends = db.getCollection('friends');
             if (!friends) {
@@ -586,6 +616,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           loadFriends();
         }
         function loadFriends() {
+          console.log('getSelectedFriendsNumberArray  called');
           db.loadDatabase(options, function () {
             selectedFriends = db.getCollection('selectedFriends');
             friends = db.getCollection('friends');
@@ -627,6 +658,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           loadFriends();
         }
         function loadFriends() {
+          console.log(' getSelectedFriendsIdsArray called');
           db.loadDatabase(options, function () {
             selectedFriends = db.getCollection('selectedFriends');
             if (!selectedFriends) {
@@ -655,6 +687,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           loadFriends();
         }
         function loadFriends() {
+          console.log('addSelectedFriendByID  called');
           db.loadDatabase(options, function () {
             selectedFriends = db.getCollection('selectedFriends');
             if (!selectedFriends) {
@@ -679,6 +712,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           loadFriends();
         }
         function loadFriends() {
+          console.log('removeSelectedFriendByID  called');
           db.loadDatabase(options, function () {
             selectedFriends = db.getCollection('selectedFriends');
             if (!selectedFriends) {

@@ -8,11 +8,15 @@
 
 angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io', 'ngCordova', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS', 'lokijs'])
 
-  .run(function ($ionicPlatform, storage, communicationservice, storageService) {
+  .run(function ($ionicPlatform, communicationservice, storageService) {
     $ionicPlatform.ready(function () {
 
       //INITIALIZE PROCESS
-      storageService.initDB();
+
+      storageService.initDB().then(function (res) {
+      }).catch(function (err) {
+        console.log(err);
+      });
       //default setup for keyboard
       // Hide the keyboardaccessorybar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -34,8 +38,6 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
       window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
         {googleProjectNumber: "378633166857"},
         notificationOpenedCallback);
-      //get id and save it
-      storage.getPushId();
       //Setup hockeyapp (our beta deploy platform)
       try {
         hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
