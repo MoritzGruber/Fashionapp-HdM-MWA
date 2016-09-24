@@ -214,14 +214,15 @@ angular.module('starter.services', [])
       }
     };
   })
-  .service('communicationservice', function (socket, storage) {
+  .service('communicationservice', function (socket, storageService, $q) {
     return {
       // request new votes on own imagesFromOtherUsers and request to imagesFromOtherUsers from other users form the server
       updateData: function (update_trigger) {
-        var image_ids_to_refresh = storage.getIdsFromOwnImages();
-        //pull incoming votes, of the past 120 minutes from the server
-        //update_trigger is "community", "collection" or "profile"
-        socket.emit('user_refresh', storage.getNumber(), update_trigger, image_ids_to_refresh);
+        $q.all([ storageService.getNumber(), storageService.getIdsFromOwnImages() ]).then(function (result) {
+          socket.emit('user_refresh', result[0], update_trigger, result[1]);
+        }).catch(function (err) {
+          console.log('error getting number or ids of ownImages in communicationservice.updateData: '+err);
+        });
       }
     };
   })
