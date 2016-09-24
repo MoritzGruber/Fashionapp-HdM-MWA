@@ -48,7 +48,7 @@ angular.module('starter.controllers', [])
           });
           //user was successful created on serverside
           $state.go('tab.collection');
-          storageService.setNumber(number);
+          storageService.addNumber(number);
           hockeyapp.trackEvent(null, null, 'User signup succsessful');
         } else {
           //bad news :(
