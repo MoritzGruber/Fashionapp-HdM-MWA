@@ -6,11 +6,13 @@ $light: #fff !default;
 $stable: #ECE6E6 !default;
 $calm: #efe8e3 !default; // post container
 $positive: #5ae8c1 !default;
-$balanced: #9a9694 !default;
+//$balanced: #9a9694 !default;
+$balanced: #fff !default;
 $energized: #ffc900 !default;
 $assertive: #ef473a !default;
 $royal: transparent !default;
-$dark: #444 !default;
+//$dark: #444 !default;
+$dark: #ECE6E6 !default;
 
 $base-color: $balanced;
 //input
@@ -30,7 +32,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "www/lib/ionic/scss/ionic";
 // background --------------------------------
 ion-content {
-  background-image: url('../img/backgrounds/light2.png');
+  background-image: url('../img/backgrounds/dark2.png');
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-background-size: cover;
