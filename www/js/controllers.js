@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
     var lastSubmittedNumber = 0;
     var pushID = 0;
     $scope.verify = function (code) {
-      socket.emit('checkVerify', lastSubmittedNumber, pushID ,code);
+      socket.emit('checkVerify', lastSubmittedNumber, pushID, code);
       $scope.code = null;
 
     };
@@ -31,7 +31,7 @@ angular.module('starter.controllers', [])
             $scope.showCodeField = true;
             $scope.showNumberField = false;
             lastSubmittedNumber = number;
-            socket.emit('startVerify', number, pushID );
+            socket.emit('startVerify', number, pushID);
             $scope.number = null;
           }).catch(function (err) {
             $scope.errormsg = "Ups, something went wrong";
@@ -61,7 +61,9 @@ angular.module('starter.controllers', [])
   .controller('TabsCtrl', function ($scope, $rootScope, $state, socket) {
 
     //listen to the server for new stuff (socket)
-    ionic.Platform.ready(function(){$scope.socket = socket;});
+    ionic.Platform.ready(function () {
+      $scope.socket = socket;
+    });
     //this controller disables the tab navigation bar for certain views/tabs
     $rootScope.$on('$ionicView.beforeEnter', function () {
       //on default we see the tabbar
@@ -77,31 +79,34 @@ angular.module('starter.controllers', [])
 
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
-      storageService.initDB().then(function () {
-        return storageService.getNumber()
-      }).then(function (result) {
-        if (result == "Unknown") {
-          $ionicHistory.nextViewOptions({
-            disableAnimate: true,
-            disableBack: true
-          });
-          //no, then ==> go to welcome page
-          $state.go('tab.collectionstart');
-        }
-        //Initializing
-        //load own images into the scope
-        return storageService.getOwnImages();
-      }).then(function (loadedOwnImages) {
-        $scope.ownImages = loadedOwnImages;
-        //calling the calculate percentage function for each image
-        for (var i = 0; i < $scope.ownImages.length; i++) {
-          $scope.ownImages[i].percantag = supportservice.calculatePercentage($scope.ownImages[i].votes);
-        }
-        //listen to the server for new stuff (socket)
-        $scope.socket = socket;
-      }).catch(function (err) {
-        console.log(err);
-      });
+      setTimeout(function () {
+        storageService.initDB().then(function () {
+          return storageService.getNumber()
+        }).then(function (result) {
+          if (result == "Unknown") {
+            $ionicHistory.nextViewOptions({
+              disableAnimate: true,
+              disableBack: true
+            });
+            //no, then ==> go to welcome page
+            $state.go('tab.collectionstart');
+          }
+          //Initializing
+          //load own images into the scope
+          return storageService.getOwnImages();
+        }).then(function (loadedOwnImages) {
+          $scope.ownImages = loadedOwnImages;
+          //calling the calculate percentage function for each image
+          for (var i = 0; i < $scope.ownImages.length; i++) {
+            $scope.ownImages[i].percantag = supportservice.calculatePercentage($scope.ownImages[i].votes);
+          }
+          //listen to the server for new stuff (socket)
+          $scope.socket = socket;
+        }).catch(function (err) {
+          console.log(err);
+        });
+
+      }, 0);
     });
 
     //functions
@@ -233,7 +238,7 @@ angular.module('starter.controllers', [])
     storageService.getNumber().then(function (resnumber) {
       $scope.number = resnumber;
     }).catch(function (err) {
-      console.log('error getting number: ' +err);
+      console.log('error getting number: ' + err);
     });
 
     //functions
@@ -275,7 +280,7 @@ angular.module('starter.controllers', [])
 
     //get all friends and fill the array to show it
     storageService.getFriends().then(function (resultArrayOfFriends) {
-      if (resultArrayOfFriends.length == 0){
+      if (resultArrayOfFriends.length == 0) {
         $scope.syncWithPhone();
       }
       $scope.friendList = resultArrayOfFriends;
@@ -285,9 +290,9 @@ angular.module('starter.controllers', [])
       $scope.loadingContacts = true;
       contacts.getContacts().then(function (resultArrayOfContacts) {
         storageService.updateFriends(resultArrayOfContacts).then(function (res) {
-            $scope.friendList = res;
-            $scope.loadingContacts = false;
-            console.log("contacts succsessful loaded and saved to database");
+          $scope.friendList = res;
+          $scope.loadingContacts = false;
+          console.log("contacts succsessful loaded and saved to database");
         });
       });
     };
@@ -314,17 +319,17 @@ angular.module('starter.controllers', [])
     $scope.toggleSelect = function (id) {
 
       var index = $scope.selectedFriends.indexOf(id);
-      if(index < 0){
+      if (index < 0) {
         //fried was not selected
         //so he gets selected
         storageService.addSelectedFriendByID(id).then(function () {
           $scope.selectedFriends.push(id);
         });
-      }else{
+      } else {
         //friend was already selected
         //so we deselct him
         storageService.removeSelectedFriendByID(id).then(function () {
-          $scope.selectedFriends.splice(index,1 );
+          $scope.selectedFriends.splice(index, 1);
         })
       }
     };

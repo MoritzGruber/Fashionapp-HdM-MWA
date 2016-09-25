@@ -8,8 +8,8 @@
 
 angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io', 'ngCordova', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS', 'lokijs'])
 
-  .run(function ($ionicPlatform, communicationservice, storageService) {
-    $ionicPlatform.ready(function () {
+  .run(function (communicationservice, storageService) {
+    ionic.Platform.ready(function () {
 
       //INITIALIZE PROCESS
 

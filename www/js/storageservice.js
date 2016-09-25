@@ -13,7 +13,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     var imagesFromOtherUsers;
     var selectedFriends;
     return {
-      initDB: initDB(),
+      initDB: initDB,
       //userData
       getNumber: getNumber,
       addNumber: addNumber,
@@ -44,29 +44,28 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       addSelectedFriendByID: addSelectedFriendByID,
       removeSelectedFriendByID: removeSelectedFriendByID
     };
-    function asdf(){}
     function initDB() {
       return $q(function (resolve, reject) {
-          ionic.Platform.ready(function () {
-            console.log('intidb called');
-            var adapter = new LokiCordovaFSAdapter({"prefix": "loki"});
-            db = new Loki('fittshot.json', {
-              autosave: true,
-              autosaveInterval: 1000, // 1 second
-              adapter: adapter
-            });
-            var options = {};
-
-            db.loadDatabase(options, function () {
-              ownImages = db.getCollection('ownImages');
-
-              if (!ownImages) {
-                console.log("creating neew db");
-                ownImages = db.addCollection('ownImages');
-              }
-            });
-            resolve(true);
+        ionic.Platform.ready(function () {
+          console.log('intidb called');
+          var adapter = new LokiCordovaFSAdapter({"prefix": "loki"});
+          db = new Loki('fittshot.json', {
+            autosave: true,
+            autosaveInterval: 1000, // 1 second
+            adapter: adapter
           });
+          var options = {};
+
+          db.loadDatabase(options, function () {
+            ownImages = db.getCollection('ownImages');
+
+            if (!ownImages) {
+              console.log("creating neew db");
+              ownImages = db.addCollection('ownImages');
+            }
+          });
+          resolve(true);
+        });
 
       });
     }
@@ -76,28 +75,38 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     function getPushId() {
       return $q(function (resolve, reject) {
         ionic.Platform.ready(function () {
-          var options = {};
-          var object = {};
-          console.log(' getPushId called');
-          db.loadDatabase(options, function () {
-            pushId = db.getCollection('pushId');
+          if (db == undefined) {
+            initDB().then(function () {
+              run();
+            });
+          } else {
+            run();
+          }
+          function run() {
+            var options = {};
+            var object = {};
+            console.log(' getPushId called');
+            db.loadDatabase(options, function () {
+              pushId = db.getCollection('pushId');
 
-            if (!pushId) {
-              try {
-                pushId = db.addCollection('pushId');
-                //get id
-                window.plugins.OneSignal.getIds(function (ids) {
-                  object.pushId = ids.userId;
-                  pushId.insert(object);
-                  resolve(ids.userId);
-                });
-              } catch (e) {
-                reject("onesignal push notifiactions setup failed " + e);
+              if (!pushId) {
+                try {
+                  pushId = db.addCollection('pushId');
+                  //get id
+                  window.plugins.OneSignal.getIds(function (ids) {
+                    object.pushId = ids.userId;
+                    pushId.insert(object);
+                    resolve(ids.userId);
+                  });
+                } catch (e) {
+                  reject("onesignal push notifiactions setup failed " + e);
+                }
+              } else {
+                resolve(pushId.data[0].pushId);
               }
-            } else {
-              resolve(pushId.data[0].pushId);
-            }
-          });
+            });
+          }
+
         });
 
       });
