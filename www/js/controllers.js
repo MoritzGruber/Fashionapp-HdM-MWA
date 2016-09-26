@@ -204,20 +204,28 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('CommunityCtrl', function ($scope, socket, $ionicPlatform, $timeout, voteservice, communicationservice, storageService) {
+  .controller('CommunityCtrl', function ($scope, $rootScope, socket, $ionicPlatform, $timeout, voteservice, communicationservice, storageService) {
     //Initializing
     $ionicPlatform.ready(function () {
       //clear old imagesFromOtherUsers and load imagesFromOtherUsers form storage
       storageService.clearOldImagesFromOtherUsers();
-      $scope.local = storageService.getImagesFromOtherUsers();
+      storageService.getImagesFromOtherUsers().then(function (res) {
+        $rootScope.local = res;
+      }).catch(function (err) {
+        console.log(err);
+      });
       //listen to the server for new stuff (socket)
       $scope.socket = socket;
     });
 
     //functions
     //this function is called when you hit a vote button
-    $scope.vote = function (voting, indexofvotedimage) {
-      voteservice.vote(voting, indexofvotedimage);
+    $scope.vote = function (voting, indexofvotedimage, scopeindex) {
+      voteservice.vote(voting, indexofvotedimage).then(function (res) {
+        $rootScope.local.splice(scopeindex,1);
+      }).catch(function (err) {
+        console.log(err);
+      });
     };
     //manually refresh for new data, this handles all the pulldowns
     $scope.doRefresh = function () {

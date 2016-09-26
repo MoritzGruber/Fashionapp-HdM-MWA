@@ -2,7 +2,7 @@ angular.module('starter.services', [])
 
 //this factory is used to establish a socketio connect to our server
 //returning the socket
-  .factory('socket', function (socketFactory, storageService, $ionicPlatform) {
+  .factory('socket', function ($rootScope, socketFactory, storageService) {
     //Create socket and connect to (server ip)
     var myIoSocket = io.connect('http://192.168.0.100:3000'); //<-- place your ip in here if you docker/etc is running on a other one
     var mySocket = socketFactory({
@@ -28,24 +28,29 @@ angular.module('starter.services', [])
     });
     //images form other users are incoming
     mySocket.on('incoming_image', function (image) {
+      console.log(' incoming_image'+ $rootScope);
       var image_is_already_in_storage = false;
       storageService.getIdsFromImagesFromOtherUsers().then(function (res) {
         var imageIdsAlreadyExistingInCommunity = res;
+        console.log('res = '+JSON.stringify(res));
         for (var i = 0; i < imageIdsAlreadyExistingInCommunity.length; i++) {
           if (image._id == imageIdsAlreadyExistingInCommunity[i]._id) {
             //there is a image with the same id
-            imageIdsAlreadyExistingInCommunity = true;
+            image_is_already_in_storage = true;
+            console.log('image already exists ');
           }
         }
         if (!image_is_already_in_storage) {
           //there was no image with the same id
+          console.log('add iamge :'+ image);
           storageService.addImageFromOtherUser(image).then(function (res) {
+            $rootScope.local.push(image);
           }).catch(function (err) {
             console.log(err);
           });
         }
       }).catch(function (err) {
-        console.log(err);
+        console.log('ERROR' + err);
       });
     });
     return mySocket;
@@ -63,24 +68,31 @@ angular.module('starter.services', [])
     };
   })
   //service for voting
-  .service('voteservice', function (socket, storageService) {
+  .service('voteservice', function (socket, storageService, $q) {
     return {
       //this is the voting function, called in the community tab
       vote: function (voting, indexofvotedimage) {
-        $q.all([ storageService.getNumber(), getImageFromOtherUser(indexofvotedimage) ]).then(function (result) {
-          //send vote
-          var package_ = {
-            "_id": result[1]._id,
-            "number": result[0],
-            "rating": voting,
-            "recipient_number": result[1].transmitternumber
-          };
-          socket.emit('vote', package_);
-          //destory object after sending the vote, currently we assume internet always works
-          hockeyapp.trackEvent(null, null, 'User made a vote');
-          return storageService.deleteImageFromOtherUser(indexofvotedimage);
-        }).catch(function (err) {
-          console.log(err);
+        return $q(function (resolve, reject) {
+          $q.all([ storageService.getNumber(), storageService.getImageFromOtherUser(indexofvotedimage) ]).then(function (result) {
+            //send vote
+            console.log('result'+result[1]);
+            var package_ = {
+              "_id": result[1]._id,
+              "number": result[0],
+              "rating": voting,
+              "recipient_number": result[1].transmitternumber
+            };
+            socket.emit('vote', package_);
+            //destory object after sending the vote, currently we assume internet always works
+            hockeyapp.trackEvent(null, null, 'User made a vote');
+            console.log('waaaas loos');
+            return storageService.deleteImageFromOtherUser(indexofvotedimage);
+          }).then(function (res) {
+            console.log('aaaaab? ');
+            resolve(true);
+          }).catch(function (err) {
+            reject(err);
+          });
         });
       }
     };

@@ -12,6 +12,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     var friends;
     var imagesFromOtherUsers;
     var selectedFriends;
+    var minutesWhenImagesFromOtherUsersAreOutdated = 300;
     return {
       initDB: initDB,
       //userData
@@ -28,6 +29,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
       getIdsFromOwnImages: getIdsFromOwnImages,
       //Images from other users (community)
       addImageFromOtherUser: addImageFromOtherUser,
+      getImageFromOtherUser: getImageFromOtherUser,
       deleteImageFromOtherUser: deleteImageFromOtherUser,
       getImagesFromOtherUsers: getImagesFromOtherUsers,
       getIdsFromImagesFromOtherUsers: getIdsFromImagesFromOtherUsers,
@@ -212,8 +214,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             ownImages = db.addCollection('ownImages');
           }
 
-          if (ownImages[index] != undefined && ownImages[index] != null) {
-            ownImages.splice(index, 1);
+          if (ownImages.data[index] != undefined && ownImages.data[index] != null) {
+            ownImages.data.splice(index, 1);
             resolve(true);
           } else {
             resolve(false);
@@ -357,7 +359,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             imagesFromOtherUsers = db.addCollection('imagesFromOtherUsers');
           }
 
-          imagesFromOtherUsers.push(image);
+          imagesFromOtherUsers.insert(image);
         });
       });
     }
@@ -376,7 +378,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             return;
           }
 
-          imagesFromOtherUsers.splice(index, 1);
+          imagesFromOtherUsers.data.splice(index, 1);
+          resolve(true);
         });
       });
     }
@@ -395,7 +398,24 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             imagesFromOtherUsers = db.addCollection('imagesFromOtherUsers');
           }
 
-          resolve(imagesFromOtherUsers);
+          resolve(imagesFromOtherUsers.data);
+        });
+      });
+
+    }function getImageFromOtherUser(index) {
+
+      return $q(function (resolve, reject) {
+        var options = {};
+
+        console.log('getImagesFromOtherUsers  called');
+        db.loadDatabase(options, function () {
+          imagesFromOtherUsers = db.getCollection('imagesFromOtherUsers');
+
+          if (!imagesFromOtherUsers) {
+            imagesFromOtherUsers = db.addCollection('imagesFromOtherUsers');
+          }
+          console.log('getImageFromOtherUser====='+imagesFromOtherUsers.get(index).data);
+          resolve(imagesFromOtherUsers.get(index));
         });
       });
     }
@@ -415,13 +435,13 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           }
 
           //make a list of all image_ids that are in collection (ownImages)
-          var image_ids = [];
+          var arr = new Array();
           for (var i = 0; i < imagesFromOtherUsers.length; i++) {
             if (imagesFromOtherUsers[i]._id != undefined) {
-              image_ids.push(imagesFromOtherUsers[i]._id);
+              arr.push(imagesFromOtherUsers[i]._id);
             }
           }
-          return image_ids;
+          resolve (arr);
         });
       });
     }
@@ -440,12 +460,13 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             imagesFromOtherUsers = db.addCollection('imagesFromOtherUsers');
           }
 
-          for (var i = 0; i < imagesFromOtherUsers.length; i++) {
-            if (imagesFromOtherUsers[i].timestamp < (Date.parse(Date()) - (1000 * minutesWhenImagesFromOtherUsersAreOutdated * 60))) {  //minutesWhenImagesFromOtherUsersAreOutdated stands for some minutes, thats the time when the imagesFromOtherUsers get deleted
-              imagesFromOtherUsers.splice(i, 1);
+          for (var i = 0; i < imagesFromOtherUsers.data.length; i++) {
+            if (imagesFromOtherUsers.data[i].timestamp < (Date.parse(Date()) - (1000 * minutesWhenImagesFromOtherUsersAreOutdated * 60))) {  //minutesWhenImagesFromOtherUsersAreOutdated stands for some minutes, thats the time when the imagesFromOtherUsers get deleted
+              imagesFromOtherUsers.data.splice(i, 1);
             }
           }
         });
+        resolve(true);
       });
     }
 
