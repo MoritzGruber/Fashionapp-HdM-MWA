@@ -9862,3 +9862,12 @@ input {
   margin-right: auto;
   width: 50%;
   display: block; }
+
+.tabs-striped .tabs {
+  background-color: #727676;
+  background-image: none;
+  border: none;
+  padding-top: 2px; }
+
+ion-tabs.tabs-color-active-balanced .tab-item.tab-item-active, ion-tabs.tabs-color-active-balanced .tab-item.active, ion-tabs.tabs-color-active-balanced .tab-item.activated {
+  color: #fff; }
