@@ -9739,7 +9739,6 @@ input {
   margin: 2%;
   border: 2px solid #ECE6E6;
   background: transparent;
-  border-radius: 20px;
   color: #fff;
   width: 90%;
   height: 60px;
@@ -9857,3 +9856,9 @@ input {
 .friendIsSelected {
   color: green;
   text-decoration-color: green; }
+
+.centerImg {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  display: block; }

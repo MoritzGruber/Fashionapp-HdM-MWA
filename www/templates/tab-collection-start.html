@@ -4,7 +4,8 @@
 <ion-view view-title="Welcome" hide-nav-bar="true">
   <ion-content class="padding">
     <section class="start">
-      <h2 class="balanced centertext">Welcome to Fittshot Beta</h2>
+      <img class="centerImg" src="../img/LogoFittshotWeiß.png" alt="Fittshot Logo">
+      <h2 class="balanced centertext">Fittshot</h2>
       <form class="login-form" name="loginForm">
         <div class="outline" ng-if="showNumberField">
           <input class="light profile_phonenumber" id="profile_phonenumber" type="tel" placeholder="Nummer"
@@ -15,7 +16,7 @@
           <input class="light profile_phonenumber" id="profile_code" type="number" placeholder="Code"
                  ng-model="$parent.$parent.code">
         </div>
-        <button type="submit" ng-if="showCodeField" class="submit-btn btn outline" ng-click="verify(code)">Sign in</button>
+        <button type="submit" ng-if="showCodeField" class="submit-btn btn outline" ng-click="verify(code)">Submit</button>
         <button type="submit" ng-if="showCodeField" class="submit-btn btn outline" ng-click="back()">Cancel</button>
       </form>
       {{errormsg}}
