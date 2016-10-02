@@ -58,14 +58,14 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           });
           var options = {};
 
-          db.loadDatabase(options, function () {
-            ownImages = db.getCollection('ownImages');
-
-            if (!ownImages) {
-              console.log("creating neew db");
-              ownImages = db.addCollection('ownImages');
-            }
-          });
+          // db.loadDatabase(options, function () {
+          //   ownImages = db.getCollection('ownImages');
+          //
+          //   if (!ownImages) {
+          //     console.log("creating neew own Images");
+          //     ownImages = db.addCollection('ownImages');
+          //   }
+          // });
           resolve(true);
         });
 
@@ -177,7 +177,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
     //add a new own image
     function addOwnImage(image) {
       return $q(function (resolve, reject) {
+        ownImages = db.getCollection('ownImages');
         var res = ownImages.insert(image);
+        console.log(ownImages.data);
         resolve(res.$loki);
       });
     }
@@ -194,6 +196,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
 
           if (!ownImages) {
             ownImages = db.addCollection('ownImages');
+            console.log("added new collection");
           }
           resolve(ownImages.data);
         });
@@ -249,23 +252,23 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
         var options = {};
 
         console.log('addServerImageIdToOwnImage  called');
-        db.loadDatabase(options, function () {
-          ownImages = db.getCollection('ownImages');
-
-          if (!ownImages) {
-            ownImages = db.addCollection('ownImages');
-          }
-
-          for (var i = 0; i < ownImages.length; i++) {
-            if (ownImages[i] != undefined) {
-              if (ownImages[i].localImageId == localImageId) {
-                ownImages[i]._id = serverId;
-              }
+        //timeout is needed here to prevent saving db from creating image and this function to interrupt each other and the date would be overritten and lost
+        setTimeout(function () {
+          db.loadDatabase(options, function () {
+            ownImages = db.getCollection('ownImages');
+            console.log(ownImages.data);
+            if (!ownImages) {
+              console.log("creating new collection");
+              ownImages = db.addCollection('ownImages');
             }
-          }
-
-          resolve(true);
-        });
+            var res = ownImages.find({$loki: localImageId});
+            if(res != undefined){
+              res[0].serverId = serverId;
+              resolve(true);
+            }
+            reject("nothing found to add this server id");
+          });
+        },0);
       });
     }
 

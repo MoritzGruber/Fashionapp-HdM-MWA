@@ -154,12 +154,12 @@ angular.module('starter.controllers', [])
             "onesignal_ids": result[0]
           };
           storageService.addOwnImage(image).then(function (localImageId) {
-            console.log(localImageId);
             //store localy now and get local id
             image.localImageId = localImageId;
-            console.log("we got it");
+            console.log("we got it, local ID = "+localImageId);
             //upload the image with our open socket connection
             socket.emit('new_image', (image));
+            $scope.ownImages.push(image);
           });
           //tracking
           hockeyapp.trackEvent(null, null, 'User made a image');
@@ -177,6 +177,11 @@ angular.module('starter.controllers', [])
         $scope.$broadcast('scroll.refreshComplete');
         hockeyapp.trackEvent(null, null, 'User made a refresh in collection');
       }, 1000);
+    };
+    $scope.debug = function () {
+      storageService.getOwnImages().then(function (res) {
+        console.log(res);
+      });
     };
     // called when item-container is on-hold for showing the delete button
     $scope.onHold = function () {
