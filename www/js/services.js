@@ -21,6 +21,8 @@ angular.module('starter.services', [])
     });
     //receive a vote
     mySocket.on('vote_sent_from_server', function (votepackage) {
+      console.log('Vote empfangen: '+'Vote empfangen: '+votepackage);
+      console.log(votepackage);
       storageService.addVoteToOwnImage(votepackage).then(function (res) {
           }).catch(function (err) {
             console.log(err);

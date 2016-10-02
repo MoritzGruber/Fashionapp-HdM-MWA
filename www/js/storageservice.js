@@ -3,8 +3,8 @@
 //user data ==
 // push id, number, local image id (that is the counter to match the server ids)
 
-angular.module('starter.services').factory('storageService', ['$q', 'Loki',
-  function ($q, Loki) {
+angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'supportservice',
+  function ($q, Loki, supportservice) {
     var db;
     var ownImages;
     var pushId;
@@ -91,8 +91,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             db.loadDatabase(options, function () {
               pushId = db.getCollection('pushId');
 
-              if (!pushId) {
+              if (!pushId || pushId.data[0].pushId !== undefined) {
                 try {
+                  console.log("in try");
                   pushId = db.addCollection('pushId');
                   //get id
                   window.plugins.OneSignal.getIds(function (ids) {
@@ -104,6 +105,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
                   reject("onesignal push notifiactions setup failed " + e);
                 }
               } else {
+                console.log("p");
+
                 resolve(pushId.data[0].pushId);
               }
             });
@@ -240,7 +243,15 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           if (!ownImages) {
             ownImages = db.addCollection('ownImages');
           }
+          //+1 becasue loki starts counting at 1
+          index++;
+          var res = ownImages.get(index);
+          if (res == [] || res == undefined){
+            reject("no image found");
+          }else{
           resolve(ownImages.get(index));
+
+          }
         });
       });
     }
@@ -262,13 +273,15 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
               ownImages = db.addCollection('ownImages');
             }
             var res = ownImages.find({$loki: localImageId});
+            console.log(" ownImages.find res = ");
+            console.log(res);
             if(res != undefined){
               res[0].serverId = serverId;
               resolve(true);
             }
             reject("nothing found to add this server id");
           });
-        },0);
+        },1000);
       });
     }
 
@@ -299,23 +312,23 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           }
           //add a single vote to one of my own images
           function addSingleVote(vote) {
-            for (var i = 0; i < ownImages.length; i++) {
-              if (ownImages[i]._id == vote._id) {
+            for (var i = 0; i < ownImages.data.length; i++) {
+              if (ownImages.data[i].serverId == vote._id) {
                 var user_has_already_voted = false;
                 //check if the same user has already voted
-                for (var j = 0; j < ownImages[i].votes.length; j++) {
+                for (var j = 0; j < ownImages.data[i].votes.length; j++) {
                   //override if already exist
-                  if (ownImages[i].votes[j].number == vote.number) {
-                    ownImages[i].votes[j].vote = vote.rating;
+                  if (ownImages[i].data.votes[j].number == vote.number) {
+                    ownImages[i].data.votes[j].vote = vote.rating;
                     user_has_already_voted = true;
                   }
                 }
-                if (!user_has_already_voted) {
+                if (user_has_already_voted == undefined || !user_has_already_voted ) {
                   //otherwise, we create a new vote on that pic
-                  ownImages[i].votes.push({"number": vote.number, "vote": vote.rating});
+                  ownImages[i].data.votes.push({"number": vote.number, "vote": vote.rating});
                 }
                 //after adding a new vote we have calculate the overall percentage again
-                ownImages[i].percantag = supportservice.calculatePercentage(ownImages[i].votes);
+                ownImages[i].percantag = supportservice.calculatePercentage(ownImages[i].data.votes);
               }
             }
           }
@@ -338,9 +351,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           }
 
           var image_ids = [];
-          for (var i = 0; i < ownImages.length; i++) {
-            if (ownImages[i]._id != undefined) {
-              image_ids.push(ownImages[i]._id);
+          for (var i = 0; i < ownImages.data.length; i++) {
+            if (ownImages.data[i].serverId != undefined) {
+              image_ids.push(ownImages.data[i].serverId);
             }
           }
           resolve(image_ids);
@@ -439,9 +452,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
 
           //make a list of all image_ids that are in collection (ownImages)
           var arr = new Array();
-          for (var i = 0; i < imagesFromOtherUsers.length; i++) {
-            if (imagesFromOtherUsers[i]._id != undefined) {
-              arr.push(imagesFromOtherUsers[i]._id);
+          for (var i = 0; i < imagesFromOtherUsers.data.length; i++) {
+            if (imagesFromOtherUsers.data[i].serverId != undefined) {
+              arr.push(imagesFromOtherUsers.data[i].serverId);
             }
           }
           resolve (arr);
@@ -486,7 +499,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           loadFriends();
         }
         function loadFriends() {
-          console.log('  called');
+          console.log('loadFriends  called');
           db.loadDatabase(options, function () {
             friends = db.getCollection('friends');
             if (!friends) {
@@ -516,7 +529,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
           loadFriends();
         }
         function loadFriends() {
-          console.log('  called');
+          console.log('loadFriends  called');
           db.loadDatabase(options, function () {
             friends = db.getCollection('friends');
             if (!friends) {
@@ -526,6 +539,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
             for (var i = 0; i < friends.data.length; i++) {
               justFriendsArray.push(friends.data[i].number);
             }
+            console.log("justFriendsArray length *"+justFriendsArray.length);
             resolve(justFriendsArray);
           });
         }
@@ -673,6 +687,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki',
                 console.log("trying to send an image to and contact with no usable number");
               }
             }
+            console.log("resArray= "+resArray.length + resArray);
             resolve(resArray);
           });
         }

@@ -116,17 +116,8 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
             controller: 'FriendsCtrl'
           }
         }
-      })
-    //tab.profile-phonecontacts
-      .state('tab.profile-phonecontacts', {
-        url: '/profile/friends/phonecontacts',
-        views: {
-          'tab-profile': {
-            templateUrl: 'templates/tap-profile-phonecontacts.html',
-            controller: 'SelectFriendCtrl'
-          }
-        }
       });
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/collection');
   });

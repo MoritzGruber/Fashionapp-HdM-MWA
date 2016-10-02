@@ -145,11 +145,11 @@ angular.module('starter.controllers', [])
         // Promise.join(storageService.getPushId(),storageService.getNumber(), function (pushId, number) {
         //   console.log("Push id: "+pushId+ " Number: "+number);
         // });
-        $q.all([storageService.getPushId(), storageService.getNumber()]).then(function (result) {
+        $q.all([storageService.getPushId(), storageService.getNumber(), storageService.getSelectedFriendsNumberArray()]).then(function (result) {
           var votes = [];
           image = {
             "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": result[1],
-            "recipients": storageService.getFriendsNumbers(),
+            "recipients": result[2],
             "votes": votes,
             "onesignal_ids": result[0]
           };
@@ -180,7 +180,9 @@ angular.module('starter.controllers', [])
     };
     $scope.debug = function () {
       storageService.getOwnImages().then(function (res) {
+
         console.log(res);
+        console.log($scope.ownImages);
       });
     };
     // called when item-container is on-hold for showing the delete button
@@ -234,6 +236,7 @@ angular.module('starter.controllers', [])
     };
     //manually refresh for new data, this handles all the pulldowns
     $scope.doRefresh = function () {
+      console.log($rootScope);
       $timeout(function () {
         //simulate async response
         communicationservice.updateData("community");
@@ -280,23 +283,34 @@ angular.module('starter.controllers', [])
     });
   })
 
-  .controller('FriendsCtrl', function ($scope, socket, storageService, $state, contacts) {
+  .controller('FriendsCtrl', function ($scope, socket, storageService, $state, contacts, $timeout) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
+    $scope.loading = true;
     $scope.friendList = [];
     $scope.friendsToDelete = [];
     $scope.deleteMode = false;
     $scope.selectedFriends = [];
     storageService.getSelectedFriendsIdsArray().then(function (resArray) {
       $scope.selectedFriends = resArray;
+      $scope.$broadcast('scroll.refreshComplete');
     });
-
+    $scope.doRefresh = function () {
+      $scope.syncWithPhone();
+      $timeout(function () {
+        //simulate async response
+        //Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+        hockeyapp.trackEvent(null, null, 'User loaded friends from phone with pull down');
+      }, 1000);
+    };
     //get all friends and fill the array to show it
     storageService.getFriends().then(function (resultArrayOfFriends) {
       if (resultArrayOfFriends.length == 0) {
         $scope.syncWithPhone();
       }
       $scope.friendList = resultArrayOfFriends;
+      $scope.loading = false;
     });
     //syncWithPhone == override all contacts with the ones from the phone
     $scope.syncWithPhone = function () {
@@ -306,13 +320,12 @@ angular.module('starter.controllers', [])
           $scope.friendList = res;
           $scope.loadingContacts = false;
           console.log("contacts succsessful loaded and saved to database");
+          $scope.loading = false;
         });
       });
     };
     //select from phone
-    $scope.selectFromPhone = function () {
-      $state.go('tab.profile-phonecontacts');
-    };
+
 
 
     // add a friend to the array

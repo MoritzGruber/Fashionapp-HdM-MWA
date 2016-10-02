@@ -9871,3 +9871,7 @@ input {
 
 ion-tabs.tabs-color-active-balanced .tab-item.tab-item-active, ion-tabs.tabs-color-active-balanced .tab-item.active, ion-tabs.tabs-color-active-balanced .tab-item.activated {
   color: #fff; }
+
+.loadingSpinner svg {
+  display: block;
+  margin: auto; }

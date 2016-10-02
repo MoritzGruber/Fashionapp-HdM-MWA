@@ -220,7 +220,13 @@ ion-tabs.tabs-color-active-balanced .tab-item.tab-item-active, ion-tabs.tabs-col
   color: #fff;
 }
 
-//CDCECF balcken oben
+//put loading spinner in the center
+.loadingSpinner {
+  svg{
+    display: block;
+    margin: auto;
+  }
+}
 
 
 
