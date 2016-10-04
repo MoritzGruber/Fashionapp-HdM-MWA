@@ -246,7 +246,7 @@ angular.module('starter.controllers', [])
       $timeout(function () {
         //simulate async response
         //Stop the ion-refresher from spinning
-        $scope.$broadcastd('scroll.refreshComplete');
+        $scope.$broadcast('scroll.refreshComplete');
         hockeyapp.trackEvent(null, null, 'User made a refresh in community');
       }, 1000);
     };

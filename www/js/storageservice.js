@@ -3,8 +3,8 @@
 //user data ==
 // push id, number, local image id (that is the counter to match the server ids)
 
-angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'supportservice',
-  function ($q, Loki, supportservice) {
+angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'supportservice', '$localStorage',
+  function ($q, Loki, supportservice, $localStorage) {
     var db;
     var ownImages;
     var pushId;
@@ -76,103 +76,86 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
     //get the push id and if not found call onesignal plugin
     function getPushId() {
       return $q(function (resolve, reject) {
-        ionic.Platform.ready(function () {
-          if (db == undefined) {
-            initDB().then(function () {
+        //first try local storage
+        if ($localStorage.pushId != undefined && $localStorage != null) {
+          resolve($localStorage.pushId);
+        } else {
+          //if local storage dont work try db
+          ionic.Platform.ready(function () {
+            if (db == undefined) {
+              initDB().then(function () {
+                run();
+              });
+            } else {
               run();
-            });
-          } else {
-            run();
-          }
-          function run() {
-            var options = {};
-            var object = {};
-            console.log(' getPushId called');
-            db.loadDatabase(options, function () {
-              pushId = db.getCollection('pushId');
+            }
+            function run() {
+              var options = {};
+              var object = {};
+              console.log(' getPushId from db called');
+              db.loadDatabase(options, function () {
+                pushId = db.getCollection('pushId');
 
-              if (!pushId || pushId.data[0].pushId !== undefined) {
-                try {
-                  console.log("in try");
-                  pushId = db.addCollection('pushId');
-                  //get id
-                  window.plugins.OneSignal.getIds(function (ids) {
-                    object.pushId = ids.userId;
-                    pushId.insert(object);
-                    resolve(ids.userId);
-                  });
-                } catch (e) {
-                  reject("onesignal push notifiactions setup failed " + e);
+                if (!pushId || pushId.data[0].pushId !== undefined) {
+                  try {
+                    //if db dont have the stuff we need to get a new one
+                    pushId = db.addCollection('pushId');
+                    //get id
+                    window.plugins.OneSignal.getIds(function (ids) {
+                      object.pushId = ids.userId;
+                      pushId.insert(object);
+                      $localStorage.pushId = ids.userId;
+                      resolve(ids.userId);
+                    });
+                  } catch (e) {
+                    reject("onesignal push notifiactions setup failed " + e);
+                  }
+                } else {
+                  $localStorage.pushId = pushId.data[0].pushId;
+                  resolve(pushId.data[0].pushId);
                 }
-              } else {
-                console.log("p");
+              });
+            }
 
-                resolve(pushId.data[0].pushId);
-              }
-            });
-          }
-
-        });
-
+          });
+        }
       });
     }
 
-    //getting own number
+    //getting own number first try localstorage, if this don't work try db
     function getNumber() {
-
       return $q(function (resolve, reject) {
-        var options = {};
+        if ($localStorage.number != undefined && $localStorage.number != null) {
+          resolve("" + $localStorage.number);
+        } else {
+          var options = {};
+          console.log('getNumber from db called');
+          db.loadDatabase(options, function () {
+            ownNumber = db.getCollection('ownNumber');
 
-        console.log('getNumber  called');
-        db.loadDatabase(options, function () {
-          ownNumber = db.getCollection('ownNumber');
+            if (!ownNumber) {
+              resolve("Unknown");
+            }
+            else {
+              $localStorage.number = (ownNumber.data[0].number);
+              resolve("" + ownNumber.data[0].number);
 
-          if (!ownNumber) {
-            resolve("Unknown");
-          } else if (ownNumber.data[0].number.length < 4) {
-            resolve("Unknown");
-          } else {
-            resolve("" + ownNumber.data[0].number);
-          }
-        });
+            }
+          });
+        }
       });
     }
 
     //setting own number
     function addNumber(newOwnNumber) {
       return $q(function (resolve, reject) {
+        $localStorage.number = newOwnNumber;
         var options = {};
         var object = {'number': newOwnNumber};
-        console.log(' addNumber called');
         db.loadDatabase(options, function () {
           ownNumber = db.addCollection('ownNumber');
           ownNumber.insert(object);
           resolve(true);
-        });
-      });
-    }
-
-    // get localImageId (vurrent counter)
-    function getLocalImageIdCounter() {
-      return $q(function (resolve, reject) {
-        var options = {};
-
-        console.log('getLocalImageIdCounter  called');
-        db.loadDatabase(options, function () {
-          localImageIdCounter = db.getCollection('localImageIdCounter');
-
-          if (!localImageIdCounter) {
-            //if there is no counter we start from zero
-            localImageIdCounter.insert(0);
-            localImageIdCounter = db.addCollection('localImageIdCounter');
-          } else {
-            //add one to the counter and save it again
-            var tmp = localImageIdCounter.data[0];
-            tmp++;
-            localImageIdCounter = db.addCollection('localImageIdCounter');
-            localImageIdCounter.insert(tmp);
-            resolve(tmp);
-          }
         });
       });
     }
@@ -246,10 +229,10 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
           //+1 becasue loki starts counting at 1
           index++;
           var res = ownImages.get(index);
-          if (res == [] || res == undefined){
+          if (res == [] || res == undefined) {
             reject("no image found");
-          }else{
-          resolve(ownImages.get(index));
+          } else {
+            resolve(ownImages.get(index));
 
           }
         });
@@ -275,13 +258,13 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
             var res = ownImages.find({$loki: localImageId});
             console.log(" ownImages.find res = ");
             console.log(res);
-            if(res != undefined){
+            if (res != undefined) {
               res[0].serverId = serverId;
               resolve(true);
             }
             reject("nothing found to add this server id");
           });
-        },1000);
+        }, 1000);
       });
     }
 
@@ -312,29 +295,20 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
           }
           //add a single vote to one of my own images
           function addSingleVote(vote) {
-            for (var i = 0; i < ownImages.data.length; i++) {
-              if (ownImages.data[i].serverId == vote._id) {
-                var user_has_already_voted = false;
-                //check if the same user has already voted
-                for (var j = 0; j < ownImages.data[i].votes.length; j++) {
-                  //override if already exist
-                  if (ownImages[i].data.votes[j].number == vote.number) {
-                    ownImages[i].data.votes[j].vote = vote.rating;
-                    user_has_already_voted = true;
-                  }
+            var tmp = ownImages.findOne({'serverId': vote._id});
+            if (tmp != null) {
+              var tmpArray = tmp.votes;
+              var user_has_already_voted = false;
+              for (var j = 0; j < tmpArray.length; j++) {
+                if (tmpArray[j].number == vote.number) {
+                  user_has_already_voted = true;
                 }
-                if (user_has_already_voted == undefined || !user_has_already_voted ) {
-                  //otherwise, we create a new vote on that pic
-                  console.log(ownImages);
-                  // Find and update an existing document
-                  var tmp = ownImages.findOne({'serverId': vote._id});
-                  var tmpArray = tmp.votes;
-                  tmpArray.push({"number": vote.number, "vote": vote.rating});
-                  tmp.votes = tmpArray;
-                  ownImages.update(tmp);
-                }
-                //after adding a new vote we have calculate the overall percentage again
-                ownImages[i].percantag = supportservice.calculatePercentage(ownImages[i].data.votes);
+              }
+              if (!user_has_already_voted) {
+                tmpArray.push({"number": vote.number, "vote": vote.rating});
+                tmp.votes = tmpArray;
+                tmp.percantag = supportservice.calculatePercentage(tmpArray);
+                ownImages.update(tmp);
               }
             }
           }
@@ -424,7 +398,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
         });
       });
 
-    }function getImageFromOtherUser(index) {
+    }
+
+    function getImageFromOtherUser(index) {
 
       return $q(function (resolve, reject) {
         var options = {};
@@ -436,7 +412,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
           if (!imagesFromOtherUsers) {
             imagesFromOtherUsers = db.addCollection('imagesFromOtherUsers');
           }
-          console.log('getImageFromOtherUser====='+imagesFromOtherUsers.get(index).data);
+          console.log('getImageFromOtherUser=====' + imagesFromOtherUsers.get(index).data);
           resolve(imagesFromOtherUsers.get(index));
         });
       });
@@ -463,7 +439,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
               arr.push(imagesFromOtherUsers.data[i].serverId);
             }
           }
-          resolve (arr);
+          resolve(arr);
         });
       });
     }
@@ -545,7 +521,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
             for (var i = 0; i < friends.data.length; i++) {
               justFriendsArray.push(friends.data[i].number);
             }
-            console.log("justFriendsArray length *"+justFriendsArray.length);
+            console.log("justFriendsArray length *" + justFriendsArray.length);
             resolve(justFriendsArray);
           });
         }
@@ -693,7 +669,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
                 console.log("trying to send an image to and contact with no usable number");
               }
             }
-            console.log("resArray= "+resArray.length + resArray);
+            console.log("resArray= " + resArray.length + resArray);
             resolve(resArray);
           });
         }
