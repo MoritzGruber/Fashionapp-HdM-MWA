@@ -237,11 +237,16 @@ angular.module('starter.controllers', [])
     //manually refresh for new data, this handles all the pulldowns
     $scope.doRefresh = function () {
       console.log($rootScope);
+      storageService.getImagesFromOtherUsers().then(function (res) {
+        $rootScope.local = res;
+      }).catch(function (err) {
+        console.log(err);
+      });
+      communicationservice.updateData("community");
       $timeout(function () {
         //simulate async response
-        communicationservice.updateData("community");
         //Stop the ion-refresher from spinning
-        $scope.$broadcast('scroll.refreshComplete');
+        $scope.$broadcastd('scroll.refreshComplete');
         hockeyapp.trackEvent(null, null, 'User made a refresh in community');
       }, 1000);
     };

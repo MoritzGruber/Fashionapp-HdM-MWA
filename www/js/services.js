@@ -4,7 +4,7 @@ angular.module('starter.services', [])
 //returning the socket
   .factory('socket', function ($rootScope, socketFactory, storageService) {
     //Create socket and connect to (server ip)
-    var myIoSocket = io.connect('http://10.60.40.63:3000'); //<-- place your ip in here if you docker/etc is running on a other one
+    var myIoSocket = io.connect('http://192.168.0.100:3000'); //<-- place your ip in here if you docker/etc is running on a other one
     var mySocket = socketFactory({
       ioSocket: myIoSocket
     });

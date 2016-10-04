@@ -325,7 +325,13 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
                 }
                 if (user_has_already_voted == undefined || !user_has_already_voted ) {
                   //otherwise, we create a new vote on that pic
-                  ownImages[i].data.votes.push({"number": vote.number, "vote": vote.rating});
+                  console.log(ownImages);
+                  // Find and update an existing document
+                  var tmp = ownImages.findOne({'serverId': vote._id});
+                  var tmpArray = tmp.votes;
+                  tmpArray.push({"number": vote.number, "vote": vote.rating});
+                  tmp.votes = tmpArray;
+                  ownImages.update(tmp);
                 }
                 //after adding a new vote we have calculate the overall percentage again
                 ownImages[i].percantag = supportservice.calculatePercentage(ownImages[i].data.votes);
