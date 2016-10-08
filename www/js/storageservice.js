@@ -3,8 +3,8 @@
 //user data ==
 // push id, number, local image id (that is the counter to match the server ids)
 
-angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'supportservice', '$localStorage',
-  function ($q, Loki, supportservice, $localStorage) {
+angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'supportservice', '$localStorage', '$rootScope',
+  function ($q, Loki, supportservice, $localStorage, $rootScope) {
     var db;
     var ownImages;
     var pushId;
@@ -190,7 +190,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
     }
 
     //delete an own image
-    function deleteOwnImage() {
+    function deleteOwnImage(index) {
 
       return $q(function (resolve, reject) {
         var options = {};
@@ -204,7 +204,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
           }
 
           if (ownImages.data[index] != undefined && ownImages.data[index] != null) {
-            ownImages.data.splice(index, 1);
+            ownImages.remove(ownImages.data[index]);
             resolve(true);
           } else {
             resolve(false);
@@ -293,6 +293,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
             //its only a single vote in the package
             addSingleVote(votepackage);
           }
+          resolve(true);
           //add a single vote to one of my own images
           function addSingleVote(vote) {
             var tmp = ownImages.findOne({'serverId': vote._id});
@@ -308,6 +309,11 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
                 tmpArray.push({"number": vote.number, "vote": vote.rating});
                 tmp.votes = tmpArray;
                 tmp.percantag = supportservice.calculatePercentage(tmpArray);
+                for (var i = 0; i < $rootScope.ownImages.length; i++) {
+                  if($rootScope.ownImages[i].serverId == tmp.serverId){
+                    $rootScope.ownImages[i] = tmp;
+                  }
+                }
                 ownImages.update(tmp);
               }
             }
@@ -355,13 +361,13 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
             imagesFromOtherUsers = db.addCollection('imagesFromOtherUsers');
           }
 
-          imagesFromOtherUsers.insert(image);
+          resolve (imagesFromOtherUsers.insert(image).$loki);
         });
       });
     }
 
     //delete an image from another user
-    function deleteImageFromOtherUser(index) {
+    function deleteImageFromOtherUser(lokiindex) {
 
       return $q(function (resolve, reject) {
         var options = {};
@@ -373,8 +379,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
           if (!imagesFromOtherUsers) {
             return;
           }
-
-          imagesFromOtherUsers.data.splice(index, 1);
+          var tmp = imagesFromOtherUsers.findOne({$loki: lokiindex});
+          imagesFromOtherUsers.remove(tmp);
           resolve(true);
         });
       });
@@ -412,8 +418,11 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
           if (!imagesFromOtherUsers) {
             imagesFromOtherUsers = db.addCollection('imagesFromOtherUsers');
           }
-          console.log('getImageFromOtherUser=====' + imagesFromOtherUsers.get(index).data);
-          resolve(imagesFromOtherUsers.get(index));
+          for (var i = 0; i < imagesFromOtherUsers.data.length; i++) {
+            if(imagesFromOtherUsers.data[i].$loki == index){
+              resolve(imagesFromOtherUsers.data[i]);
+            }
+          }
         });
       });
     }

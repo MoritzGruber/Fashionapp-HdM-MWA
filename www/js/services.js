@@ -4,7 +4,7 @@ angular.module('starter.services', [])
 //returning the socket
   .factory('socket', function ($rootScope, socketFactory, storageService) {
     //Create socket and connect to (server ip)
-    var myIoSocket = io.connect('http://192.168.0.100:3000'); //<-- place your ip in here if you docker/etc is running on a other one
+    var myIoSocket = io.connect('http://10.60.43.243:3000'); //<-- place your ip in here if you docker/etc is running on a other one
     var mySocket = socketFactory({
       ioSocket: myIoSocket
     });
@@ -73,9 +73,9 @@ angular.module('starter.services', [])
   .service('voteservice', function (socket, storageService, $q) {
     return {
       //this is the voting function, called in the community tab
-      vote: function (voting, indexofvotedimage) {
+      vote: function (voting, lokiindex) {
         return $q(function (resolve, reject) {
-          $q.all([ storageService.getNumber(), storageService.getImageFromOtherUser(indexofvotedimage) ]).then(function (result) {
+          $q.all([ storageService.getNumber(), storageService.getImageFromOtherUser(lokiindex) ]).then(function (result) {
             //send vote
             console.log('result'+result[1]);
             var package_ = {
@@ -88,7 +88,7 @@ angular.module('starter.services', [])
             //destory object after sending the vote, currently we assume internet always works
             hockeyapp.trackEvent(null, null, 'User made a vote');
             console.log('waaaas loos');
-            return storageService.deleteImageFromOtherUser(indexofvotedimage);
+            return storageService.deleteImageFromOtherUser(lokiindex);
           }).then(function (res) {
             console.log('aaaaab? ');
             resolve(true);

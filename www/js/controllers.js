@@ -74,8 +74,8 @@ angular.module('starter.controllers', [])
       }
     });
   })
-  .controller('CollectionCtrl', function ($scope, $q, $base64, $timeout, socket, Camera, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, storageService) {
-    $scope.ownImages = [];
+  .controller('CollectionCtrl', function ($scope, $q, $base64, $timeout, socket, Camera, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, storageService, $rootScope) {
+    $rootScope.ownImages = [];
 
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
@@ -95,10 +95,10 @@ angular.module('starter.controllers', [])
           //load own images into the scope
           return storageService.getOwnImages();
         }).then(function (loadedOwnImages) {
-          $scope.ownImages = loadedOwnImages;
+          $rootScope.ownImages = loadedOwnImages;
           //calling the calculate percentage function for each image
-          for (var i = 0; i < $scope.ownImages.length; i++) {
-            $scope.ownImages[i].percantag = supportservice.calculatePercentage($scope.ownImages[i].votes);
+          for (var i = 0; i < $rootScope.ownImages.length; i++) {
+            $rootScope.ownImages[i].percantag = supportservice.calculatePercentage($rootScope.ownImages[i].votes);
           }
           //listen to the server for new stuff (socket)
           $scope.socket = socket;
@@ -156,10 +156,10 @@ angular.module('starter.controllers', [])
           storageService.addOwnImage(image).then(function (localImageId) {
             //store localy now and get local id
             image.localImageId = localImageId;
-            console.log("we got it, local ID = "+localImageId);
+            console.log("we got it, local ID = " + localImageId);
             //upload the image with our open socket connection
             socket.emit('new_image', (image));
-            $scope.ownImages.push(image);
+            $rootScope.ownImages.push(image);
           });
           //tracking
           hockeyapp.trackEvent(null, null, 'User made a image');
@@ -182,7 +182,7 @@ angular.module('starter.controllers', [])
       storageService.getOwnImages().then(function (res) {
 
         console.log(res);
-        console.log($scope.ownImages);
+        console.log($rootScope.ownImages);
       });
     };
     // called when item-container is on-hold for showing the delete button
@@ -192,10 +192,11 @@ angular.module('starter.controllers', [])
       $scope.detailLink = true;
     };
     // deleting the image
-    $scope.onDelete = function (index) {
-      storageService.deleteOwnImage(index);
+    $scope.onDelete = function (scopeindex, lokiindex) {
+      storageService.deleteOwnImage(lokiindex);
       $scope.deleteBtn = false;
       $scope.detailDisabled = false;
+      $rootScope.ownImages.splice(scopeindex, 1);
       hockeyapp.trackEvent(null, null, 'User deleted own image');
     };
     // hiding the delete button
@@ -206,8 +207,10 @@ angular.module('starter.controllers', [])
     };
     //open detail view of the image
     $scope.openDetailImage = function (index) {
-      $state.go('tab.collection-detail', {imageId: index});
-      hockeyapp.trackEvent(null, null, 'User viewed his own image on detail');
+      if (!$scope.deleteBtn) {
+        $state.go('tab.collection-detail', {imageId: index});
+        hockeyapp.trackEvent(null, null, 'User viewed his own image on detail');
+      }
     };
   })
 
@@ -229,7 +232,7 @@ angular.module('starter.controllers', [])
     //this function is called when you hit a vote button
     $scope.vote = function (voting, indexofvotedimage, scopeindex) {
       voteservice.vote(voting, indexofvotedimage).then(function (res) {
-        $rootScope.local.splice(scopeindex,1);
+        $rootScope.local.splice(scopeindex, 1);
       }).catch(function (err) {
         console.log(err);
       });
@@ -330,7 +333,6 @@ angular.module('starter.controllers', [])
       });
     };
     //select from phone
-
 
 
     // add a friend to the array
