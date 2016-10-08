@@ -280,15 +280,16 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('CollectionDetailCtrl', function ($scope, $stateParams, socket, storageService) {
+  .controller('CollectionDetailCtrl', function ($scope, $stateParams, socket, $rootScope, storageService) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     //just get the right image to show out of the link params
-    storageService.getOwnImage($stateParams.imageId).then(function (res) {
-      $scope.image = res;
-    }).catch(function (err) {
-      console.log(err);
-    });
+    $scope.image = $rootScope.ownImages[$stateParams.imageId];
+    // storageService.getOwnImage($stateParams.imageId).then(function (res) {
+    //   $scope.image = res;
+    // }).catch(function (err) {
+    //   console.log(err);
+    // });
   })
 
   .controller('FriendsCtrl', function ($scope, socket, storageService, $state, contacts, $timeout) {
