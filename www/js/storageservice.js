@@ -203,9 +203,9 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
             ownImages = db.addCollection('ownImages');
           }
 
-          if (ownImages.data[index] != undefined && ownImages.data[index] != null) {
-            ownImages.remove(ownImages.data[index]);
-            resolve(true);
+          var tmp = ownImages.findOne({$loki: index});
+          if (tmp != undefined && tmp != null) {
+            resolve(ownImages.remove(tmp));
           } else {
             resolve(false);
           }

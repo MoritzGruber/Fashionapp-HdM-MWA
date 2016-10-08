@@ -193,6 +193,7 @@ angular.module('starter.controllers', [])
     };
     // deleting the image
     $scope.onDelete = function (scopeindex, lokiindex) {
+      console.log('scope: ' +scopeindex + ' loki: '+lokiindex );
       storageService.deleteOwnImage(lokiindex);
       $scope.deleteBtn = false;
       $scope.detailDisabled = false;
