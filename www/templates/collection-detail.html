@@ -6,15 +6,15 @@
   </ion-nav-title>
   <a href="#/tab/collection">
   <ion-content class="padding">
-    <img class="fullscreenimage" ng-src="data:image/jpeg;base64, {{image.imageData}}">
+    <img class="fullscreenimage" ng-src="data:image/jpeg;base64, {{ownImages[index].imageData}}">
     <div class="row">
       <div class="col col-center">
         <h2 class="positive">YES</h2>
-        <div ng-repeat="vote in image.votes" ng-show="vote.vote==true">{{vote.number}}</div>
+        <div ng-repeat="vote in ownImages[index].votes" ng-show="vote.vote==true">{{vote.number}}</div>
       </div>
       <div class="col">
         <h2 class="balanced">NO</h2>
-        <div ng-repeat="vote in image.votes" ng-show="vote.vote==false">{{vote.number}}</div>
+        <div ng-repeat="vote in ownImages[index].votes" ng-show="vote.vote==false">{{vote.number}}</div>
       </div>
     </div>
   </ion-content>

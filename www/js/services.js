@@ -4,11 +4,11 @@ angular.module('starter.services', [])
 //returning the socket
   .factory('socket', function ($rootScope, socketFactory, storageService) {
     //Create socket and connect to (server ip)
-    var myIoSocket = io.connect('http://10.60.43.243:3000'); //<-- place your ip in here if you docker/etc is running on a other one
+    var myIoSocket = io.connect('http://138.68.74.156:3000'); //<-- place your ip in here if you docker/etc is running on a other one
     var mySocket = socketFactory({
       ioSocket: myIoSocket
     });
-    //sending pushId to sever so we mark him as online
+    //sending pushId to sever so we mgark him as online
 
     storageService.getPushId().then(function (res) {
       mySocket.emit('join', res);
@@ -24,6 +24,7 @@ angular.module('starter.services', [])
       console.log('Vote empfangen: '+'Vote empfangen: '+votepackage);
       console.log(votepackage);
       storageService.addVoteToOwnImage(votepackage).then(function (res) {
+          $rootScope.ownImages
           }).catch(function (err) {
             console.log(err);
           });

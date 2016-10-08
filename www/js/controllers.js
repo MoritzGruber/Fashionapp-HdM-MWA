@@ -284,8 +284,9 @@ angular.module('starter.controllers', [])
   .controller('CollectionDetailCtrl', function ($scope, $stateParams, socket, $rootScope, storageService) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
+    $scope.index = $stateParams.imageId;
     //just get the right image to show out of the link params
-    $scope.image = $rootScope.ownImages[$stateParams.imageId];
+    
     // storageService.getOwnImage($stateParams.imageId).then(function (res) {
     //   $scope.image = res;
     // }).catch(function (err) {

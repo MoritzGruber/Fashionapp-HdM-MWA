@@ -310,7 +310,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
                 tmp.votes = tmpArray;
                 tmp.percantag = supportservice.calculatePercentage(tmpArray);
                 for (var i = 0; i < $rootScope.ownImages.length; i++) {
-                  if($rootScope.ownImages[i].serverId == tmp.serverId){
+                  if($rootScope.ownImages[i].imageData == tmp.imageData){
+                    console.log('apply to root scope');
                     $rootScope.ownImages[i] = tmp;
                   }
                 }
