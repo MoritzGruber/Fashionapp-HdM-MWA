@@ -39,12 +39,12 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
       getFriends: getFriends,
       deleteFriends: deleteFriends,
       getFriendsNumbers: getFriendsNumbers,
-      getNameForNumber: getNameForNumber,
       updateFriends: updateFriends,
       getSelectedFriendsNumberArray: getSelectedFriendsNumberArray,
       getSelectedFriendsIdsArray: getSelectedFriendsIdsArray,
       addSelectedFriendByID: addSelectedFriendByID,
-      removeSelectedFriendByID: removeSelectedFriendByID
+      removeSelectedFriendByID: removeSelectedFriendByID,
+      friendNameByNumber: friendNameByNumber
     };
     function initDB() {
       return $q(function (resolve, reject) {
@@ -306,16 +306,20 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
                 }
               }
               if (!user_has_already_voted) {
-                tmpArray.push({"number": vote.number, "vote": vote.rating});
-                tmp.votes = tmpArray;
-                tmp.percantag = supportservice.calculatePercentage(tmpArray);
-                for (var i = 0; i < $rootScope.ownImages.length; i++) {
-                  if($rootScope.ownImages[i].imageData == tmp.imageData){
-                    console.log('apply to root scope');
-                    $rootScope.ownImages[i] = tmp;
+                this.getNameForNumber(vote.number).then(function (resName) {
+                  tmpArray.push({"number": vote.number, "vote": vote.rating, "username": resName});
+                  tmp.votes = tmpArray;
+                  tmp.percantag = supportservice.calculatePercentage(tmpArray);
+                  for (var i = 0; i < $rootScope.ownImages.length; i++) {
+                    if($rootScope.ownImages[i].imageData == tmp.imageData){
+                      console.log('apply to root scope');
+                      $rootScope.ownImages[i] = tmp;
+                    }
                   }
-                }
-                ownImages.update(tmp);
+                  ownImages.update(tmp);
+                }).catch(function (err) {
+                  console.log(err);
+                });
               }
             }
           }
@@ -576,8 +580,11 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
     }
 
     //getNameForNumber
-    function getNameForNumber(number) {
+    function friendNameByNumber(number) {
       return $q(function (resolve, reject) {
+        if(number == "99999999999999"){
+          resolve("Fittshot Team");
+        }
         var options = {};
         console.log('getNameForNumber  called');
         db.loadDatabase(options, function () {
@@ -589,7 +596,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
           var name = friends.find({'number': number}).name;
           if (name == "" || name == undefined) {
             console.log('To this number was no name found');
-            resolve(number);
+            resolve(" ");
           } else {
             resolve(name);
           }

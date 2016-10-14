@@ -4,7 +4,7 @@ angular.module('starter.services', [])
 //returning the socket
   .factory('socket', function ($rootScope, socketFactory, storageService) {
     //Create socket and connect to (server ip)
-    var myIoSocket = io.connect('http://138.68.74.156:3000'); //<-- place your ip in here if you docker/etc is running on a other one
+    var myIoSocket = io.connect('http://192.168.0.100:3000'); //<-- place your ip in here if you docker/etc is running on a other one
     var mySocket = socketFactory({
       ioSocket: myIoSocket
     });
@@ -24,7 +24,6 @@ angular.module('starter.services', [])
       console.log('Vote empfangen: '+'Vote empfangen: '+votepackage);
       console.log(votepackage);
       storageService.addVoteToOwnImage(votepackage).then(function (res) {
-          $rootScope.ownImages
           }).catch(function (err) {
             console.log(err);
           });
@@ -46,8 +45,13 @@ angular.module('starter.services', [])
         if (!image_is_already_in_storage) {
           //there was no image with the same id
           console.log('add iamge :'+ image);
-          storageService.addImageFromOtherUser(image).then(function (res) {
-            $rootScope.local.push(image);
+          storageService.friendNameByNumber(image.transmitternumber).then(function (resName) {
+            image.username = resName;
+            storageService.addImageFromOtherUser(image).then(function (res) {
+              $rootScope.local.push(image);
+            }).catch(function (err) {
+              console.log(err);
+            });
           }).catch(function (err) {
             console.log(err);
           });
