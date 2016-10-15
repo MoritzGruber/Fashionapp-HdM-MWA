@@ -286,7 +286,7 @@ angular.module('starter.controllers', [])
     $scope.socket = socket;
     $scope.index = $stateParams.imageId;
     //just get the right image to show out of the link params
-    
+
     // storageService.getOwnImage($stateParams.imageId).then(function (res) {
     //   $scope.image = res;
     // }).catch(function (err) {
@@ -302,6 +302,14 @@ angular.module('starter.controllers', [])
     $scope.friendsToDelete = [];
     $scope.deleteMode = false;
     $scope.selectedFriends = [];
+    contacts.getContacts().then(function (resultArrayOfContacts) {
+      storageService.updateFriends(resultArrayOfContacts).then(function (res) {
+        $scope.friendList = res;
+        $scope.loadingContacts = false;
+        console.log("contacts succsessful loaded and saved to database");
+        $scope.loading = false;
+      });
+    });
     storageService.getSelectedFriendsIdsArray().then(function (resArray) {
       $scope.selectedFriends = resArray;
       $scope.$broadcast('scroll.refreshComplete');

@@ -593,12 +593,12 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
           if (!friends) {
             friends = db.addCollection('friends');
           }
-          var name = friends.find({'number': number}).name;
-          if (name == "" || name == undefined) {
+          var name = friends.findOne({'number': number});
+          if (name == "" || name == undefined || name == null) {
             console.log('To this number was no name found');
             resolve(" ");
           } else {
-            resolve(name);
+            resolve(name.displayName);
           }
         });
       });

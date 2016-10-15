@@ -204,7 +204,14 @@ angular.module('starter.services', [])
 
           if (contact[i].phoneNumbers) // check if there are numbers
             for (var j = 0; j < contact[i].phoneNumbers.length; j++) {
-              phone = JSON.stringify(contact[i].phoneNumbers[j].value); // if you want to modify any data directly
+              phone = contact[i].phoneNumbers[j].value; // if you want to modify any data directly
+
+              phone = phone.split(' ').join('');
+              //replace +49 with 0
+              if(phone.indexOf('+49') != -1){
+                phone = phone.replace('+49', '0');
+              }
+              contact[i].number = phone;
             }
         }
         callBackFunction(); // notify controller that we got the numbers
