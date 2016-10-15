@@ -680,8 +680,8 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
             }
             var tmpResult = friends.find({'id': {'$in': tmp}});
             for (var j = 0; j < tmpResult.length; j++) {
-              if (tmpResult[j].phoneNumbers[0].value != undefined) {
-                resArray.push(tmpResult[j].phoneNumbers[0].value);
+              if (tmpResult[j].number != undefined) {
+                resArray.push(tmpResult[j].number);
               } else {
                 console.log("trying to send an image to and contact with no usable number");
               }

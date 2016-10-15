@@ -117,7 +117,7 @@ angular.module('starter.controllers', [])
       if (navigator.connection.type == Connection.WIFI || navigator.connection.type == Connection.ETHERNET) {
         //Setting for good internet speed
         cameraSettings = {
-          sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
+          // sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
           destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
           quality: 100,
           targetWidth: 640,
@@ -128,7 +128,7 @@ angular.module('starter.controllers', [])
       } else {
         //settings for bad internet speed
         cameraSettings = {
-          sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
+          // sourceType: 1,//navigator.camera.PictureSourceType.CAMERA,
           destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
           quality: 70,
           targetWidth: 320,
