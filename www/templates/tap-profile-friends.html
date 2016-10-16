@@ -1,6 +1,6 @@
 <ion-view>
   <ion-nav-title class="header-title">
-    Manage Friends
+    <label>Search: <input ng-model="searchText" style="color: black"></label>
   </ion-nav-title>
   <ion-content class="padding">
     <!--<div class="outline">-->
@@ -21,15 +21,15 @@
     <!--</div>-->
     <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
-    <ion-item class="item-royal" ng-repeat="friend in friendList track by $index" on-tap="toggleSelect(friend.id)" >
+    <ion-item class="item-royal" ng-repeat="friend in friendListFound = (friendList | filter: {displayName: searchText}) track by $index" on-tap="toggleSelect(friend.id)" >
       <!--on-hold="toggleDeleteMode(friend.lokiID)" on-tap="toggleDeleteList(friend.lokiID)"-->
-      <!--<div>-->
+      <div>
         <!--ng-class="{markedForDelete: (friendsToDelete.indexOf(friend.lokiID) > -1)}"-->
-          <!--<h3 ng-class="{friendIsSelected: (selectedFriends.indexOf(friend.id) > -1)}"> {{friend.displayName}}</h3>-->
-      <!--</div>-->
-      <ion-list>
-        <ion-checkbox ng-repeat="friend in friends">{{friend.displayName}}</ion-checkbox>
-      </ion-list>
+          <h3 ng-class="{friendIsSelected: (selectedFriends.indexOf(friend.id) > -1)}"> {{friend.displayName}}</h3>
+      </div>
+      <!--<ion-list>-->
+        <!--<ion-checkbox checked="{friendIsSelected: (selectedFriends.indexOf(friend.id) > -1)}" ng-repeat="friend in friendList track by $index" on-tap='toggleSelect(friend.id)'>{{friend.displayName}} </ion-checkbox>-->
+      <!--</ion-list>-->
     </ion-item>
   </ion-content>
 </ion-view>

@@ -302,6 +302,7 @@ angular.module('starter.controllers', [])
     $scope.friendsToDelete = [];
     $scope.deleteMode = false;
     $scope.selectedFriends = [];
+    $scope.searchText="";
     contacts.getContacts().then(function (resultArrayOfContacts) {
       storageService.updateFriends(resultArrayOfContacts).then(function (res) {
         $scope.friendList = res;
