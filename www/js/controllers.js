@@ -17,6 +17,7 @@ angular.module('starter.controllers', [])
       $scope.number = null;
       $scope.showCodeField = false;
       $scope.code = null;
+      $scope.errormsg = "";
     };
     $scope.start = function (number) {
       hockeyapp.trackEvent(null, null, 'User is on startscreen');
