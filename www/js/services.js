@@ -4,7 +4,7 @@ angular.module('starter.services', [])
 //returning the socket
   .factory('socket', function ($rootScope, socketFactory, storageService) {
     //Create socket and connect to (server ip)
-    var myIoSocket = io.connect('http://192.168.0.100:3000'); //<-- place your ip in here if you docker/etc is running on a other one
+    var myIoSocket = io.connect('http://138.68.74.156:3000'); //<-- place your ip in here if you docker/etc is running on a other one
     var mySocket = socketFactory({
       ioSocket: myIoSocket
     });
@@ -66,8 +66,8 @@ angular.module('starter.services', [])
     return {
       // request new votes on own imagesFromOtherUsers and request to imagesFromOtherUsers from other users form the server
       updateData: function (update_trigger) {
-        $q.all([ storageService.getNumber(), storageService.getIdsFromOwnImages() ]).then(function (result) {
-          socket.emit('user_refresh', result[0], update_trigger, result[1]);
+        $q.all([ storageService.getNumber(), storageService.getIdsFromOwnImages(), storageService.getIdsFromImagesFromOtherUsers() ]).then(function (result) {
+          socket.emit('user_refresh', result[0], update_trigger, result[1], result[2]);
         }).catch(function (err) {
           console.log('error getting number or ids of ownImages in communicationservice.updateData: '+err);
         });

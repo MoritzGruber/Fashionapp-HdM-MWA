@@ -25,33 +25,33 @@
 13 silly mapToRegistry uri https://registry.npmjs.org/ios-deploy
 14 verbose request uri https://registry.npmjs.org/ios-deploy
 15 verbose request no auth needed
-16 info attempt registry request try #1 at 9:30:50 PM
-17 verbose request id 7f1405a756be8d2a
+16 info attempt registry request try #1 at 1:41:40 PM
+17 verbose request id 8e1e116cac609820
 18 verbose etag "BAXBIYKVQEBBZBAACOFGP86VU"
 19 http request GET https://registry.npmjs.org/ios-deploy
 20 http 304 https://registry.npmjs.org/ios-deploy
-21 verbose headers { date: 'Wed, 19 Oct 2016 19:30:51 GMT',
+21 verbose headers { date: 'Sun, 23 Oct 2016 11:41:40 GMT',
 21 verbose headers   via: '1.1 varnish',
 21 verbose headers   'cache-control': 'max-age=300',
 21 verbose headers   etag: '"BAXBIYKVQEBBZBAACOFGP86VU"',
-21 verbose headers   age: '13',
+21 verbose headers   age: '26',
 21 verbose headers   connection: 'keep-alive',
-21 verbose headers   'x-served-by': 'cache-fra1235-FRA',
+21 verbose headers   'x-served-by': 'cache-fra1246-FRA',
 21 verbose headers   'x-cache': 'HIT',
 21 verbose headers   'x-cache-hits': '1',
-21 verbose headers   'x-timer': 'S1476905451.038057,VS0,VE0',
+21 verbose headers   'x-timer': 'S1477222900.630670,VS0,VE0',
 21 verbose headers   vary: 'Accept-Encoding' }
 22 silly get cb [ 304,
-22 silly get   { date: 'Wed, 19 Oct 2016 19:30:51 GMT',
+22 silly get   { date: 'Sun, 23 Oct 2016 11:41:40 GMT',
 22 silly get     via: '1.1 varnish',
 22 silly get     'cache-control': 'max-age=300',
 22 silly get     etag: '"BAXBIYKVQEBBZBAACOFGP86VU"',
-22 silly get     age: '13',
+22 silly get     age: '26',
 22 silly get     connection: 'keep-alive',
-22 silly get     'x-served-by': 'cache-fra1235-FRA',
+22 silly get     'x-served-by': 'cache-fra1246-FRA',
 22 silly get     'x-cache': 'HIT',
 22 silly get     'x-cache-hits': '1',
-22 silly get     'x-timer': 'S1476905451.038057,VS0,VE0',
+22 silly get     'x-timer': 'S1477222900.630670,VS0,VE0',
 22 silly get     vary: 'Accept-Encoding' } ]
 23 verbose etag https://registry.npmjs.org/ios-deploy from cache
 24 verbose get saving ios-deploy to /Users/morris/.npm/registry.npmjs.org/ios-deploy/.cache.json

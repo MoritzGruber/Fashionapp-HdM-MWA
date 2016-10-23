@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-  .controller('StartCtrl', function ($scope, $state, socket, $ionicHistory, storageService) {
+  .controller('StartCtrl', function ($scope, $state, socket, $ionicHistory, storageService, contacts) {
     //controller for welcome screen, here users creates an account
     $scope.showNumberField = true;
     $scope.number = null;
@@ -50,6 +50,11 @@ angular.module('starter.controllers', [])
           //user was successful created on serverside
           $state.go('tab.collection');
           storageService.addNumber(number);
+          contacts.getContacts().then(function (resultArrayOfContacts) {
+            storageService.updateFriends(resultArrayOfContacts).then(function (res) {
+              console.log("contacts succsessful loaded and saved to database");
+            });
+          });
           hockeyapp.trackEvent(null, null, 'User signup succsessful');
         } else {
           //bad news :(

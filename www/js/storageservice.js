@@ -306,7 +306,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
                 }
               }
               if (!user_has_already_voted) {
-                this.getNameForNumber(vote.number).then(function (resName) {
+                friendNameByNumber(vote.number).then(function (resName) {
                   tmpArray.push({"number": vote.number, "vote": vote.rating, "username": resName});
                   tmp.votes = tmpArray;
                   tmp.percantag = supportservice.calculatePercentage(tmpArray);
@@ -579,14 +579,14 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
       });
     }
 
-    //getNameForNumber
+    //friendNameByNumber
     function friendNameByNumber(number) {
       return $q(function (resolve, reject) {
         if(number == "99999999999999"){
           resolve("Fittshot Team");
         }
         var options = {};
-        console.log('getNameForNumber  called');
+        console.log('friendNameByNumber  called');
         db.loadDatabase(options, function () {
           friends = db.getCollection('friends');
 
@@ -596,7 +596,7 @@ angular.module('starter.services').factory('storageService', ['$q', 'Loki', 'sup
           var name = friends.findOne({'number': number});
           if (name == "" || name == undefined || name == null) {
             console.log('To this number was no name found');
-            resolve(" ");
+            resolve("?");
           } else {
             resolve(name.displayName);
           }
