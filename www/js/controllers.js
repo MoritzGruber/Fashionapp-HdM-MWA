@@ -75,7 +75,7 @@ angular.module('starter.controllers', [])
       }
     });
   })
-  .controller('CollectionCtrl', function ($scope, $q, $base64, $timeout, socket, Camera, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, storageService, $rootScope) {
+  .controller('CollectionCtrl', function ($scope, $q, $base64, $timeout, $ionicPopup, socket, Camera, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, storageService, $rootScope) {
     $rootScope.ownImages = [];
 
     $ionicPlatform.ready(function () {
@@ -112,13 +112,36 @@ angular.module('starter.controllers', [])
 
     //functions
     //make a picture
+    $scope.selectMode = function () {
+      $ionicPopup.show({
+        scope: $scope,
+        buttons: [
+          { text: '<b>Camera</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $scope.mode = 1;
+              $scope.getPhoto();
+            }
+          },
+          {
+            text: '<b>Gallery</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $scope.mode = 2;
+              $scope.getPhoto();
+            }
+          }
+        ]
+      });
+    };
     $scope.getPhoto = function () {
+
       //first we define a var to set the settings we use calling the cordova camera,
       var cameraSettings;
       if (navigator.connection.type == Connection.WIFI || navigator.connection.type == Connection.ETHERNET) {
         //Setting for good internet speed
         cameraSettings = {
-          // sourceType: 1, //navigator.camera.PictureSourceType.CAMERA,
+          sourceType: $scope.mode, //navigator.camera.PictureSourceType.CAMERA,
           destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
           quality: 100,
           targetWidth: 640,
@@ -129,7 +152,7 @@ angular.module('starter.controllers', [])
       } else {
         //settings for bad internet speed
         cameraSettings = {
-          // sourceType: 1,//navigator.camera.PictureSourceType.CAMERA,
+          sourceType: $scope.mode,//navigator.camera.PictureSourceType.CAMERA,
           destinationType: 0, //navigator.camera.DestinationType.DATA_URL, // very importend!!! to get base64 and no link NOTE: mybe cause out of memory error after a while
           quality: 70,
           targetWidth: 320,
@@ -180,6 +203,8 @@ angular.module('starter.controllers', [])
       }, 1000);
     };
     $scope.debug = function () {
+
+
       storageService.getOwnImages().then(function (res) {
 
         console.log(res);
