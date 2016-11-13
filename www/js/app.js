@@ -6,17 +6,12 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io', 'ngCordova', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS', 'lokijs'])
+angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS'])
 
-  .run(function (communicationservice, storageService) {
+  .run(function (communicationservice) {
     ionic.Platform.ready(function () {
 
       //INITIALIZE PROCESS
-
-      storageService.initDB().then(function (res) {
-      }).catch(function (err) {
-        console.log(err);
-      });
       //default setup for keyboard
       // Hide the keyboardaccessorybar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -30,20 +25,20 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
       }
       //setting up onesignal for push notifications
       //this code needs to be run every time app starts otherwise starting the app with push notifications isn't handled
-      var notificationOpenedCallback = function () {
-        //refresh data with our service and tell him that the trigger was a pushNotification
-        communicationservice.updateData("push");
-      };
+      // var notificationOpenedCallback = function () {
+      //   //refresh data with our service and tell him that the trigger was a pushNotification
+      //   communicationservice.updateData("push");
+      // };
       //register for push notification
-      window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
-        {googleProjectNumber: "378633166857"},
-        notificationOpenedCallback);
-      //Setup hockeyapp (our beta deploy platform)
-      try {
-        hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
-      } catch (e) {
-        console.log("hockeyapp start failed " + e);
-      }
+      // window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
+      //   {googleProjectNumber: "378633166857"},
+      //   notificationOpenedCallback);
+      // //Setup hockeyapp (our beta deploy platform)
+      // try {
+      //   hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
+      // } catch (e) {
+      //   console.log("hockeyapp start failed " + e);
+      // }
     });
   })
   .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {

@@ -80,39 +80,39 @@ angular.module('starter.controllers', [])
       }
     });
   })
-  .controller('CollectionCtrl', function ($scope, $q, $base64, $timeout, $ionicPopup, socket, Camera, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, storageService, $rootScope) {
+  .controller('CollectionCtrl', function ($scope, $q, $base64, $timeout, $ionicPopup, socket, Camera, $ionicPlatform, $state, $ionicHistory, supportservice, communicationservice, $rootScope) {
     $rootScope.ownImages = [];
 
     $ionicPlatform.ready(function () {
       //checking if users created an usable account
-      setTimeout(function () {
-        storageService.initDB().then(function () {
-          return storageService.getNumber()
-        }).then(function (result) {
-          if (result == "Unknown") {
-            $ionicHistory.nextViewOptions({
-              disableAnimate: true,
-              disableBack: true
-            });
-            //no, then ==> go to welcome page
-            $state.go('tab.collectionstart');
-          }
-          //Initializing
-          //load own images into the scope
-          return storageService.getOwnImages();
-        }).then(function (loadedOwnImages) {
-          $rootScope.ownImages = loadedOwnImages;
-          //calling the calculate percentage function for each image
-          for (var i = 0; i < $rootScope.ownImages.length; i++) {
-            $rootScope.ownImages[i].percantag = supportservice.calculatePercentage($rootScope.ownImages[i].votes);
-          }
-          //listen to the server for new stuff (socket)
-          $scope.socket = socket;
-        }).catch(function (err) {
-          console.log(err);
-        });
-
-      }, 0);
+      // setTimeout(function () {
+      //   storageService.initDB().then(function () {
+      //     return storageService.getNumber()
+      //   }).then(function (result) {
+      //     if (result == "Unknown") {
+      //       $ionicHistory.nextViewOptions({
+      //         disableAnimate: true,
+      //         disableBack: true
+      //       });
+      //       //no, then ==> go to welcome page
+      //       $state.go('tab.collectionstart');
+      //     }
+      //     //Initializing
+      //     //load own images into the scope
+      //     return storageService.getOwnImages();
+      //   }).then(function (loadedOwnImages) {
+      //     $rootScope.ownImages = loadedOwnImages;
+      //     //calling the calculate percentage function for each image
+      //     for (var i = 0; i < $rootScope.ownImages.length; i++) {
+      //       $rootScope.ownImages[i].percantag = supportservice.calculatePercentage($rootScope.ownImages[i].votes);
+      //     }
+      //     //listen to the server for new stuff (socket)
+      //     $scope.socket = socket;
+      //   }).catch(function (err) {
+      //     console.log(err);
+      //   });
+      //
+      // }, 0);
     });
 
     //functions
@@ -324,8 +324,7 @@ angular.module('starter.controllers', [])
     //   console.log(err);
     // });
   })
-
-  .controller('FriendsCtrl', function ($scope, socket, storageService, $state, contacts, $timeout) {
+  .controller('FriendsCtrl', function ($scope, socket, $state, contacts, $timeout) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     $scope.loading = true;
@@ -334,18 +333,18 @@ angular.module('starter.controllers', [])
     $scope.deleteMode = false;
     $scope.selectedFriends = [];
     $scope.searchText="";
-    contacts.getContacts().then(function (resultArrayOfContacts) {
-      storageService.updateFriends(resultArrayOfContacts).then(function (res) {
-        $scope.friendList = res;
-        $scope.loadingContacts = false;
-        console.log("contacts succsessful loaded and saved to database");
-        $scope.loading = false;
-      });
-    });
-    storageService.getSelectedFriendsIdsArray().then(function (resArray) {
-      $scope.selectedFriends = resArray;
-      $scope.$broadcast('scroll.refreshComplete');
-    });
+    // contacts.getContacts().then(function (resultArrayOfContacts) {
+    //   storageService.updateFriends(resultArrayOfContacts).then(function (res) {
+    //     $scope.friendList = res;
+    //     $scope.loadingContacts = false;
+    //     console.log("contacts succsessful loaded and saved to database");
+    //     $scope.loading = false;
+    //   });
+    // });
+    // storageService.getSelectedFriendsIdsArray().then(function (resArray) {
+    //   $scope.selectedFriends = resArray;
+    //   $scope.$broadcast('scroll.refreshComplete');
+    // });
     $scope.doRefresh = function () {
       $scope.syncWithPhone();
       $timeout(function () {
@@ -356,23 +355,23 @@ angular.module('starter.controllers', [])
       }, 1000);
     };
     //get all friends and fill the array to show it
-    storageService.getFriends().then(function (resultArrayOfFriends) {
-      if (resultArrayOfFriends.length == 0) {
-        $scope.syncWithPhone();
-      }
-      $scope.friendList = resultArrayOfFriends;
-      $scope.loading = false;
-    });
+    // storageService.getFriends().then(function (resultArrayOfFriends) {
+    //   if (resultArrayOfFriends.length == 0) {
+    //     $scope.syncWithPhone();
+    //   }
+    //   $scope.friendList = resultArrayOfFriends;
+    //   $scope.loading = false;
+    // });
     //syncWithPhone == override all contacts with the ones from the phone
     $scope.syncWithPhone = function () {
       $scope.loadingContacts = true;
       contacts.getContacts().then(function (resultArrayOfContacts) {
-        storageService.updateFriends(resultArrayOfContacts).then(function (res) {
-          $scope.friendList = res;
-          $scope.loadingContacts = false;
-          console.log("contacts succsessful loaded and saved to database");
-          $scope.loading = false;
-        });
+        // storageService.updateFriends(resultArrayOfContacts).then(function (res) {
+        //   $scope.friendList = res;
+        //   $scope.loadingContacts = false;
+        //   console.log("contacts succsessful loaded and saved to database");
+        //   $scope.loading = false;
+        // });
       });
     };
     //select from phone
@@ -381,10 +380,10 @@ angular.module('starter.controllers', [])
     // add a friend to the array
     $scope.addFriend = function (number) {
       if (number != "") {
-        storageService.addFriend({'number': number, 'name': 'anonym'}).then(function (lokiID) {
-          $scope.friendList.push({'number': number, 'lokiID': lokiID});
-          console.log('Added friend successfully');
-        });
+        // storageService.addFriend({'number': number, 'name': 'anonym'}).then(function (lokiID) {
+        //   $scope.friendList.push({'number': number, 'lokiID': lokiID});
+        //   console.log('Added friend successfully');
+        // });
       }
     };
     //toggle deleteMode
@@ -398,33 +397,33 @@ angular.module('starter.controllers', [])
       if (index < 0) {
         //fried was not selected
         //so he gets selected
-        storageService.addSelectedFriendByID(id).then(function () {
-          $scope.selectedFriends.push(id);
-        });
+        // storageService.addSelectedFriendByID(id).then(function () {
+        //   $scope.selectedFriends.push(id);
+        // });
       } else {
         //friend was already selected
         //so we deselct him
-        storageService.removeSelectedFriendByID(id).then(function () {
-          $scope.selectedFriends.splice(index, 1);
-        })
+        // storageService.removeSelectedFriendByID(id).then(function () {
+        //   $scope.selectedFriends.splice(index, 1);
+        // })
       }
     };
     //delete all selcted Friends
     $scope.deleteSelectedFriends = function () {
       //delete all selected friends in the array
-      storageService.deleteFriends($scope.friendsToDelete).then(function () {
-        //also delte the friends in the scope then when done in db
-        for (var i = 0; i < $scope.friendList.length; i++) {
-          for (var j = 0; j < $scope.friendsToDelete.length; j++) {
-            if ($scope.friendList[i].lokiID == $scope.friendsToDelete[j]) {
-              $scope.friendList.splice(i, 1);
-            }
-          }
-        }
-        //clear the array
-        $scope.friendsToDelete = [];
-        $scope.deleteMode = false;
-      });
+      // storageService.deleteFriends($scope.friendsToDelete).then(function () {
+      //   //also delte the friends in the scope then when done in db
+      //   for (var i = 0; i < $scope.friendList.length; i++) {
+      //     for (var j = 0; j < $scope.friendsToDelete.length; j++) {
+      //       if ($scope.friendList[i].lokiID == $scope.friendsToDelete[j]) {
+      //         $scope.friendList.splice(i, 1);
+      //       }
+      //     }
+      //   }
+      //   //clear the array
+      //   $scope.friendsToDelete = [];
+      //   $scope.deleteMode = false;
+      // });
 
     };
     $scope.cancelDelete = function () {
@@ -446,7 +445,7 @@ angular.module('starter.controllers', [])
       }
     }
   })
-  .controller('SelectFriendCtrl', function ($scope, socket, storageService, contacts, $ionicPlatform) {
+  .controller('SelectFriendCtrl', function ($scope, contacts, $ionicPlatform) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
 
@@ -464,14 +463,7 @@ angular.module('starter.controllers', [])
         for (var i = 0; i < $scope.contacts.length; i++) {
           var contact = $scope.contacts[i];
           if (contact.phoneNumbers != null && contact.phoneNumbers[0].value.length > 1) {
-            storageService.addFriend({
-              'number': contact.phoneNumbers[0].value,
-              'name': contact.name.formatted
-            }).then(function (lokiID) {
-              // $scope.friendList.push({'number': contact.phoneNumbers[0].value, 'lokiID': lokiID});
-              // console.log('Added friend successfully');
-              console.log("one item");
-            });
+            //
           }
         }
         console.log("run t a");
