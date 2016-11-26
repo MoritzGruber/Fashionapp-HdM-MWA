@@ -27,42 +27,24 @@
       </a>
     </div>
     <!-- card with imagesFromOtherUsers from community repeating -->
-    <div class="card" ng-repeat="image in local track by $index">
+    <div class="card">
       <div class="item item-royal">
           <!--name of the sender -->
-          <div class="fromWhoHeading"><h2>Image From: {{image.username}}</h2></div>
+          <div class="fromWhoHeading"><h2>Image From: BOBO</h2></div>
       </div>
       <div class="item item-royal">
         <!-- image itself-->
-        <img class="communitySingleImg" ng-src="data:image/jpeg;base64, {{image.imageData}}">
+        <img class="communitySingleImg" ng-src="img/dress.jpg">
       </div>
       <div class="item item-royal item-divider row">
         <!-- button for voting -->
           <div class="col col-50">
-            <button ng-click="vote(false, image.$loki, $index)" class="button button-balanced leftButton">NO</button>
+            <button class="button button-balanced leftButton">NO</button>
           </div>
           <div class="col">
-            <button ng-click="vote(true, image.$loki, $index)" class="button button-positive rightButton">YES</button>
+            <button  class="button button-positive rightButton">YES</button>
           </div>
         </div>
     </div>
-    <!-- example, just demo
-    <div class="card card-royal">
-      <div class="item item-royal">
-          <div class="fromWhoHeading"><h2>Image From: Example</h2></div>
-      </div>
-      <div class="item item-royal">
-          <img class="communitySingleImg" src="img/dress.jpg">
-      </div>
-      <div class="item item-royal item-divider row">
-        <div class="col col-50">
-          <button ng-click="" class="button button-balanced leftButton">NO</button>
-        </div>
-        <div class="col">
-          <button ng-click="" class="button button-positive rightButton">YES</button>
-        </div>
-      </div>
-    </div>
-     /example-->
   </ion-content>
 </ion-view>

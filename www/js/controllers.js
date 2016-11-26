@@ -198,7 +198,7 @@ angular.module('starter.controllers', [])
         $scope.resetDelete = function () {
           $scope.deleteBtn = false;
           $scope.detailDisabled = false;
-          $scope.detailLink = false;
+          $scope.detailLink = false; 
         };
         //open detail view of the image
         $scope.openDetailImage = function (index) {

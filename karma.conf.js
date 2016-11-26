@@ -29,7 +29,7 @@ module.exports = function(config) {
       'www/lib/lokijs/src/loki-angular.js',
       'www/lib/ngCordova/dist/ng-cordova.js',
       'www/cordova.js',
-      'www/js/app.js',
+      'www/js/appold.js',
       'www/js/controllers.js',
       'www/js/services.js',
       'www/js/*.js',

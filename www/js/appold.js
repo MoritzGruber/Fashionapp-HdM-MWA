@@ -6,9 +6,9 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'])
+angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers', 'starter.services', 'btford.socket-io', 'angular-progress-arc', 'monospaced.elastic', 'angularCSS'])
 
-  .run(function () {
+  .run(function (communicationservice) {
     ionic.Platform.ready(function () {
 
       //INITIALIZE PROCESS
@@ -23,6 +23,22 @@ angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'
         // hide statusbar on ios
         StatusBar.hide();
       }
+      //setting up onesignal for push notifications
+      //this code needs to be run every time app starts otherwise starting the app with push notifications isn't handled
+      // var notificationOpenedCallback = function () {
+      //   //refresh data with our service and tell him that the trigger was a pushNotification
+      //   communicationservice.updateData("push");
+      // };
+      //register for push notification
+      // window.plugins.OneSignal.init("f132b52a-4ebf-4446-a8e0-b031f40074da",
+      //   {googleProjectNumber: "378633166857"},
+      //   notificationOpenedCallback);
+      // //Setup hockeyapp (our beta deploy platform)
+      // try {
+      //   hockeyapp.start(null, null, "92590608ebe64ac682e3af9bb46019cd");
+      // } catch (e) {
+      //   console.log("hockeyapp start failed " + e);
+      // }
     });
   })
   .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
@@ -35,15 +51,6 @@ angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'
 
     $stateProvider
     // setup an abstract state for the tabs directive, template for tabs
-      .state('tab.login', {
-        url: '/login',
-        views: {
-          'login': {
-            templateUrl: 'templates/login.html',
-            controller: 'LoginCtrl'
-          }
-        }
-      })
       .state('tab', {
         url: '/tab', // to navigate from browser
         abstract: true,
@@ -61,11 +68,11 @@ angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'
         }
       })
       .state('tab.community-detail', {
-        url: '/community-detail/:imageId',
+        url: '/collection/:imageId',
         views: {
           'tab-community': {
-            templateUrl: 'templates/tap-community-detail.html',
-            controller: 'CommunityCtrl'
+            templateUrl: 'templates/community-detail.html',
+            controller: 'CommunityDetailCtrl'
           }
         }
       })
@@ -78,13 +85,21 @@ angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'
           }
         }
       })
-
+      .state('tab.collectionstart', {
+        url: '/collectionstart',
+        views: {
+          'tab-collection': {
+            templateUrl: 'templates/login.html',
+            controller: 'StartCtrl'
+          }
+        }
+      })
       .state('tab.collection-detail', {
-        url: '/collection-detail/:imageId',
+        url: '/collection/:imageId',
         views: {
           'tab-collection': {
             templateUrl: 'templates/tap-collection-detail.html',
-            controller: 'CollectionCtrl'
+            controller: 'CollectionDetailCtrl'
           }
         }
       })
@@ -96,10 +111,17 @@ angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'
             controller: 'ProfileCtrl'
           }
         }
+      })
+      .state('tab.profile-friends', {
+        url: '/profile/friends',
+        views: {
+          'tab-profile': {
+            templateUrl: 'templates/tap-profile-friends.html',
+            controller: 'FriendsCtrl'
+          }
+        }
       });
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/community');
   });
-angular.module('fittshot.controllers', []);
-angular.module('fittshot.services', []);

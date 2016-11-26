@@ -32,9 +32,8 @@
       </div>
 
       <!-- on-hold showinng delete button, then on-click on button delete image, clicking outside of the item-container resets the view resetDelete() -->
-      <ion-item class="item-royal" ng-show="ownImage.imageData !== undefined" ng-repeat="ownImage in ownImages track by $index" on-tap="resetDelete()">
-        <div class="item-container"  on-hold="onHold($index)" on-tap="openDetailImage($index)">
-          <button class="deleteBtn" ng-show="deleteBtn" ng-click="onDelete($index, ownImage.$loki)"><h1>DELETE</h1>  </button>
+      <ion-item class="item-royal">
+        <div class="item-container" >
           <div class="progress-circle">
           <!-- angular-progress-arc complete float value between 0.0 and 1.0; where 0.0 is an empty arc -->
             <progress-arc
@@ -48,8 +47,8 @@
             </progress-arc>
           </div>
           <!--showing image and switch to detail view on tab-->
-          <div class="img-wrapper"  on-tap="openDetailImage($index)">
-            <img class="img-wrapper-img" ng-src="data:image/jpeg;base64, {{ownImage.imageData}}">
+          <div class="img-wrapper"  >
+            <img class="img-wrapper-img" ng-src="img/dress.jpg">
           </div>
         </div>
       </ion-item>
