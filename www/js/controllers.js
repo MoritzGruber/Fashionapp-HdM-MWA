@@ -1,10 +1,9 @@
 angular.module('starter.controllers', [])
-  .controller('StartCtrl', function ($scope, $state, socket, $ionicHistory, storageService, contacts) {
+  .controller('StartCtrl', function ($scope, $state, socket, $ionicHistory, contacts) {
     //controller for welcome screen, here users creates an account
     $scope.showNumberField = true;
     $scope.number = null;
     $scope.showCodeField = false;
-    $scope.storage = storageService;
     var lastSubmittedNumber = 0;
     var pushID = 0;
     $scope.verify = function (code) {
@@ -19,50 +18,50 @@ angular.module('starter.controllers', [])
       $scope.code = null;
       $scope.errormsg = "";
     };
-    $scope.start = function (number) {
-      hockeyapp.trackEvent(null, null, 'User is on startscreen');
-      if (number != undefined) { //check if that number fits our style
-        if (number.length < 4 || number.length > 16) {
-          //style don't fit ==> try again
-          $scope.errormsg = "Please choose a real mobile phone number";
-        } else {
-          //now we get the push id to create the user
-          storageService.getPushId().then(function (resPushID) {
-            pushID = resPushID;
-            $scope.showCodeField = true;
-            $scope.showNumberField = false;
-            lastSubmittedNumber = number;
-            socket.emit('startVerify', number, pushID);
-            $scope.number = null;
-          }).catch(function (err) {
-            $scope.errormsg = "Ups, something went wrong";
-          });
-        }
-      }
+    // $scope.start = function (number) {
+    //   hockeyapp.trackEvent(null, null, 'User is on startscreen');
+    //   if (number != undefined) { //check if that number fits our style
+    //     if (number.length < 4 || number.length > 16) {
+    //       //style don't fit ==> try again
+    //       $scope.errormsg = "Please choose a real mobile phone number";
+    //     } else {
+    //       //now we get the push id to create the user
+    //       storageService.getPushId().then(function (resPushID) {
+    //         pushID = resPushID;
+    //         $scope.showCodeField = true;
+    //         $scope.showNumberField = false;
+    //         lastSubmittedNumber = number;
+    //         socket.emit('startVerify', number, pushID);
+    //         $scope.number = null;
+    //       }).catch(function (err) {
+    //         $scope.errormsg = "Ups, something went wrong";
+    //       });
+    //     }
+    //   }
       //we are waiting for green light of the server
-      socket.on('signup', function (msg, number) {
-        if (msg == "success") {
-          //we disable this so the user sees the signup screen only once
-          $ionicHistory.nextViewOptions({
-            disableAnimate: true,
-            disableBack: true
-          });
-          //user was successful created on serverside
-          $state.go('tab.collection');
-          storageService.addNumber(number);
-          contacts.getContacts().then(function (resultArrayOfContacts) {
-            storageService.updateFriends(resultArrayOfContacts).then(function (res) {
-              console.log("contacts succsessful loaded and saved to database");
-            });
-          });
-          hockeyapp.trackEvent(null, null, 'User signup succsessful');
-        } else {
-          //bad news :(
-          //Tell the user the msg form the server, so he can do better next time
-          $scope.errormsg = msg;
-        }
-      });
-    }
+      // socket.on('signup', function (msg, number) {
+      //   if (msg == "success") {
+      //     //we disable this so the user sees the signup screen only once
+      //     $ionicHistory.nextViewOptions({
+      //       disableAnimate: true,
+      //       disableBack: true
+      //     });
+      //     //user was successful created on serverside
+      //     $state.go('tab.collection');
+      //     storageService.addNumber(number);
+      //     contacts.getContacts().then(function (resultArrayOfContacts) {
+      //       storageService.updateFriends(resultArrayOfContacts).then(function (res) {
+      //         console.log("contacts succsessful loaded and saved to database");
+      //       });
+      //     });
+      //     hockeyapp.trackEvent(null, null, 'User signup succsessful');
+      //   } else {
+      //     //bad news :(
+      //     //Tell the user the msg form the server, so he can do better next time
+      //     $scope.errormsg = msg;
+      //   }
+      // });
+
   })
   .controller('TabsCtrl', function ($scope, $rootScope, $state, socket) {
 
@@ -168,94 +167,59 @@ angular.module('starter.controllers', [])
       }
 
       //calling our service which asynchronously and returns a promise that cordova camera plugin worked fine
-      Camera.getPicture(cameraSettings).then(function (imageData) {
-        //packing the imageData in a json object with all data we also need to send it to the server
-        var image;
-        // Promise.join(storageService.getPushId(),storageService.getNumber(), function (pushId, number) {
-        //   console.log("Push id: "+pushId+ " Number: "+number);
-        // });
-        $q.all([storageService.getPushId(), storageService.getNumber(), storageService.getSelectedFriendsNumberArray()]).then(function (result) {
-          var votes = [];
-          image = {
-            "imageData": imageData, "timestamp": Date.parse(Date()), "transmitternumber": result[1],
-            "recipients": result[2],
-            "votes": votes,
-            "onesignal_ids": result[0]
-          };
-          storageService.addOwnImage(image).then(function (localImageId) {
-            //store localy now and get local id
-            image.localImageId = localImageId;
-            console.log("we got it, local ID = " + localImageId);
-            //upload the image with our open socket connection
-            socket.emit('new_image', (image));
-            $rootScope.ownImages.push(image);
-          });
-          //tracking
-          hockeyapp.trackEvent(null, null, 'User made a image');
-        })
-      }).catch(function (err) {
-        console.log('err in camera get pictue: ' + err);
-      })
-    };
-    //manually refresh for new data, this handles all the pulldowns
-    $scope.doRefresh = function () {
-      communicationservice.updateData("collection");
-      $timeout(function () {
-        //simulate async response
-        //Stop the ion-refresher from spinning
-        $scope.$broadcast('scroll.refreshComplete');
-        hockeyapp.trackEvent(null, null, 'User made a refresh in collection');
-      }, 1000);
-    };
-    $scope.debug = function () {
 
-
-      storageService.getOwnImages().then(function (res) {
-
-        console.log(res);
-        console.log($rootScope.ownImages);
-      });
-    };
-    // called when item-container is on-hold for showing the delete button
-    $scope.onHold = function () {
-      $scope.deleteBtn = true;
-      $scope.detailDisabled = true;
-      $scope.detailLink = true;
-    };
-    // deleting the image
-    $scope.onDelete = function (scopeindex, lokiindex) {
-      console.log('scope: ' +scopeindex + ' loki: '+lokiindex );
-      storageService.deleteOwnImage(lokiindex);
-      $scope.deleteBtn = false;
-      $scope.detailDisabled = false;
-      $rootScope.ownImages.splice(scopeindex, 1);
-      hockeyapp.trackEvent(null, null, 'User deleted own image');
-    };
-    // hiding the delete button
-    $scope.resetDelete = function () {
-      $scope.deleteBtn = false;
-      $scope.detailDisabled = false;
-      $scope.detailLink = false;
-    };
-    //open detail view of the image
-    $scope.openDetailImage = function (index) {
-      if (!$scope.deleteBtn) {
-        $state.go('tab.collection-detail', {imageId: index});
-        hockeyapp.trackEvent(null, null, 'User viewed his own image on detail');
+        $scope.doRefresh = function () {
+          communicationservice.updateData("collection");
+          $timeout(function () {
+            //simulate async response
+            //Stop the ion-refresher from spinning
+            $scope.$broadcast('scroll.refreshComplete');
+            hockeyapp.trackEvent(null, null, 'User made a refresh in collection');
+          }, 1000);
+        };
+        $scope.debug = function () {
+        };
+        // called when item-container is on-hold for showing the delete button
+        $scope.onHold = function () {
+          $scope.deleteBtn = true;
+          $scope.detailDisabled = true;
+          $scope.detailLink = true;
+        };
+        // deleting the image
+        $scope.onDelete = function (scopeindex, lokiindex) {
+          console.log('scope: ' + scopeindex + ' loki: ' + lokiindex);
+          // storageService.deleteOwnImage(lokiindex);
+          $scope.deleteBtn = false;
+          $scope.detailDisabled = false;
+          $rootScope.ownImages.splice(scopeindex, 1);
+          hockeyapp.trackEvent(null, null, 'User deleted own image');
+        };
+        // hiding the delete button
+        $scope.resetDelete = function () {
+          $scope.deleteBtn = false;
+          $scope.detailDisabled = false;
+          $scope.detailLink = false;
+        };
+        //open detail view of the image
+        $scope.openDetailImage = function (index) {
+          if (!$scope.deleteBtn) {
+            $state.go('tab.collection-detail', {imageId: index});
+            hockeyapp.trackEvent(null, null, 'User viewed his own image on detail');
+          }
+        };
       }
-    };
   })
 
-  .controller('CommunityCtrl', function ($scope, $rootScope, socket, $ionicPlatform, $timeout, voteservice, communicationservice, storageService) {
+  .controller('CommunityCtrl', function ($scope, $rootScope, socket, $ionicPlatform, $timeout, voteservice, communicationservice) {
     //Initializing
     $ionicPlatform.ready(function () {
       //clear old imagesFromOtherUsers and load imagesFromOtherUsers form storage
-      storageService.clearOldImagesFromOtherUsers();
-      storageService.getImagesFromOtherUsers().then(function (res) {
-        $rootScope.local = res;
-      }).catch(function (err) {
-        console.log(err);
-      });
+      // storageService.clearOldImagesFromOtherUsers();
+      // storageService.getImagesFromOtherUsers().then(function (res) {
+      //   $rootScope.local = res;
+      // }).catch(function (err) {
+      //   console.log(err);
+      // });
       //listen to the server for new stuff (socket)
       $scope.socket = socket;
     });
@@ -272,11 +236,11 @@ angular.module('starter.controllers', [])
     //manually refresh for new data, this handles all the pulldowns
     $scope.doRefresh = function () {
       console.log($rootScope);
-      storageService.getImagesFromOtherUsers().then(function (res) {
-        $rootScope.local = res;
-      }).catch(function (err) {
-        console.log(err);
-      });
+      // storageService.getImagesFromOtherUsers().then(function (res) {
+      //   $rootScope.local = res;
+      // }).catch(function (err) {
+      //   console.log(err);
+      // });
       communicationservice.updateData("community");
       $timeout(function () {
         //simulate async response
@@ -286,16 +250,16 @@ angular.module('starter.controllers', [])
       }, 1000);
     };
   })
-  .controller('ProfileCtrl', function ($scope, socket, communicationservice, $state, storageService) {
+  .controller('ProfileCtrl', function ($scope, socket, communicationservice, $state) {
     //Initializing
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     //to get the number we use storage service
-    storageService.getNumber().then(function (resnumber) {
-      $scope.number = resnumber;
-    }).catch(function (err) {
-      console.log('error getting number: ' + err);
-    });
+    // storageService.getNumber().then(function (resnumber) {
+    //   $scope.number = resnumber;
+    // }).catch(function (err) {
+    //   console.log('error getting number: ' + err);
+    // });
 
     //functions
     //refresh function
@@ -312,7 +276,7 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('CollectionDetailCtrl', function ($scope, $stateParams, socket, $rootScope, storageService) {
+  .controller('CollectionDetailCtrl', function ($scope, $stateParams, socket, $rootScope) {
     //listen to the server for new stuff (socket)
     $scope.socket = socket;
     $scope.index = $stateParams.imageId;

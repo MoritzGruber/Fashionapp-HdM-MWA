@@ -7,18 +7,30 @@
     Collection
   </ion-nav-title>
   <ion-content class="padding has-header has-subheader"> <!-- controller responsible for camera and popup -->
-    <!-- take picture button -->
-    <div>
-      <button class="photo-btn ion-plus-round" ng-click="selectMode()"></button>
-    </div>
-    <div>
-      <button class="photo-btn ion-help" ng-click="debug()"></button>
-    </div>
+
     <!--ionic refresher, refresh on pull down-->
     <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
-    <!-- show array of own pictures and there voting -->
+    <!-- array of voted labels -->
     <ion-list no-lines>
+      <div class="list">
+        <a class="item item-thumbnail-right" on-tap="openDetailImage(1)">
+          <img src="cover.jpg">
+          <h2>Pretty Hate Machine</h2>
+          <p>Nine Inch Nails</p>
+        </a>
+        <a class="item item-thumbnail-right" on-tap="openDetailImage($index)">
+          <img src="cover.jpg">
+          <h2>Pretty Hate Machine</h2>
+          <p>Nine Inch Nails</p>
+        </a>
+        <a class="item item-thumbnail-right" href="#" on-tap="openDetailImage($index)">
+          <img src="cover.jpg">
+          <h2>Pretty Hate Machine</h2>
+          <p>Nine Inch Nails</p>
+        </a>
+      </div>
+
       <!-- on-hold showinng delete button, then on-click on button delete image, clicking outside of the item-container resets the view resetDelete() -->
       <ion-item class="item-royal" ng-show="ownImage.imageData !== undefined" ng-repeat="ownImage in ownImages track by $index" on-tap="resetDelete()">
         <div class="item-container"  on-hold="onHold($index)" on-tap="openDetailImage($index)">
