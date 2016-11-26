@@ -67,6 +67,15 @@ angular.module('starter', ['ionic', 'ngStorage', 'base64', 'starter.controllers'
           }
         }
       })
+      .state('tab.community-detail', {
+        url: '/collection/:imageId',
+        views: {
+          'tab-community': {
+            templateUrl: 'templates/community-detail.html',
+            controller: 'CommunityDetailCtrl'
+          }
+        }
+      })
       .state('tab.collection', {
         url: '/collection',
         views: {
