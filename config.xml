@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget android-versionCode="2008" id="com.moritzgruber.lapica" ios-CFBundleVersion="2008" version="0.2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Lapica</name>
-  <description>&#xD;
-        Share your clothing with your friends&#xD;
+  <description>&#xD;&#xD;
+        Share your clothing with your friends&#xD;&#xD;
     </description>
-  <author email="moritzgruber@yahoo.de" href="http://www.moritzgruber.com">&#xD;
-      Lapica Team&#xD;
+  <author email="moritzgruber@yahoo.de" href="http://www.moritzgruber.com">&#xD;&#xD;
+      Lapica Team&#xD;&#xD;
     </author>
   <content src="index.html"/>
   <access origin="*"/>
