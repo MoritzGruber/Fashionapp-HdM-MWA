@@ -8,8 +8,8 @@ function sendMailToMailChimp() {
     "email_address": $('#mail-input').val(),
     "status": "subscribed",
     "merge_fields": {
-      "FNAME": "",
-      "LNAME": ""
+      "FNAME": "Test",
+      "LNAME": "Test"
     }
   };
 
@@ -18,11 +18,11 @@ function sendMailToMailChimp() {
     url: url,
     data: data,
     dataType: 'jsonp',
-    contentType: 'application/json; charset=utf-8',
-    error: function(res, text){
+    contentType: 'application/json',
+    error: function (res, text) {
       console.log('Err', res);
     },
-    success: function(res){
+    success: function (res) {
       console.log('Success', res);
     }
   });
