@@ -7,3 +7,4 @@ platforms/
 www/lib/
 resources/
 plugins/
+*.iml
