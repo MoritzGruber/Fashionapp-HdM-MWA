@@ -1,6 +1,6 @@
 {
-  "name": "Lapica",
-  "version": "0.2.0",
+  "name": "Fittshot",
+  "version": "0.4.1",
   "description": "Awesome!",
   "dependencies": {
     "gulp": "^3.5.6",
