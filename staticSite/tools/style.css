@@ -83,7 +83,7 @@
   border-color: white;
 }
 
-.input-group button {
+.input-group input[type="submit"] {
   height: 4em;
   padding: 0 3em 0 2.5em;
   border-top-right-radius: 50px;
@@ -91,13 +91,14 @@
   font-weight: 600;
   background: rgba(255,255,255,0.7);
   letter-spacing: 1px;
+  color: black;
 }
-.input-group button:hover {
+.input-group input[type="submit"]:hover {
   background: rgba(255,255,255,0.8);
 }
 
 @media screen and (max-width: 767px) {
-  .input-group input, .input-group button {
+  .input-group input, .input-group input[type="submit"] {
     padding: 1em 1.5em;
     letter-spacing: 0;
   }
