@@ -1,3 +1,3 @@
-/**
- * Created by moritz on 26/11/2016.
- */
+angular.module('fittshot.services').service('pullImageService', function () {
+
+});

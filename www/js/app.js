@@ -31,7 +31,7 @@ angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
     // Each state's controller can be found in controllers.js
-    $ionicConfigProvider.tabs.position('bottom'); //TODO: Remove this, when we have design for android
+    $ionicConfigProvider.tabs.position('bottom');
 
     $stateProvider
     // setup an abstract state for the tabs directive, template for tabs
@@ -96,8 +96,16 @@ angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'
             controller: 'ProfileCtrl'
           }
         }
-      });
-
+      })
+    .state('tab.feedback', {
+      url: '/profile/feedback',
+      views: {
+        'tab-profile': {
+          templateUrl: 'templates/tap-profile-feedback.html',
+          controller: 'FeedbackCtrl'
+        }
+      }
+    });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/community');
   });

@@ -1,17 +1,10 @@
 {
-  "name": "Lapica",
+  "name": "Fittshot",
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.2.4"
   },
   "dependencies": {
-    "angular-base64": "^2.0.5",
-    "ngstorage": "^0.3.10",
-    "angular-progress-arc": "^1.0.0",
-    "angular-elastic": "^2.5.1",
-    "angular-css": "^1.0.8",
-    "ionic-service-core": "^0.1.10",
-    "angular-mocks": "^1.5.8",
-    "jquery": "^3.1.0"
+    "angular-mocks": "^1.5.8"
   }
 }

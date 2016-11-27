@@ -18,21 +18,11 @@ module.exports = function(config) {
       'www/lib//jquery/dist/jquery.min.js',
       'www/lib/ionic/js/ionic.bundle.js',
       'www/lib/angular-mocks/angular-mocks.js',
-      'www/lib/socket.io-client/socket.io.js',
-      'www/lib/angular-socket-io/socket.js',
       'www/lib/ngstorage/ngStorage.min.js',
       'www/lib/angular-base64/angular-base64.js',
-      'www/lib/angular-elastic/elastic.js',
-      'www/lib/angular-progress-arc/angular-progress-arc.js',
-      'www/lib/angular-css/angular-css.min.js',
-      'www/lib/lokijs/src/lokijs.js',
-      'www/lib/lokijs/src/loki-angular.js',
-      'www/lib/ngCordova/dist/ng-cordova.js',
-      'www/cordova.js',
-      'www/js/appold.js',
-      'www/js/controllers.js',
-      'www/js/services.js',
+      'www/js/app.js',
       'www/js/*.js',
+      'www/js/services/authService.js',
       'www/test/*.js'
     ],
 
@@ -67,7 +57,7 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
 
 
-    // enable / disable watching file and executing tests whenever any file changes t a sdfasf asdf
+    // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
 
@@ -84,4 +74,4 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: Infinity
   })
-}
+};
