@@ -18,8 +18,6 @@ module.exports = function(config) {
       'www/lib//jquery/dist/jquery.min.js',
       'www/lib/ionic/js/ionic.bundle.js',
       'www/lib/angular-mocks/angular-mocks.js',
-      'www/lib/ngstorage/ngStorage.min.js',
-      'www/lib/angular-base64/angular-base64.js',
       'www/js/app.js',
       'www/js/*.js',
       'www/js/services/authService.js',
