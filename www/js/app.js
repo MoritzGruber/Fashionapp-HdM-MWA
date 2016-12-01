@@ -35,15 +35,7 @@ angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'
 
     $stateProvider
     // setup an abstract state for the tabs directive, template for tabs
-      .state('tab.login', {
-        url: '/login',
-        views: {
-          'login': {
-            templateUrl: 'templates/login.html',
-            controller: 'LoginCtrl'
-          }
-        }
-      })
+
       .state('tab', {
         url: '/tab', // to navigate from browser
         abstract: true,
@@ -97,15 +89,25 @@ angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'
           }
         }
       })
-    .state('tab.feedback', {
-      url: '/profile/feedback',
-      views: {
-        'tab-profile': {
-          templateUrl: 'templates/tap-profile-feedback.html',
-          controller: 'FeedbackCtrl'
+      .state('tab.feedback', {
+        url: '/profile/feedback',
+        views: {
+          'tab-profile': {
+            templateUrl: 'templates/tap-profile-feedback.html',
+            controller: 'FeedbackCtrl'
+          }
         }
-      }
-    });
+      })
+      .state('tab.login', {
+        url: '/profile/login',
+        views: {
+          'tab-profile': {
+            templateUrl: 'templates/login.html',
+            controller: 'LoginCtrl'
+          }
+        }
+      });
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/community');
   });
