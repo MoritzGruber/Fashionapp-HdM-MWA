@@ -139,3 +139,20 @@ body {
   color: white;
   font-weight: 300;
 }
+
+.legal {
+  position: absolute;
+  padding-left: 15em;
+  bottom: 3em;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@media screen and (max-width: 991px) {
+  .legal {
+    padding-left: 0;
+  }
+}
+.legal a {
+  color: white;
+  padding: 1em;
+}
