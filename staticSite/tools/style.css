@@ -60,9 +60,22 @@ body {
   max-width: 600px;
 }
 
+#info-text {
+  margin: 3em auto;
+  line-height: 40px;
+  font-size: 20px;
+  padding: 0 1em;
+}
+@media screen and (max-width: 550px) {
+  #info-text {
+    line-height: 30px;
+    font-size: 16px;
+  }
+}
+
 .content .input-group {
   width: 400px;
-  margin: 5em auto 0;
+  margin: 3em auto 0;
 }
 @media screen and (max-width: 550px) {
   .content .input-group {
@@ -70,11 +83,22 @@ body {
   }
 }
 
+.button-light {
+  margin-top: 5em;
+  height: 4em;
+  padding: 1.25em 2em;
+  border-radius: 2em;
+  font-weight: 400;
+  background: rgba(255,255,255,0.1);
+  letter-spacing: 1px;
+  color: white;
+}
+
 .input-group input {
   height: 4em;
   padding: 1em 1.5em 1em 2.5em;
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
   font-weight: 400;
   background: rgba(255,255,255,0.1);
   letter-spacing: 1px;
@@ -92,8 +116,8 @@ body {
 .input-group input[type="submit"] {
   height: 4em;
   padding: 0 3em 0 2.5em;
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
+  border-top-right-radius: 2em;
+  border-bottom-right-radius: 2em;
   font-weight: 400;
   background: rgba(255,255,255,0.7);
   letter-spacing: 1px;

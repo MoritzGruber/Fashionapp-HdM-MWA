@@ -21,10 +21,17 @@
 
   <!-- Google Analytics -->
   <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-87919631-2', 'auto');
     ga('send', 'pageview');
@@ -40,10 +47,12 @@
 
       <img src="images/logo-slogan-white.svg" class="shadow">
 
+      <p id="info-text">Entdecke einzigartige Mode in deiner Stadt!<br>Abonniere unseren Newsletter und bleibe auf dem Laufenden:</p>
+
+      <!-- Subscribe form -->
       <form action="//fittshot.us14.list-manage.com/subscribe/post?u=dd31720348b450449276cd1ad&amp;id=db25ba176d"
             method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate"
             target="_blank" novalidate>
-        <!-- Subscribe input group -->
         <div class="input-group">
           <input type="email" value="" name="EMAIL" class="form-control email" id="mce-EMAIL"
                  placeholder="Email" required>
@@ -52,20 +61,15 @@
             <input type="text" name="b_dd31720348b450449276cd1ad_db25ba176d" tabindex="-1" value="">
           </div>
           <span class="input-group-btn">
-            <!--<button class="btn btn-default" type="button" >Stay tuned!</button>-->
-            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-default">
+            <input type="submit" value="Abonnieren" name="subscribe" id="mc-embedded-subscribe" class="btn btn-default">
           </span>
         </div>
       </form>
 
-      <p>Stay tuned about what's going on!</p>
-
     </div>
   </div>
 </div>
-
 <div class="cut"></div>
 
-</div>
 </body>
 </html>
