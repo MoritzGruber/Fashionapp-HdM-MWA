@@ -2,6 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale = 1.0, user-scalable = no">
   <title>Fittshot - Coming Soon</title>
@@ -13,37 +14,46 @@
   <link href='https://fonts.googleapis.com/css?family=Merriweather:700,400|Lato' rel='stylesheet' type='text/css'>
   <link href="https://file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
 
-  <script type="text/javascript" src="tools/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
           integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
           crossorigin="anonymous"></script>
+
 </head>
 <body>
+
 <div class="bg-wrapper"><!--wrapper started-->
   <div class="table-wrapper">
     <div class="content">
+
       <img src="images/logo-slogan-white.svg" class="shadow">
+
       <form action="//fittshot.us14.list-manage.com/subscribe/post?u=dd31720348b450449276cd1ad&amp;id=db25ba176d"
             method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate"
             target="_blank" novalidate>
+        <!-- Subscribe input group -->
         <div class="input-group">
           <input type="email" value="" name="EMAIL" class="form-control email" id="mce-EMAIL"
                  placeholder="Email" required>
-          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
-                                                                                    name="b_dd31720348b450449276cd1ad_db25ba176d"
-                                                                                    tabindex="-1" value=""></div>
+          <!-- Honeypot -->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true">
+            <input type="text" name="b_dd31720348b450449276cd1ad_db25ba176d" tabindex="-1" value="">
+          </div>
           <span class="input-group-btn">
             <!--<button class="btn btn-default" type="button" >Stay tuned!</button>-->
             <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-default">
           </span>
         </div>
       </form>
+
       <p>We'll inform you, when the beta starts.</p>
+
     </div>
   </div>
 </div>
+
 <div class="cut"></div>
+
 </div>
 </body>
 </html>
