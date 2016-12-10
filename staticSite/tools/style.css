@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 .bg-wrapper {
   background: url('../images/background.jpg');
   background-size: cover;
@@ -24,7 +30,7 @@
 }
 
 .cut {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.12);
   height: 100%;
   width: 150%;
   position: absolute;
@@ -58,7 +64,7 @@
   width: 400px;
   margin: 5em auto 0;
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 550px) {
   .content .input-group {
     width: 70%;
   }
@@ -69,7 +75,7 @@
   padding: 1em 1.5em 1em 2.5em;
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
-  font-weight: 600;
+  font-weight: 400;
   background: rgba(255,255,255,0.1);
   letter-spacing: 1px;
   color: white;
@@ -88,7 +94,7 @@
   padding: 0 3em 0 2.5em;
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
-  font-weight: 600;
+  font-weight: 400;
   background: rgba(255,255,255,0.7);
   letter-spacing: 1px;
   color: black;
@@ -107,4 +113,5 @@
 .content p {
   margin-top: 1em;
   color: white;
+  font-weight: 300;
 }
