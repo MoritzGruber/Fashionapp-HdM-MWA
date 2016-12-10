@@ -10,41 +10,22 @@
     <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
     <div class="list">
-      <a class="item item-thumbnail-right" href="">
+      <a class="item item-thumbnail-right" ui-sref="tab.community-detail({id: 1})">
         <img src="img/dress.jpg">
         <h2>Pretty Hate Machine</h2>
         <p>Nine Inch Nails</p>
       </a>
-      <a class="item item-thumbnail-right" href="#">
+      <a class="item item-thumbnail-right" ui-sref="tab.community-detail({id: 1})">
         <img src="img/dress.jpg">
         <h2>Pretty Hate Machine</h2>
         <p>Nine Inch Nails</p>
       </a>
-      <a class="item item-thumbnail-right" href="#">
+      <a class="item item-thumbnail-right" ui-sref="tab.community-detail({id: 1})">
         <img src="img/dress.jpg">
         <h2>Pretty Hate Machine</h2>
         <p>Nine Inch Nails</p>
       </a>
     </div>
-    <!-- card with imagesFromOtherUsers from community repeating -->
-    <div class="card">
-      <div class="item item-royal">
-          <!--name of the sender -->
-          <div class="fromWhoHeading"><h2>Image From: BOBO</h2></div>
-      </div>
-      <div class="item item-royal">
-        <!-- image itself-->
-        <img class="communitySingleImg" ng-src="img/dress.jpg">
-      </div>
-      <div class="item item-royal item-divider row">
-        <!-- button for voting -->
-          <div class="col col-50">
-            <button class="button button-balanced leftButton">NO</button>
-          </div>
-          <div class="col">
-            <button  class="button button-positive rightButton">YES</button>
-          </div>
-        </div>
-    </div>
+
   </ion-content>
 </ion-view>
