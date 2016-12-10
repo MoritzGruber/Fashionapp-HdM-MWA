@@ -14,7 +14,7 @@
     <!-- array of voted labels -->
     <ion-list no-lines>
       <div class="list">
-        <a class="item item-thumbnail-right" ui-sref="tab.collection-detail">
+        <a class="item item-thumbnail-right" ui-sref="tab.collection-detail({id: 1})">
           <img src="img/dress.jpg">
           <h2>Pretty Hate Machine</h2>
           <p>Nine Inch Nails</p>
@@ -24,34 +24,12 @@
           <h2>Pretty Hate Machine</h2>
           <p>Nine Inch Nails</p>
         </a>
-        <a class="item item-thumbnail-right" href="#" on-tap="openDetailImage($index)">
+        <a class="item item-thumbnail-right" ui-sref="tab.collection-detail({id: 1})">
           <img src="img/dress.jpg">
           <h2>Pretty Hate Machine</h2>
           <p>Nine Inch Nails</p>
         </a>
       </div>
-
-      <!-- on-hold showinng delete button, then on-click on button delete image, clicking outside of the item-container resets the view resetDelete() -->
-      <ion-item class="item-royal">
-        <div class="item-container" >
-          <div class="progress-circle">
-          <!-- angular-progress-arc complete float value between 0.0 and 1.0; where 0.0 is an empty arc -->
-            <progress-arc
-              size="220"
-              stroke="#5AE8C1"
-              stroke-width="45"
-              complete="ownImage.percantag"
-              counter-clockwise="false"
-              background="#C6C9C9"
-              responsive="true">
-            </progress-arc>
-          </div>
-          <!--showing image and switch to detail view on tab-->
-          <div class="img-wrapper"  >
-            <img class="img-wrapper-img" ng-src="img/dress.jpg">
-          </div>
-        </div>
-      </ion-item>
     </ion-list>
   </ion-content>
 </ion-view>

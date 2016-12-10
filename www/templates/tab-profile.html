@@ -4,12 +4,12 @@
   <ion-nav-title class="header-title">
     Profile
   </ion-nav-title>
-  <ion-content class="padding has-header has-subheader">
+  <ion-content class="padding has-header has-subheader" ng-controller="ProfileCtrl">
     <!--Information list-->
     <ul class="list">
       <!--LoginName-->
       <li class="item">
-        Username: {{loginName}}
+        Username: {{username}}
       </li>
       <!--Email-->
       <li class="item">
@@ -31,7 +31,7 @@
       Invite Friends
     </button>
     <!--logout-->
-    <button type="submit" class="btn outline" ng-click="logout()" ui-sref="tab.login">
+    <button type="submit" class="btn outline" ng-click="logout()" ui-sref="login">
       Logout
     </button>
 

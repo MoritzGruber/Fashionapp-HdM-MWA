@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'])
+angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services', 'ngStorage'])
 
   .run(function () {
     ionic.Platform.ready(function () {
@@ -98,18 +98,14 @@ angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services'
           }
         }
       })
-      .state('tab.login', {
-        url: '/profile/login',
-        views: {
-          'tab-profile': {
-            templateUrl: 'templates/login.html',
-            controller: 'LoginCtrl'
-          }
-        }
+      .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: 'LoginCtrl'
       });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/community');
+    $urlRouterProvider.otherwise('/login');
   });
 angular.module('fittshot.controllers', []);
 angular.module('fittshot.services', []);
