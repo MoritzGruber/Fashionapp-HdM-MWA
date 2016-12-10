@@ -58,7 +58,7 @@
   width: 400px;
   margin: 5em auto 0;
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 550px) {
   .content .input-group {
     width: 70%;
   }
