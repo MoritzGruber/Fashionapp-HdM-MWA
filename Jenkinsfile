@@ -25,7 +25,7 @@ node {
             }
 
             stage('tests: karma') {
-                echo 'Karma tests (not yet) '
+                echo 'Karma tests (not yet)'
                 //sh 'karma start'
             }
         }
