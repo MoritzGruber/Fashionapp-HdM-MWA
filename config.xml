@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.moritzgruber.lapica" version="0.2.0" android-versionCode="2008" ios-CFBundleVersion="2008" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="2008" id="com.moritzgruber.lapica" ios-CFBundleVersion="2008" version="0.2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Lapica</name>
-  <description>
-        Share your clothing with your friends
+  <description>&#xD;&#xD;
+        Share your clothing with your friends&#xD;&#xD;
     </description>
-  <author email="moritzgruber@yahoo.de" href="http://www.moritzgruber.com">
-      Lapica Team
+  <author email="moritzgruber@yahoo.de" href="http://www.moritzgruber.com">&#xD;&#xD;
+      Lapica Team&#xD;&#xD;
     </author>
   <content src="index.html"/>
   <access origin="*"/>
@@ -71,4 +71,10 @@
     <splash src="resources/android/splash/drawable-port-xxxhdpi-screen.png" density="port-xxxhdpi"/>
   </platform>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
+  <plugin name="cordova-plugin-whitelist" spec="~1.3.0"/>
+  <plugin name="cordova-plugin-statusbar" spec="~2.2.0"/>
+  <plugin name="cordova-plugin-console" spec="~1.0.4"/>
+  <plugin name="cordova-plugin-device" spec="~1.1.3"/>
+  <plugin name="ionic-plugin-keyboard" spec="~2.2.1"/>
+  <plugin name="cordova-plugin-splashscreen" spec="~4.0.0"/>
 </widget>

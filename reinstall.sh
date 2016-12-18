@@ -1,2 +1,3 @@
+#!/usr/bin/env bash
 adb uninstall com.moritzgruber.lapica
-ionic run android -l -c
+ionic run android

@@ -4,15 +4,35 @@
   <ion-nav-title class="header-title">
     Profile
   </ion-nav-title>
-  <ion-content class="padding has-header has-subheader">
-    <!-- show own name, which is currently in the number field, will be replaced after we add number authentication-->
-    <h3 class="centertext">{{storage.getNumber()}}</h3>
-    <!--feedback button , hockeyapp-->
-    <button type="submit" class="btn outline" ng-click="sendFeedback()">
-      Submit Feedback
+  <ion-content class="padding has-header has-subheader" ng-controller="ProfileCtrl">
+    <!--Information list-->
+    <ul class="list">
+      <!--LoginName-->
+      <li class="item">
+        Username: {{username}}
+      </li>
+      <!--Email-->
+      <li class="item">
+        Email: {{email}}
+      </li>
+      <!--Location -->
+      <li class="item">
+        Location: Ingolstadt
+      </li>
+
+    </ul>
+
+    <!--Invite -->
+    <button type="submit" class="btn outline" ui-sref="tab.feedback" ng-click="giveFeedback()">
+      Give Feedback
     </button>
-    <!-- sync data with server, refresh -->
-    <button type="submit" class="btn outline" ng-click="updateData()">
-      Refresh Data
+    <!--Feedback-->
+    <button type="submit" class="btn outline" ng-click="inviteFriends()">
+      Invite Friends
     </button>
+    <!--logout-->
+    <button type="submit" class="btn outline" ng-click="logout()" ui-sref="login">
+      Logout
+    </button>
+
 </ion-view>
