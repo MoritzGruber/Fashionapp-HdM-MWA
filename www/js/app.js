@@ -6,32 +6,17 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('fittshot', ['ionic', 'fittshot.controllers', 'fittshot.services', 'ngStorage'])
+angular.module('fittshot', ['ngRoute', 'mobile-angular-ui' , 'fittshot.controllers', 'fittshot.services', 'ngStorage'])
 
   .run(function () {
-    ionic.Platform.ready(function () {
 
-      //INITIALIZE PROCESS
-      //default setup for keyboard
-      // Hide the keyboardaccessorybar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
-      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-        cordova.plugins.Keyboard.disableScroll(true);
-      }
-      if (window.StatusBar && ionic.Platform.isIOS()) {
-        // hide statusbar on ios
-        StatusBar.hide();
-      }
-    });
   })
-  .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  .config(function ($stateProvider, $urlRouterProvider) {
     //setting up route
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
     // Each state's controller can be found in controllers.js
-    $ionicConfigProvider.tabs.position('bottom');
 
     $stateProvider
     // setup an abstract state for the tabs directive, template for tabs
