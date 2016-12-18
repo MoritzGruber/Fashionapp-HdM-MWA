@@ -16,7 +16,7 @@ node {
             stage('build') {
                 sh 'sudo npm install'
                 sh 'sudo bower install --allow-root'
-                echo 'Gulp: Minify & Uglify (not yet) '
+                echo 'Gulp: Minify & Uglify (not yet)'
                 //sh 'gulp'
             }
 
