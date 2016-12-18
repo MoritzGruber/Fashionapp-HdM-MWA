@@ -20,13 +20,18 @@ node {
                 echo 'install dependencies'
                 sh 'npm install'
                 sh 'bower install'
-                echo 'Gulp: Minify & Uglify (not yet)'
-                //sh 'gulp'
+                echo 'Gulp: Minify & Uglify'
+                sh 'gulp'
             }
 
             stage('tests: karma') {
-                echo 'Karma tests (not yet)'
+                echo 'karma tests (not yet)'
                 //sh 'karma start'
+            }
+
+            stage('deploy: production') {
+                echo 'deploy to production'
+                //sh 'cp /var/lib/jenkins/jobs/fittshot-frontend-pipeline /var/www/html'
             }
         }
     } catch(err) {
