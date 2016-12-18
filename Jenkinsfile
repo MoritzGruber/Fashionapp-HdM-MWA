@@ -1,4 +1,4 @@
- #!groovy
+#!groovy
 node {
 
     currentBuild.result = "SUCCESS"
