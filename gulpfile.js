@@ -174,7 +174,7 @@ gulp.task('connect', function() {
   connect.server({
     root: './dist',
     livereload: true,
-    port: 8888
+    port: 8899
   });
 });
 
