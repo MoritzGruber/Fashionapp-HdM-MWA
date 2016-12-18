@@ -9,19 +9,24 @@ node {
             notifyBuild('STARTED')
 
             stage('checkout') {
-                sh 'ssh ubuntu@52.59.143.142'
+                echo 'ssh to the server'
+                sh 'ssh moritz@fittshot.com'
+                sh 'cd /var/lib/jenkins/jobs/fittshot-frontend-pipeline/workspace'
+                echo 'git checkout'
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'MoritzGruber', url: 'https://github.com/MoritzGruber/Fashionapp-HdM-MWA']]])
             }
 
             stage('build') {
-                sh 'sudo npm install'
-                sh 'sudo bower install --allow-root'
-                echo 'Gulp: Minify & Uglify (not yet) '
+                echo 'install dependencies'
+                sh 'npm install'
+                sh 'bower install'
+                echo 'Gulp: Minify & Uglify (not yet)'
                 //sh 'gulp'
             }
 
             stage('tests: karma') {
-                sh 'karma start'
+                echo 'Karma tests (not yet)'
+                //sh 'karma start'
             }
         }
     } catch(err) {
