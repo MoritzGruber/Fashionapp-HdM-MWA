@@ -1,13 +1,12 @@
-angular.module('fittshot.controllers').controller('ProfileCtrl', ['$scope', '$http', '$localStorage', function($scope, $http, $localStorage){
+angular.module('fittshot.controllers').controller('ProfileCtrl', ['$scope', '$http', '$localStorage', '$location', function($scope, $http, $localStorage, $location){
 
-    $scope.$on('$ionicView.enter', function() {
-     // Code you want executed every time view is opened
      $scope.username = $localStorage.username;
      $scope.email = $localStorage.email;
-  })
+
     $scope.logout = function(){
       $localStorage.username = null;
       $localStorage.email = null;
+      $location.path('/login');
     }
 
 }]);
