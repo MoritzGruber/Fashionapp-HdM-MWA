@@ -8,12 +8,14 @@
 
 angular.module('fittshot', ['ui.router', 'mobile-angular-ui' , 'fittshot.controllers', 'fittshot.services', 'ngStorage'])
 
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $qProvider) {
     //setting up route
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
     // Each state's controller can be found in controllers.js
+
+    $qProvider.errorOnUnhandledRejections(false);
 
     $stateProvider
     // setup an abstract state for the tabs directive, template for tabs
