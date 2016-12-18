@@ -244,6 +244,11 @@ ion-tabs.tabs-color-active-balanced .tab-item.tab-item-active, ion-tabs.tabs-col
 
 .tabbar{
   height: 10%;
+  > div {
+    height: 100%;
+    width: 33%;
+    float: left;
+  }
 }
 
 

@@ -75,7 +75,8 @@ var gulp 		  	= require('gulp'),
   sass        	= require('gulp-sass'),
   notify 			= require('gulp-notify'),
   plumber			= require('gulp-plumber'),
-  fileinclude 	= require('gulp-file-include');
+  fileinclude 	= require('gulp-file-include'),
+  uncss = require('gulp-uncss');
 
 
 var debug = false;
@@ -149,6 +150,7 @@ gulp.task('sass', function () {
   gulp.src('./www/scss/**/*.scss')
     .pipe(plumber({errorHandler: onError}))
     .pipe(sass())
+    .pipe(uncss({html: ['./www/index.html', './www/**/*.html', 'http://fittshot.com']}))
     .on('error', sass.logError)
     .pipe(gulpif(debug, sass(debugOpts).on('error', sass.logError)))
     .pipe(gulpif(!debug, sass(opts).on('error', sass.logError)))
