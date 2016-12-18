@@ -21,11 +21,6 @@ angular.module('fittshot', ['mobile-angular-ui' , 'fittshot.controllers', 'fitts
     $routeProvider
     // setup an abstract when for the tabs directive, template for tabs
     // $locationProvider.html5Mode(true);
-
-      .when('/tab', {
-        templateUrl: 'templates/tabs.html',
-        controller: 'TabsCtrl'
-      })
       .when('/community', {
             templateUrl: 'templates/tab-community.html',
             controller: 'CommunityCtrl'
@@ -37,6 +32,11 @@ angular.module('fittshot', ['mobile-angular-ui' , 'fittshot.controllers', 'fitts
       .when('/collection-detail/:imageId', {
         templateUrl: 'templates/tap-collection-detail.html',
         controller: 'CollectionCtrl'
+      })
+
+      .when('/community-detail/:imageId', {
+        templateUrl: 'templates/tap-community-detail.html',
+        controller: 'CommunityCtrl'
       })
 
       .when('/profile', {
