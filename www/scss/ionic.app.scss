@@ -32,13 +32,18 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "www/lib/ionic/scss/ionic";
 // background --------------------------------
 ion-content {
-  background-image: url('../img/backgrounds/dark2.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  color: $stable;
+  //background-image: url('../img/backgrounds/dark2.png');
+  //background-repeat: no-repeat;
+  //background-size: cover;
+  //-webkit-background-size: cover;
+  //-moz-background-size: cover;
+  //-o-background-size: cover;
+  //background-position: center center;
+  //color: $stable;
+  //height: 85%;
+  //width: 20em;
+  //height: 10em;
+
 }
 
 // start screen, input------------------------
@@ -226,6 +231,19 @@ ion-tabs.tabs-color-active-balanced .tab-item.tab-item-active, ion-tabs.tabs-col
     display: block;
     margin: auto;
   }
+}
+
+.mainview{
+  height: 90%;
+  background: url(../img/backgrounds/dark2.png) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.tabbar{
+  height: 10%;
 }
 
 

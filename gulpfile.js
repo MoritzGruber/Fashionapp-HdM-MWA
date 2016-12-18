@@ -77,6 +77,7 @@ var gulp 		  	= require('gulp'),
   plumber			= require('gulp-plumber'),
   fileinclude 	= require('gulp-file-include');
 
+
 var debug = false;
 
 var onError = function(err) {
@@ -145,14 +146,18 @@ gulp.task('sass', function () {
     outputStyle: "expanded"
   };
 
-  gulp.src(['./sass/**/*.scss', './www/css/**/*.css', './www/css/**/*.scss'])
+  gulp.src('./www/scss/**/*.scss')
     .pipe(plumber({errorHandler: onError}))
+    .pipe(sass())
+    .on('error', sass.logError)
     .pipe(gulpif(debug, sass(debugOpts).on('error', sass.logError)))
     .pipe(gulpif(!debug, sass(opts).on('error', sass.logError)))
     .pipe(concat('style.css'))
     .pipe(gulp.dest('./dist/css'))
     .pipe(connect.reload());
+
 });
+
 
 
 gulp.task('img', function () {
@@ -166,7 +171,7 @@ gulp.task('watch', ['js', 'sass', 'html', 'img'], function () {
   gulp.watch(['./www/*.js', './www/**/*.js'], ['js']);
   gulp.watch(['./www/**/*.scss', './www/*.scss', './www/**/*.css', './www/**/*.scss'], ['sass']);
   gulp.watch(['./www/*.html', './www/**/*.html'], ['html']);
-  gulp.watch(['./www/**'], ['img']);
+  gulp.watch(['./www/img/**'], ['img']);
 });
 
 

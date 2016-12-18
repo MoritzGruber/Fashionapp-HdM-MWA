@@ -1,3 +1,3 @@
-angular.module('fittshot.controllers').controller('CommunityCtrl', ['$scope', '$http', function($scope, $http){
+angular.module('fittshot.controllers').controller('CommunityCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){
 
 }]);

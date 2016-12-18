@@ -1,7 +1,7 @@
-angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http', '$state', '$localStorage', function($scope, $http, $state, $localStorage) {
+angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http', '$localStorage', '$location', function($scope, $http, $localStorage, $location) {
   //check if already loged in
   if($localStorage.username != null && $localStorage.email != null){
-    $state.go('tab.community');
+    $location.path('/community');
   }
 
   $scope.registerMode = false;
@@ -18,9 +18,8 @@ angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http
         setTimeout(function(){
           $scope.form = null;
         }, 0);
-        $state.go('tab.profile');
+        $location.path('/community');
 
-        $state.go('tab.community');
   };
   $scope.register = function () {
     console.log('register  with:  '+$scope.form.username+ ', '+$scope.form.email+ ' and password: '+ $scope.form.password);
