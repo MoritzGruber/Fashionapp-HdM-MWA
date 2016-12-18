@@ -1,6 +1,9 @@
 Ionic App
 =====================
 
+[![Build Status](http://fittshot.com:8085/job/fittshot-frontend-pipeline/badge/icon)](http://fittshot.com:8085/job/fittshot-frontend-pipeline/)
+
+
 Project in the Course Mobile Web Applications at HdM.
 This app helps people to make better purchase decisions, based on feedback of there friends.
 
