@@ -6,11 +6,8 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('fittshot', ['ngRoute', 'mobile-angular-ui' , 'fittshot.controllers', 'fittshot.services', 'ngStorage'])
+angular.module('fittshot', ['ui.router', 'mobile-angular-ui' , 'fittshot.controllers', 'fittshot.services', 'ngStorage'])
 
-  .run(function () {
-
-  })
   .config(function ($stateProvider, $urlRouterProvider) {
     //setting up route
     // Ionic uses AngularUI Router which uses the concept of states
