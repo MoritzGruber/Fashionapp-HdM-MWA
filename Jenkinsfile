@@ -20,8 +20,8 @@ node {
                 echo 'install dependencies'
                 sh 'npm install'
                 sh 'bower install'
-                echo 'Gulp: Minify & Uglify'
-                sh 'gulp'
+                echo 'Gulp: Minify & Uglify (not yet)'
+                //sh 'gulp'
             }
 
             stage('tests: karma') {
