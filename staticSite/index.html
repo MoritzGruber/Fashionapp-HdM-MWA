@@ -9,10 +9,12 @@
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link href="tools/style.css" rel="stylesheet" type="text/css" media="screen"/>
+  <link href="css/style.css" rel="stylesheet" type="text/css" media="screen"/>
 
   <link href='https://fonts.googleapis.com/css?family=Merriweather:700,400|Lato' rel='stylesheet' type='text/css'>
   <link href="https://file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -40,35 +42,53 @@
 
 </head>
 <body>
+<header>
+  <div class="bg-wrapper"><!--wrapper started-->
+    <div class="table-wrapper">
+      <div class="content">
 
-<div class="bg-wrapper"><!--wrapper started-->
-  <div class="table-wrapper">
-    <div class="content">
+        <img src="images/logo-slogan-white.svg" class="shadow">
 
-      <img src="images/logo-slogan-white.svg" class="shadow">
+        <p id="info-text">Entdecke einzigartige Mode in deiner Stadt!<br>Abonniere unseren Newsletter und bleibe auf dem
+          Laufenden:</p>
 
-      <p id="info-text">Entdecke einzigartige Mode in deiner Stadt!<br>Abonniere unseren Newsletter und bleibe auf dem Laufenden:</p>
-
-      <!-- Subscribe form -->
-      <form action="//fittshot.us14.list-manage.com/subscribe/post?u=dd31720348b450449276cd1ad&amp;id=db25ba176d"
-            method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate"
-            target="_blank" novalidate>
-        <div class="input-group">
-          <input type="email" value="" name="EMAIL" class="form-control email" id="mce-EMAIL"
-                 placeholder="Email" required>
-          <!-- Honeypot -->
-          <div style="position: absolute; left: -5000px;" aria-hidden="true">
-            <input type="text" name="b_dd31720348b450449276cd1ad_db25ba176d" tabindex="-1" value="">
-          </div>
-          <span class="input-group-btn">
+        <!-- Subscribe form -->
+        <form action="//fittshot.us14.list-manage.com/subscribe/post?u=dd31720348b450449276cd1ad&amp;id=db25ba176d"
+              method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate"
+              target="_blank" novalidate>
+          <div class="input-group">
+            <input type="email" value="" name="EMAIL" class="form-control email" id="mce-EMAIL"
+                   placeholder="Email" required>
+            <!-- Honeypot -->
+            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+              <input type="text" name="b_dd31720348b450449276cd1ad_db25ba176d" tabindex="-1" value="">
+            </div>
+            <span class="input-group-btn">
             <input type="submit" value="Abonnieren" name="subscribe" id="mc-embedded-subscribe" class="btn btn-default">
           </span>
+          </div>
+        </form>
+        <div class="social">
+          <a href="https://www.facebook.com/fittshot" target="_blank">
+            <i class="fa fa-facebook-official" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.instagram.com/fittshot" target="_blank">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+          </a>
         </div>
-      </form>
+      </div>
     </div>
   </div>
-</div>
-<div class="cut"></div>
-<div class="legal"><a href="legal.pdf" target="_blank">Datenschutz</a><a href="imprint.html">Impressum</a></div>
+  <div class="cut"></div>
+  <div class="bottom">
+    <a href="legal.pdf" target="_blank">Datenschutz</a>
+    <a href="imprint.html">Impressum</a>
+  </div>
+</header>
+<!--<section class="container">-->
+  <!--<div class="row">-->
+    <!--<h2>Lorem ipsum</h2>-->
+  <!--</div>-->
+<!--</section>-->
 </body>
 </html>

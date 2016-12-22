@@ -4,6 +4,11 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+header {
+  height: 100vh;
+  overflow: hidden;
+}
+
 .bg-wrapper {
   background: url('../images/background.jpg');
   background-size: cover;
@@ -17,7 +22,7 @@ body {
   height: 100%;
 
   /* Set up positioning */
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
 }
@@ -44,6 +49,7 @@ body {
   text-align: center;
   display: table-cell;
   vertical-align: middle;
+  padding-bottom: 3em;
 }
 
 @media screen and (max-width: 991px) {
@@ -140,19 +146,41 @@ body {
   font-weight: 300;
 }
 
-.legal {
+.bottom {
   position: absolute;
   padding-left: 15em;
   bottom: 3em;
   left: 50%;
   transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
 }
 @media screen and (max-width: 991px) {
-  .legal {
+  .bottom {
     padding-left: 0;
   }
 }
-.legal a {
-  color: white;
+
+.bottom a {
+  color: rgba(255,255,255,0.5);
   padding: 1em;
+}
+
+.social {
+  margin: 3em auto 0;
+}
+@media screen and (max-width: 991px) {
+  .social {
+    margin-top: 1em;
+  }
+}
+
+.social i {
+  margin: 1em 0.5em;
+  font-size: 30px;
+  color: rgba(255,255,255,0.9);
+  transition: color 0.2s ease;
+}
+.social a:hover > i {
+  color: rgba(255,255,255,0.5);
 }
