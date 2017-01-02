@@ -177,9 +177,14 @@ header {
 
 .social i {
   margin: 1em 0.5em;
-  font-size: 30px;
+  font-size: 42px;
   color: rgba(255,255,255,0.9);
   transition: color 0.2s ease;
+}
+@media screen and (max-width: 991px) {
+  .social i {
+    font-size: 30px;
+  }
 }
 .social a:hover > i {
   color: rgba(255,255,255,0.5);

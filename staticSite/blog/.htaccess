@@ -1,0 +1,6 @@
+ptions +FollowSymLinks -MultiViews
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{HTTP_HOST} ^(www\.)?blog\.fittshot\.com$ [NC]
+RewriteRule ^ http://lapica.subot.com%{REQUEST_URI} [R=301,L]
