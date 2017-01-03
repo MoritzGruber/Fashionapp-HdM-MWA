@@ -10,7 +10,7 @@ node {
 
             stage('checkout') {
                 echo 'ssh to the server'
-                sh 'ssh moritz@fittshot.com'
+                sh 'ssh chris@fittshot.com'
                 sh 'cd /var/lib/jenkins/jobs/fittshot-frontend-pipeline/workspace'
                 echo 'git checkout'
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'MoritzGruber', url: 'https://github.com/MoritzGruber/Fashionapp-HdM-MWA']]])
