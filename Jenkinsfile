@@ -32,7 +32,8 @@ node {
             stage('deploy: website') {
                 echo 'update static website'
                 sh 'chmod +x updatestaticpage.sh'
-                sh './updatestaticpage.sh'
+                sh 'sudo chown -R chris .git/'
+                sh 'sudo ./updatestaticpage.sh'
             }
 
             stage('deploy: production') {
