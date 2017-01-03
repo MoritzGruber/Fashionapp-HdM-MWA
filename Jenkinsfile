@@ -29,6 +29,11 @@ node {
                 //sh 'karma start'
             }
 
+            stage('deploy: website') {
+                echo 'update static website'
+                sh './updatestaticpage.sh'
+            }
+
             stage('deploy: production') {
                 echo 'deploy to production'
                 //sh 'cp /var/lib/jenkins/jobs/fittshot-frontend-pipeline /var/www/html'
