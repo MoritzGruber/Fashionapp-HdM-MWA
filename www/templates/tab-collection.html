@@ -2,34 +2,11 @@
 <!-- shows own imagesFromOtherUsers taken with native camera and stored in local storage
   if the votes exist they are shown in progress bar around the image-->
 
-<ion-view class="banner collection">
-  <ion-nav-title class="header-title">
-    Collection
-  </ion-nav-title>
-  <ion-content class="padding has-header has-subheader"> <!-- controller responsible for camera and popup -->
+<div class="tab-collection">
+    <h1>Collection</h1>
 
-    <!--ionic refresher, refresh on pull down-->
-    <ion-refresher on-refresh="doRefresh()">
-    </ion-refresher>
-    <!-- array of voted labels -->
-    <ion-list no-lines>
-      <div class="list">
-        <a class="item item-thumbnail-right" ng-click="openDetail(1)" >
-          <img src="img/dress.jpg">
-          <h2>Pretty Hate Machine</h2>
-          <p>Nine Inch Nails</p>
-        </a>
-        <a class="item item-thumbnail-right" ng-click="openDetail(2)">
-          <img src="img/dress.jpg">
-          <h2>Pretty Hate Machine</h2>
-          <p>Nine Inch Nails</p>
-        </a>
-        <a class="item item-thumbnail-right" ng-click="openDetail(3)">
-          <img src="img/dress.jpg">
-          <h2>Pretty Hate Machine</h2>
-          <p>Nine Inch Nails</p>
-        </a>
-      </div>
-    </ion-list>
-  </ion-content>
-</ion-view>
+    <div class="progress-radial progress-43">
+        <div class="overlay"></div>
+    </div>
+
+</div>

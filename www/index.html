@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-  <title></title>
-  <!-- compiled css output -->
-  <link href="css/style.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+    <!-- compiled css output -->
+    <link href="css/style.css" rel="stylesheet">
 
-  <!-- Only required for desktop -->
-  <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css"/>
+    <!-- Only required for desktop -->
+    <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css"/>
 
-  <!-- Always required -->
-  <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css"/>
+    <!-- Always required -->
+    <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css"/>
 
-  <!-- Only required for desktop -->
-  <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css"/>
+    <!-- Only required for desktop -->
+    <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css"/>
 
-  <script src="lib/angular/angular.min.js"></script>
-  <script src="lib/angular-route/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-  <script src="lib/mobile-angular-ui/dist/js/mobile-angular-ui.min.js"></script>
-  <script src="lib/ngstorage/ngStorage.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-route/angular-route.min.js"></script>
 
-  <!-- your app's js -->
+    <script src="lib/mobile-angular-ui/dist/js/mobile-angular-ui.min.js"></script>
+    <script src="lib/ngstorage/ngStorage.min.js"></script>
 
-  <script src="js/app.js"></script>
-  <!--
-      <script src="js/controller/CommunityCtrl.js"></script>
-      <script src="js/controller/CollectionCtrl.js"></script>
-      <script src="js/controller/ProfileCtrl.js"></script>
-      <script src="js/controller/LoginCtrl.js"></script>
-      <script src="js/controller/TabsCtrl.js"></script>
-      <script src="js/controller/FeedbackCtrl.js"></script>
-      <script src="js/services/pullImageService.js"></script>
-      <script src="js/services/authService.js"></script>
-  -->
+    <!-- your app's js -->
+
+    <script src="js/app.js"></script>
+    <!--
+        <script src="js/controller/CommunityCtrl.js"></script>
+        <script src="js/controller/CollectionCtrl.js"></script>
+        <script src="js/controller/ProfileCtrl.js"></script>
+        <script src="js/controller/LoginCtrl.js"></script>
+        <script src="js/controller/TabsCtrl.js"></script>
+        <script src="js/controller/FeedbackCtrl.js"></script>
+        <script src="js/services/pullImageService.js"></script>
+        <script src="js/services/authService.js"></script>
+    -->
 </head>
 <body ng-app="fittshot">
 
@@ -43,35 +45,48 @@
 <!--<div class="sidebar sidebar-right">&lt;!&ndash; ... &ndash;&gt;</div>-->
 
 <!--<div class="app">-->
-  <!--<div class="navbar navbar-app navbar-absolute-top">&lt;!&ndash; Top Navbar &ndash;&gt;</div>-->
-  <!--<div class="navbar navbar-app navbar-absolute-bottom">&lt;!&ndash; Bottom Navbar &ndash;&gt;</div>-->
+<!--<div class="navbar navbar-app navbar-absolute-top">&lt;!&ndash; Top Navbar &ndash;&gt;</div>-->
+<!--<div class="navbar navbar-app navbar-absolute-bottom">&lt;!&ndash; Bottom Navbar &ndash;&gt;</div>-->
 
-  <!-- App body -->
-  <!--<div class='app-body'>-->
+<!-- App body -->
+<!--<div class='app-body'>-->
 
-    <!--<div class='app-content'>-->
-  <div class="mainview">
-    <ng-view> </ng-view>
-  </div>
+<!--<div class='app-content'>-->
+
+<div class="app">
+    <div class="navbar navbar-app navbar-absolute-bottom">
+        <div class="tabbar" ng-controller="TabsCtrl">
+            <div class="container">
+                <div class="row">
+                    <div id="tab-indicator"></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 tab" id="community-tab" ng-click="redirectTo('community')" onclick="$('#tab-indicator').css('margin-left','0')">
+                        Community
+                    </div>
+                    <div class="col-xs-4 tab" id="collection-tab" ng-click="redirectTo('collection')" onclick="$('#tab-indicator').css('margin-left','33.333%')">
+                        Collection
+                    </div>
+                    <div class="col-xs-4 tab" id="profile-tab" ng-click="redirectTo('profile')" onclick="$('#tab-indicator').css('margin-left','66.666%')">
+                        Profile
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-body">
+        <div class="scrollable">
+            <div class="scrollable-content">
+                <ng-view></ng-view>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="mainview">-->
+
+<!--</div>-->
 <!-- tab ba-->
-  <div class="tabbar" ng-controller="TabsCtrl">
-    <div class="communitytTab" ng-click="redirectTo('community')">
-      Community
-    </div>
-    <div class="collectionTab" ng-click="redirectTo('collection')">
-      Collection
-    </div>
-    <div class="profilTab" ng-click="redirectTo('profile')">
-      Profile
-    </div>
 
-
-  </div>
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>&lt;!&ndash; ~ .app &ndash;&gt;-->
-
-<!-- Modals and Overlays -->
-<!--<div ui-yield-to="modals"></div>-->
 </body>
 </html>

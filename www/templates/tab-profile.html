@@ -1,38 +1,35 @@
 <!-- profile tab -->
 <!-- shows the nickname and allows user to send feedback and refresh user data -->
-<ion-view class="banner profile">
-  <ion-nav-title class="header-title">
-    Profile
-  </ion-nav-title>
-  <ion-content class="padding has-header has-subheader" ng-controller="ProfileCtrl">
-    <!--Information list-->
+
+<div class="tab-profile">
+    <h1>Profile</h1>
+
     <ul class="list">
-      <!--LoginName-->
-      <li class="item">
-        Username: {{username}}
-      </li>
-      <!--Email-->
-      <li class="item">
-        Email: {{email}}
-      </li>
-      <!--Location -->
-      <li class="item">
-        Location: Ingolstadt
-      </li>
+        <!--LoginName-->
+        <li class="item">
+            Username: {{username}}
+        </li>
+        <!--Email-->
+        <li class="item">
+            Email: {{email}}
+        </li>
+        <!--Location -->
+        <li class="item">
+            Location: Ingolstadt
+        </li>
 
     </ul>
 
     <!--Invite -->
-    <button type="submit" class="btn outline" ng-click="giveFeedback()">
-      Give Feedback
+    <button class="btn btn-block outline" ng-click="giveFeedback()">
+        Give Feedback
     </button>
     <!--Feedback-->
-    <button type="submit" class="btn outline" ng-click="inviteFriends()">
-      Invite Friends
+    <button class="btn btn-block outline" ng-click="inviteFriends()">
+        Invite Friends
     </button>
     <!--logout-->
-    <button type="submit" class="btn outline" ng-click="logout()" ui-sref="login">
-      Logout
+    <button class="btn btn-block outline" ng-click="logout()" ui-sref="login">
+        Logout
     </button>
-
-</ion-view>
+</div>

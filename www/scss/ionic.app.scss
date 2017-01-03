@@ -7,19 +7,19 @@ $stable: #ECE6E6 !default;
 $calm: #efe8e3 !default; // post container
 $positive: #5ae8c1 !default;
 //$balanced: #9a9694 !default;
-$balanced: #fff !default;
+$white: #fff !default;
 $energized: #ffc900 !default;
 $assertive: #ef473a !default;
 $royal: transparent !default;
 //$dark: #444 !default;
 $dark: #ECE6E6 !default;
 
-$base-color: $balanced;
+$base-color: $white;
 //input
-$input-color: $balanced !default;
+$input-color: $white !default;
 $bar-default-bg: $royal !default;
 $bar-light-border: $royal !default;
-$input-label-color: $balanced !default;
+$input-label-color: $white !default;
 //card
 $card-header-bg: $stable !default;
 $card-body-bg: $royal !default;
@@ -28,229 +28,301 @@ $card-footer-bg: $royal !default;
 $item-padding: 10px !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
-// Include all of Ionic
-@import "www/lib/ionic/scss/ionic";
 // background --------------------------------
 ion-content {
-  //background-image: url('../img/backgrounds/dark2.png');
-  //background-repeat: no-repeat;
-  //background-size: cover;
-  //-webkit-background-size: cover;
-  //-moz-background-size: cover;
-  //-o-background-size: cover;
-  //background-position: center center;
-  //color: $stable;
-  //height: 85%;
-  //width: 20em;
-  //height: 10em;
+    //background-image: url('../img/backgrounds/dark2.png');
+    //background-repeat: no-repeat;
+    //background-size: cover;
+    //-webkit-background-size: cover;
+    //-moz-background-size: cover;
+    //-o-background-size: cover;
+    //background-position: center center;
+    //color: $stable;
+    //height: 85%;
+    //width: 20em;
+    //height: 10em;
+
+}
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+
+.navbar-absolute-bottom {
+    border: 0 !important;
+}
+
+.app-body {
+    font-family: 'Roboto', sans-serif !important;
+    background: url(../img/backgrounds/dark2.png) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.tabbar {
+    background: #808080;
+    color: white;
+    .tab {
+        text-align: center;
+        font-size: 20px;
+        padding: 0.5em;
+    }
+    #tab-indicator {
+        width: 33.333%;
+        height: 5px;
+        background: #acacac;
+        transition: margin 0.3s ease;
+    }
+}
+
+.tab-profile {
+    .outline {
+        margin: 1em 10vw !important;
+        padding: 0.5em !important;
+        background: transparent;
+        color: white;
+        outline: 2px solid white;
+        width: 80vw;
+        font-size: 18px;
+        border-radius: 0;
+        transition: background 0.2s ease, color 0.2s ease;
+        &:hover {
+            background: white;
+            color: #343434;
+        }
+    }
+}
+
+.tab-collection {
+    $barColor: green;
+    $overlayColor: #fffde8;
+    $backColor: red;
+    $circle-width: 250px;
+    $border-width: 4px;
+
+    /* -------------------------------------
+     * Bar container
+     * ------------------------------------- */
+
+    .progress-radial {
+        margin: 0 auto;
+        position: relative;
+        width: $circle-width;
+        height: $circle-width;
+        border-radius: 50%;
+        background-color: $barColor; // default 100%
+    }
+
+    /* -------------------------------------
+     * Optional centered circle w/text
+     * ------------------------------------- */
+
+    .progress-radial .overlay {
+        position: absolute;
+        width: $circle-width - (2 * $border-width);
+        height: $circle-width - (2 * $border-width);
+        background-color: $overlayColor;
+        border-radius: 50%;
+        margin-left: $border-width;
+        margin-top: $border-width;
+        text-align: center;
+        line-height: $circle-width;
+        font-size: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('../img/dress.jpg');
+        background-size: cover;
+    }
+
+    /* -------------------------------------
+     * Mixin for progress-% class
+     * ------------------------------------- */
+
+    $step: 1; // step of % for created classes
+
+    $loops: round(100 / $step);
+    $increment: 360 / $loops;
+    $half: round($loops / 2);
+    @for $i from 0 through $loops {
+        .progress-#{$i * $step} {
+            @if $i < $half {
+                $nextdeg: 90deg + ( $increment * $i );
+                background-image: linear-gradient(90deg, $backColor 50%, transparent 50%, transparent), linear-gradient($nextdeg, $barColor 50%, $backColor 50%, $backColor);
+            } @else {
+                $nextdeg: -90deg + ( $increment * ( $i - $half ) );
+                background-image: linear-gradient($nextdeg, $barColor 50%, transparent 50%, transparent), linear-gradient(270deg, $barColor 50%, $backColor 50%, $backColor);
+            }
+        }
+    }
 
 }
 
 // start screen, input------------------------
 .start {
-  margin: 20% auto auto auto;
+    margin: 20% auto auto auto;
 }
 
 input {
-  background: $royal;
-  margin: 10px auto 10px auto;
-}
-
-//outline for inputfield and buttons
-.outline {
-  display: inline-block;
-  margin: 2%;
-  border: 2px solid $stable;
-  background: $royal;
-  color: $balanced;
-  width: 90%;
-  height: 60px;
-  display: inline-block;
-}
-
-.btn:hover {
-  opacity: 0.5;
-  background-color: $light;
+    background: $royal;
+    margin: 10px auto 10px auto;
 }
 
 .nick-title {
-  margin: 10px auto 0 10px;;
+    margin: 10px auto 0 10px;;
 }
 
 // banners ----------------------------------
 .header-title {
-  color: $light;
+    color: $light;
 }
 
 .banner {
-  background-repeat: no-repeat;
-  background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
 }
 
 .community {
-  background-image: url('../img/banners/p1.jpg');
+    background-image: url('../img/banners/p1.jpg');
 }
 
 .collection {
-  background-image: url('../img/banners/p2.jpg');
+    background-image: url('../img/banners/p2.jpg');
 }
 
 .profile {
-  background-image: url('../img/banners/p3.jpg');
+    background-image: url('../img/banners/p3.jpg');
 }
 
 // tab-community -----------------------------
 
 .fromWhoHeading {
-  padding: 1%;
-  position: relative;
-  width: 100%;
+    padding: 1%;
+    position: relative;
+    width: 100%;
 }
 
 .communitySingleImg {
-  padding: 1%;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  border-radius: 2%;
+    padding: 1%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 2%;
 }
 
 .leftButton {
-  width: 100%;
-  opacity: 0.7;
+    width: 100%;
+    opacity: 0.7;
 }
 
 .rightButton {
-  width: 100%;
-  opacity: 0.7;
+    width: 100%;
+    opacity: 0.7;
 }
 
 // tab-collection -------------------------------
 .photo-btn {
-  border: 2px solid $stable;
-  background: $royal;
-  border-radius: 50px;
-  color: $stable;
-  width: 50px;
-  height: 50px;
-  margin: 10px auto 10px auto;
-  display: block;
+    border: 2px solid $stable;
+    background: $royal;
+    border-radius: 50px;
+    color: $stable;
+    width: 50px;
+    height: 50px;
+    margin: 10px auto 10px auto;
+    display: block;
 }
 
 .item-container {
-  background-color: $royal;
-  margin-left: auto;
-  margin-right: auto;
-  z-index: 0;
-  width: 220px;
-  height: 220px;
+    background-color: $royal;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 0;
+    width: 220px;
+    height: 220px;
 }
 
 .progress-circle {
-  position: absolute;
-  z-index: 1;
+    position: absolute;
+    z-index: 1;
 }
 
 .img-wrapper {
-  z-index: 2;
-  width: 200px;
-  height: 200px;
-  margin-top: 10px;
-  margin-left: 10px;
-  position: absolute;
-  overflow: hidden;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
+    z-index: 2;
+    width: 200px;
+    height: 200px;
+    margin-top: 10px;
+    margin-left: 10px;
+    position: absolute;
+    overflow: hidden;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
 }
 
 .img-wrapper-img {
-  display: inline;
-  margin: 0 auto;
-  position: relative;
-  max-width: 300px;
+    display: inline;
+    margin: 0 auto;
+    position: relative;
+    max-width: 300px;
 }
 
 .fullscreenimage {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 
 .deleteBtn {
-  position: absolute;
-  z-index: 3;
-  border-radius: 50%;
-  width: 220px;
-  height: 220px;
-  background-color: $assertive;
-  opacity: 0.5;
+    position: absolute;
+    z-index: 3;
+    border-radius: 50%;
+    width: 220px;
+    height: 220px;
+    background-color: $assertive;
+    opacity: 0.5;
 }
 
 //for profile name in profile tab
 .centertext {
-  text-align: center;
+    text-align: center;
 }
 
 //for the friends selection
 .markedForDelete {
-  color: indianred;
-  text-decoration-color: indianred;
+    color: indianred;
+    text-decoration-color: indianred;
 }
 
 .friendsDeleteButtons {
-  width: 50%;
-  float: left;
-  padding-left: 1%;
-  padding-right: 1%;
+    width: 50%;
+    float: left;
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
-.friendIsSelected{
-  color: green;
-  text-decoration-color: green;
+.friendIsSelected {
+    color: green;
+    text-decoration-color: green;
 }
+
 .centerImg {
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  display: block;
-}
-.tabs-striped .tabs {
-  background-color: #727676;
-  background-image: none;
-  border: none;
-  padding-top: 2px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    display: block;
 }
 
-ion-tabs.tabs-color-active-balanced .tab-item.tab-item-active, ion-tabs.tabs-color-active-balanced .tab-item.active, ion-tabs.tabs-color-active-balanced .tab-item.activated{
-  color: #fff;
+.tabs-striped .tabs {
+    background-color: #727676;
+    background-image: none;
+    border: none;
+    padding-top: 2px;
+}
+
+ion-tabs.tabs-color-active-balanced .tab-item.tab-item-active, ion-tabs.tabs-color-active-balanced .tab-item.active, ion-tabs.tabs-color-active-balanced .tab-item.activated {
+    color: #fff;
 }
 
 //put loading spinner in the center
 .loadingSpinner {
-  svg{
-    display: block;
-    margin: auto;
-  }
+    svg {
+        display: block;
+        margin: auto;
+    }
 }
-
-.mainview{
-  height: 90%;
-  background: url(../img/backgrounds/dark2.png) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-.tabbar{
-  height: 10%;
-  > div {
-    height: 100%;
-    width: 33%;
-    float: left;
-  }
-}
-
-
-
-
