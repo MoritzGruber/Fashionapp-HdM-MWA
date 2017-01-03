@@ -31,9 +31,9 @@ node {
 
             stage('deploy: website') {
                 echo 'update static website'
-                sh 'chmod +x updatestaticpage.sh'
-                sh 'sudo chown -R jenkins .git/'
-                sh 'sudo ./updatestaticpage.sh'
+                //sh 'chmod +x updatestaticpage.sh'
+                //sh 'sudo chown -R jenkins .git/'
+                //sh 'sudo ./updatestaticpage.sh'
             }
 
             stage('deploy: production') {
@@ -70,7 +70,7 @@ def notifyBuild(String buildStatus = 'STARTED') {
   } else {
     color = 'RED'
     colorCode = '#D00000'
-    slackSend (color: colorCode, message: summary)
+    //slackSend (color: colorCode, message: summary)
   }
 
   // Send notifications
