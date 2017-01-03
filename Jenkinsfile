@@ -31,6 +31,7 @@ node {
 
             stage('deploy: website') {
                 echo 'update static website'
+                sh 'chmod +x updatestaticpage.sh'
                 sh './updatestaticpage.sh'
             }
 
