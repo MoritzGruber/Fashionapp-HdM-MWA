@@ -6,7 +6,7 @@ node {
     try {
         ansiColor('xterm') {
 
-            notifyBuild('STARTED')
+            //notifyBuild('STARTED')
 
             stage('checkout') {
                 echo 'ssh to the server'
@@ -70,8 +70,9 @@ def notifyBuild(String buildStatus = 'STARTED') {
   } else {
     color = 'RED'
     colorCode = '#D00000'
+    slackSend (color: colorCode, message: summary)
   }
 
   // Send notifications
-  slackSend (color: colorCode, message: summary)
+  //slackSend (color: colorCode, message: summary)
 }
