@@ -150,7 +150,7 @@ gulp.task('sass', function () {
   gulp.src('./www/scss/**/*.scss')
     .pipe(plumber({errorHandler: onError}))
     .pipe(sass())
-    .pipe(uncss({html: ['./www/index.html', './www/**/*.html', 'http://fittshot.com']}))
+    // .pipe(uncss({html: ['./www/index.html', './www/**/*.html', 'http://fittshot.com']}))
     .on('error', sass.logError)
     .pipe(gulpif(debug, sass(debugOpts).on('error', sass.logError)))
     .pipe(gulpif(!debug, sass(opts).on('error', sass.logError)))

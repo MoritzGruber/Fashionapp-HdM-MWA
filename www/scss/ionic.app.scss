@@ -56,8 +56,34 @@ ion-content {
     background-size: cover;
 }
 
+.banner {
+    box-shadow: 0 2px 10px -5px #333;
+    img {
+        //position: fixed;
+        //top: 0;
+        //left: 0;
+        width: 100%;
+        max-height: 30vh;
+        object-fit: cover;
+        transition: all 0.3s ease;
+        z-index: 1;
+    }
+    img.shrink {
+        max-height: 20vh;
+    }
+    p {
+        position: absolute;
+        top: 50px;
+        right: 30px;
+        font-size: 30px;
+        color: white;
+        text-shadow: 2px 2px 10px black;
+    }
+}
+
 .tabbar {
-    background: #808080;
+    box-shadow: 0 -2px 30px -10px #333;
+    background: #8b8b8b;
     color: white;
     .tab {
         text-align: center;
@@ -67,14 +93,18 @@ ion-content {
     #tab-indicator {
         width: 33.333%;
         height: 5px;
-        background: #acacac;
+        background: #4b4b4b;
         transition: margin 0.3s ease;
     }
 }
 
+.tab-content {
+    padding: 20px 0;
+}
+
 .tab-profile {
     .outline {
-        margin: 1em 10vw !important;
+        margin: 0.75em 10vw !important;
         padding: 0.5em !important;
         background: transparent;
         color: white;
@@ -91,18 +121,43 @@ ion-content {
 }
 
 .tab-collection {
+
+    text-align: center;
+
+    // take picture (+) button
+
+    .btn-circle {
+        width: 50px;
+        height: 50px;
+        margin: 2em 0;
+        border-radius: 50%;
+        font-size: 20px;
+        font-weight: 200;
+        background: transparent;
+        border: 1px solid grey;
+        color: grey;
+        &:hover {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid grey;
+        }
+        &:focus {
+            background: transparent;
+            border: 1px solid grey;
+        }
+    }
+
+    // taken images with vote results around
+
     $barColor: green;
     $overlayColor: #fffde8;
     $backColor: red;
     $circle-width: 250px;
     $border-width: 4px;
 
-    /* -------------------------------------
-     * Bar container
-     * ------------------------------------- */
+    // circle bar container
 
     .progress-radial {
-        margin: 0 auto;
+        margin: 0 auto 2em;
         position: relative;
         width: $circle-width;
         height: $circle-width;
@@ -110,9 +165,7 @@ ion-content {
         background-color: $barColor; // default 100%
     }
 
-    /* -------------------------------------
-     * Optional centered circle w/text
-     * ------------------------------------- */
+    // centered circle
 
     .progress-radial .overlay {
         position: absolute;
@@ -132,9 +185,7 @@ ion-content {
         background-size: cover;
     }
 
-    /* -------------------------------------
-     * Mixin for progress-% class
-     * ------------------------------------- */
+    // progress-* classes
 
     $step: 1; // step of % for created classes
 
@@ -152,130 +203,52 @@ ion-content {
             }
         }
     }
-
 }
 
-// start screen, input------------------------
-.start {
-    margin: 20% auto auto auto;
-}
-
-input {
-    background: $royal;
-    margin: 10px auto 10px auto;
-}
-
-.nick-title {
-    margin: 10px auto 0 10px;;
-}
-
-// banners ----------------------------------
-.header-title {
-    color: $light;
-}
-
-.banner {
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-}
-
-.community {
-    background-image: url('../img/banners/p1.jpg');
-}
-
-.collection {
-    background-image: url('../img/banners/p2.jpg');
-}
-
-.profile {
-    background-image: url('../img/banners/p3.jpg');
-}
-
-// tab-community -----------------------------
-
-.fromWhoHeading {
-    padding: 1%;
-    position: relative;
-    width: 100%;
-}
-
-.communitySingleImg {
-    padding: 1%;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    border-radius: 2%;
-}
-
-.leftButton {
-    width: 100%;
-    opacity: 0.7;
-}
-
-.rightButton {
-    width: 100%;
-    opacity: 0.7;
-}
-
-// tab-collection -------------------------------
-.photo-btn {
-    border: 2px solid $stable;
-    background: $royal;
-    border-radius: 50px;
-    color: $stable;
-    width: 50px;
-    height: 50px;
-    margin: 10px auto 10px auto;
-    display: block;
-}
-
-.item-container {
-    background-color: $royal;
-    margin-left: auto;
-    margin-right: auto;
-    z-index: 0;
-    width: 220px;
-    height: 220px;
-}
-
-.progress-circle {
-    position: absolute;
-    z-index: 1;
-}
-
-.img-wrapper {
-    z-index: 2;
-    width: 200px;
-    height: 200px;
-    margin-top: 10px;
-    margin-left: 10px;
-    position: absolute;
-    overflow: hidden;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-}
-
-.img-wrapper-img {
-    display: inline;
-    margin: 0 auto;
-    position: relative;
-    max-width: 300px;
-}
-
-.fullscreenimage {
-    width: 100%;
-    height: auto;
-}
-
-.deleteBtn {
-    position: absolute;
-    z-index: 3;
-    border-radius: 50%;
-    width: 220px;
-    height: 220px;
-    background-color: $assertive;
-    opacity: 0.5;
+.tab-login {
+    text-align: center;
+    .logo {
+        width: 70%;
+        margin: 5em auto;
+    }
+    .outline {
+        margin: 0.75em 10vw;
+        padding: 0.5em !important;
+        background: transparent;
+        color: white;
+        outline: 2px solid white;
+        width: 80vw;
+        font-size: 18px;
+        border-radius: 0;
+        transition: background 0.2s ease, color 0.2s ease;
+        border: 0;
+        text-align: center;
+        &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+            color:    white;
+        }
+        &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color:    white;
+            opacity:  1;
+        }
+        &::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color:    white;
+            opacity:  1;
+        }
+        &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color:    white;
+        }
+        &:hover {
+            background: white;
+            color: #343434;
+        }
+    }
+    button {
+        margin-top: 2.5em !important;
+    }
+    .bright-text {
+        color: white;
+        cursor: pointer;
+    }
 }
 
 //for profile name in profile tab

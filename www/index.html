@@ -16,6 +16,9 @@
     <!-- Only required for desktop -->
     <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css"/>
 
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
     <script src="lib/angular/angular.min.js"></script>
@@ -25,8 +28,8 @@
     <script src="lib/ngstorage/ngStorage.min.js"></script>
 
     <!-- your app's js -->
-
     <script src="js/app.js"></script>
+    <script src="js/script.js"></script>
     <!--
         <script src="js/controller/CommunityCtrl.js"></script>
         <script src="js/controller/CollectionCtrl.js"></script>
@@ -54,32 +57,8 @@
 <!--<div class='app-content'>-->
 
 <div class="app">
-    <div class="navbar navbar-app navbar-absolute-bottom">
-        <div class="tabbar" ng-controller="TabsCtrl">
-            <div class="container">
-                <div class="row">
-                    <div id="tab-indicator"></div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-4 tab" id="community-tab" ng-click="redirectTo('community')" onclick="$('#tab-indicator').css('margin-left','0')">
-                        Community
-                    </div>
-                    <div class="col-xs-4 tab" id="collection-tab" ng-click="redirectTo('collection')" onclick="$('#tab-indicator').css('margin-left','33.333%')">
-                        Collection
-                    </div>
-                    <div class="col-xs-4 tab" id="profile-tab" ng-click="redirectTo('profile')" onclick="$('#tab-indicator').css('margin-left','66.666%')">
-                        Profile
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="app-body">
-        <div class="scrollable">
-            <div class="scrollable-content">
-                <ng-view></ng-view>
-            </div>
-        </div>
+        <ng-view></ng-view>
     </div>
 </div>
 

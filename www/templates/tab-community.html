@@ -1,31 +1,43 @@
 <!-- community tab-->
 <!-- shows pictures received from other users of the last 2h
   allows voting on the pictures and sends the votes to the backend-->
-<ion-view class="banner community">
-  <ion-nav-title class="header-title">
-    Community
-  </ion-nav-title>
-  <ion-content class="padding has-header has-subheader">
-    <!--ionic refresher, refresh on pull down-->
-    <ion-refresher on-refresh="doRefresh()">
-    </ion-refresher>
-    <div class="list">
-      <a class="item item-thumbnail-right" ng-click="openDetail(1)">
-        <img src="img/dress.jpg">
-        <h2>Pretty Hate Machine</h2>
-        <p>Nine Inch Nails</p>
-      </a>
-      <a class="item item-thumbnail-right" ng-click="openDetail(2)">
-        <img src="img/dress.jpg">
-        <h2>Pretty Hate Machine</h2>
-        <p>Nine Inch Nails</p>
-      </a>
-      <a class="item item-thumbnail-right" ng-click="openDetail(3)">
-        <img src="img/dress.jpg">
-        <h2>Pretty Hate Machine</h2>
-        <p>Nine Inch Nails</p>
-      </a>
+
+<div class="tab-content tab-community">
+
+    <div class="scrollable">
+
+        <div class="scrollable-header">
+            <div class="banner">
+                <img src="../img/banners/community.png">
+                <p>Community</p>
+            </div>
+        </div>
+
+        <div class="scrollable-content">
+
+        </div>
+
+        <div class="scrollable-footer">
+            <div class="tabbar" ng-controller="TabsCtrl">
+                <div class="container">
+                    <div class="row">
+                        <div id="tab-indicator"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 tab" id="community-tab" ng-click="redirectTo('community')" onclick="$('#tab-indicator').css('margin-left','0')">
+                            Community
+                        </div>
+                        <div class="col-xs-4 tab" id="collection-tab" ng-click="redirectTo('collection')" onclick="$('#tab-indicator').css('margin-left','33.333%')">
+                            Collection
+                        </div>
+                        <div class="col-xs-4 tab" id="profile-tab" ng-click="redirectTo('profile')" onclick="$('#tab-indicator').css('margin-left','66.666%')">
+                            Profile
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-  </ion-content>
-</ion-view>
+</div>
