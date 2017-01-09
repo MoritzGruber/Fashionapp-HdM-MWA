@@ -56,6 +56,10 @@ ion-content {
     background-size: cover;
 }
 
+.scrollable-content {
+    padding: 20px 0;
+}
+
 .banner {
     box-shadow: 0 2px 10px -5px #333;
     img {
@@ -129,7 +133,6 @@ ion-content {
     .btn-circle {
         width: 50px;
         height: 50px;
-        margin: 2em 0;
         border-radius: 50%;
         font-size: 20px;
         font-weight: 200;
@@ -148,16 +151,16 @@ ion-content {
 
     // taken images with vote results around
 
-    $barColor: green;
+    $barColor: #00fdaf;
     $overlayColor: #fffde8;
-    $backColor: red;
+    $backColor: #d90000;
     $circle-width: 250px;
     $border-width: 4px;
 
     // circle bar container
 
     .progress-radial {
-        margin: 0 auto 2em;
+        margin: 1.5em auto 0.5em;
         position: relative;
         width: $circle-width;
         height: $circle-width;
@@ -200,6 +203,73 @@ ion-content {
             } @else {
                 $nextdeg: -90deg + ( $increment * ( $i - $half ) );
                 background-image: linear-gradient($nextdeg, $barColor 50%, transparent 50%, transparent), linear-gradient(270deg, $barColor 50%, $backColor 50%, $backColor);
+            }
+        }
+    }
+}
+
+.tab-community {
+    .scrollable-content {
+        padding: 0;
+    }
+    .tabs-wrapper {
+        .nav-tabs {
+            position: absolute;
+            border: 0;
+            margin-top: -45px;
+            width: 100%;
+            z-index: 1001;
+            li {
+                width: 50%;
+                text-align: center;
+                border-radius: 0;
+                a {
+                    padding: 0.5em 0;
+                    font-size: 18px;
+                    color: white;
+                    background: transparent;
+                    border: 0;
+                    &:hover {
+                        background: transparent;
+                        border: 0;
+                        color: white;
+                    }
+                }
+            }
+        }
+        #community-tab-indicator {
+            $indicator-height: 4px;
+            height: $indicator-height;
+            width: 50%;
+            background: #4b4b4b;
+            margin-top: -$indicator-height;
+            position: absolute;
+            z-index: 1001;
+            transition: margin 0.3s ease;
+        }
+        .indicator-left {
+            margin-left: 0;
+        }
+        .indicator-right {
+            margin-left: 50%;
+        }
+        .list-item {
+            height: 70px;
+            background: #dfdfdf;
+            margin-bottom: 0.125em;
+            .name {
+                font-size: 18px;
+                line-height: 18px;
+                padding: 26px 0 26px 2.5em;
+            }
+            .img-wrapper {
+                text-align: center;
+                height: 100%;
+                padding: 4px;
+                img {
+                    height: 100%;
+                    width: auto;
+                }
             }
         }
     }
