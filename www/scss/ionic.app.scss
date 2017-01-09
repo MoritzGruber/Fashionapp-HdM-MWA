@@ -107,6 +107,15 @@ ion-content {
 }
 
 .tab-profile {
+    .profile-data {
+        width: 80vw;
+        margin: 0.75em 10vw !important;
+        font-size: 16px;
+        color: white;
+        td:last-child {
+            text-align: right;
+        }
+    }
     .outline {
         margin: 0.75em 10vw !important;
         padding: 0.5em !important;

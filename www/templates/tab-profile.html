@@ -14,21 +14,20 @@
         </div>
 
         <div class="scrollable-content">
-            <ul class="list">
-                <!--LoginName-->
-                <li class="item">
-                    Username: {{username}}
-                </li>
-                <!--Email-->
-                <li class="item">
-                    Email: {{email}}
-                </li>
-                <!--Location -->
-                <li class="item">
-                    Location: Ingolstadt
-                </li>
-
-            </ul>
+            <table class="profile-data">
+                <tr>
+                    <td>Username:</td>
+                    <td>{{username}}</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>{{email}}</td>
+                </tr>
+                <tr>
+                    <td>Location:</td>
+                    <td>Ingolstadt</td>
+                </tr>
+            </table>
 
             <button class="btn btn-block outline" ng-click="giveFeedback()">
                 Give Feedback

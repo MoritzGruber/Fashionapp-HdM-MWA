@@ -3,10 +3,10 @@ angular.module('fittshot.controllers').controller('CollectionCtrl', ['$scope', '
     console.log('get fired2');
 
     $location.path('/collection-detail/'+imageId);
-  }
+  };
   $scope.goBack = function () {
     $location.path('/collection');
-  }
+  };
   console.log($routeParams);
 
 }]);

@@ -3,10 +3,10 @@ angular.module('fittshot.controllers').controller('CommunityCtrl', ['$scope', '$
   $scope.openDetail = function (imageId) {
     console.log('get fired');
     $location.path('/community-detail/'+imageId);
-  }
+  };
   $scope.goBack = function () {
     $location.path('/community');
-  }
+  };
 
   console.log($routeParams);
 
