@@ -12,10 +12,10 @@
             <input type="email" ng-if="registerMode==true" placeholder="Email Address" ng-model="form.email"
                    class="outline">
             <input type="password" placeholder="Password" ng-model="form.password" class="outline">
-            <button type="submit" class="submit-btn btn outline" ng-if="registerMode==false"
+            <button type="submit" class="submit-btn btn outline uppercase" ng-if="registerMode==false"
                     ng-click="login(form.username, form.password)">Login
             </button>
-            <button type="submit" class="submit-btn btn outline" ng-if="registerMode==true"
+            <button type="submit" class="submit-btn btn outline uppercase" ng-if="registerMode==true"
                     ng-click="register(form.username, form.password, form.email)">Register
             </button>
             <h5>{{form.error}}</h5>
