@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('fittshot', ['mobile-angular-ui' , 'fittshot.controllers', 'fittshot.services', 'ngStorage', 'ngRoute'])
+angular.module('fittshot', ['mobile-angular-ui' , 'fittshot.controllers', 'fittshot.services', 'ngStorage', 'ngRoute', 'gajus.swing'])
 
   .config(function  ($routeProvider, $qProvider) {
     //setting up route
@@ -35,7 +35,7 @@ angular.module('fittshot', ['mobile-angular-ui' , 'fittshot.controllers', 'fitts
       })
 
       .when('/community-detail/:imageId', {
-        templateUrl: 'templates/tap-community-detail.html',
+        templateUrl: 'templates/tab-community-detail.html',
         controller: 'CommunityCtrl'
       })
 

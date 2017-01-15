@@ -10,5 +10,9 @@ angular.module('fittshot.controllers').controller('CommunityCtrl', ['$scope', '$
 
   console.log($routeParams);
 
+    $scope.cards = [
+        {name: 'foo'},
+        {name: 'bar'}
+    ];
 
 }]);
