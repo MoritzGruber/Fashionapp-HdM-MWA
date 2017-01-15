@@ -30,7 +30,7 @@ angular.module('fittshot', ['mobile-angular-ui' , 'fittshot.controllers', 'fitts
         controller: 'CollectionCtrl'
       })
       .when('/collection-detail/:imageId', {
-        templateUrl: 'templates/tap-collection-detail.html',
+        templateUrl: 'templates/tab-collection-detail.html',
         controller: 'CollectionCtrl'
       })
 
