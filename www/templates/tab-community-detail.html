@@ -1,12 +1,20 @@
 <!-- community detail view -->
 <div class="tab-content tab-community-detail">
 
-    <ul swing-stack>
-        <li
-                swing-card
-                swing-on-throwout="remove($index)"
-                ng-repeat="card in cards"
-        >{{card.name}}</li>
-    </ul>
+    <div id="viewport" ng-controller="card-stack-playground as card">
+        <ul class="stack" swing-stack swing-options="options">
+            <li
+                    swing-card
+                    swing-on-throwout="throwout(eventName, eventObject)"
+                    swing-on-throwoutleft="throwoutleft(eventName, eventObject)"
+                    swing-on-throwoutright="throwoutright(eventName, eventObject)"
+                    swing-on-throwin="throwin(eventName, eventObject)"
+                    swing-on-dragstart="dragstart(eventName, eventObject)"
+                    swing-on-dragmove="dragmove(eventName, eventObject)"
+                    swing-on-dragend="dragend(eventName, eventObject)"
+                    ng-repeat="card in cards" ng-class="card.name">{{card.symbol}}
+            </li>
+        </ul>
+    </div>
 
 </div>
