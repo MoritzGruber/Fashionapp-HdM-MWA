@@ -8,10 +8,10 @@
         <div class="scrollable-content">
             <img class="logo" src="../img/logo-slogan-white.svg" alt="Fittshot Logo">
 
-            <input type="text" placeholder="Username" ng-model="form.username" class="outline">
+            <input type="text" placeholder="Username" ng-model="form.username" class="outline input-outline">
             <input type="email" ng-if="registerMode==true" placeholder="Email Address" ng-model="form.email"
-                   class="outline">
-            <input type="password" placeholder="Password" ng-model="form.password" class="outline">
+                   class="outline input-outline">
+            <input type="password" placeholder="Password" ng-model="form.password" class="outline input-outline">
             <button type="submit" class="submit-btn btn outline uppercase" ng-if="registerMode==false"
                     ng-click="login(form.username, form.password)">Login
             </button>

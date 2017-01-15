@@ -4,70 +4,35 @@
 
 <div class="tab-content tab-community">
 
-    <div class="scrollable">
+    <div ui-state="activeTab" default="1" class="tabs-wrapper">
+        <ul class="nav nav-tabs">
+            <li ui-class="{'active': activeTab == 1}">
+                <a ui-set="{'activeTab': 1}" ng-click="indicatorMargin = 0">Friends</a>
+            </li>
+            <li ui-class="{'active': activeTab == 2}">
+                <a ui-set="{'activeTab': 2}" ng-click="indicatorMargin = '50%'">Shops</a>
+            </li>
+        </ul>
 
-        <div class="scrollable-header">
-            <div class="banner">
-                <img src="../img/banners/community.png">
-                <p>Community</p>
-            </div>
-        </div>
+        <div id="community-tab-indicator" ng-style="{'margin-left': indicatorMargin}"></div>
 
-        <div class="scrollable-content">
-            <div ui-state="activeTab" default="1" class="tabs-wrapper">
-                <ul class="nav nav-tabs">
-                    <li ui-class="{'active': activeTab == 1}">
-                        <a ui-set="{'activeTab': 1}" onclick="$('#community-tab-indicator').css('margin-left','0')">Friends</a>
-                    </li>
-                    <li ui-class="{'active': activeTab == 2}">
-                        <a ui-set="{'activeTab': 2}" onclick="$('#community-tab-indicator').css('margin-left','50%')">Shops</a>
-                    </li>
-                </ul>
-
-                <div id="community-tab-indicator"></div>
-
-                <div ui-if="activeTab == 1">
-                    <div class="list-item">
-                        <div class="name col-xs-6">Sarah</div>
-                        <div class="img-wrapper col-xs-6">
-                            <img src="../img/dress.jpg">
-                        </div>
-                    </div>
-                </div>
-
-                <div ui-if="activeTab == 2">
-                    <div class="list-item">
-                        <div class="name col-xs-6">H&M</div>
-                        <div class="img-wrapper col-xs-6">
-                            <img src="../img/dress.jpg">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="scrollable-footer">
-            <div class="tabbar" ng-controller="TabsCtrl">
-                <div class="container">
-                    <div class="row">
-                        <div id="tab-indicator"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4 tab" id="community-tab" ng-click="redirectTo('community')" onclick="$('#tab-indicator').css('margin-left','0')">
-                            Community
-                        </div>
-                        <div class="col-xs-4 tab" id="collection-tab" ng-click="redirectTo('collection')" onclick="$('#tab-indicator').css('margin-left','33.333%')">
-                            Collection
-                        </div>
-                        <div class="col-xs-4 tab" id="profile-tab" ng-click="redirectTo('profile')" onclick="$('#tab-indicator').css('margin-left','66.666%')">
-                            Profile
-                        </div>
-                    </div>
+        <div ui-if="activeTab == 1">
+            <div class="list-item" ng-click="openDetail(1)">
+                <div class="name col-xs-6">Sarah</div>
+                <div class="img-wrapper col-xs-6">
+                    <img src="../img/dress.jpg">
                 </div>
             </div>
         </div>
 
+        <div ui-if="activeTab == 2">
+            <div class="list-item" ng-click="openDetail(1)">
+                <div class="name col-xs-6">H&M</div>
+                <div class="img-wrapper col-xs-6">
+                    <img src="../img/dress.jpg">
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

@@ -4,63 +4,29 @@
 
 <div class="tab-content tab-profile">
 
-    <div class="scrollable">
+    <table class="profile-data">
+        <tr>
+            <td>Username:</td>
+            <td>{{username}}</td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td>{{email}}</td>
+        </tr>
+        <tr>
+            <td>Location:</td>
+            <td>Ingolstadt</td>
+        </tr>
+    </table>
 
-        <div class="scrollable-header">
-            <div class="banner">
-                <img src="../img/banners/profile.png">
-                <p>Profile</p>
-            </div>
-        </div>
-
-        <div class="scrollable-content">
-            <table class="profile-data">
-                <tr>
-                    <td>Username:</td>
-                    <td>{{username}}</td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td>{{email}}</td>
-                </tr>
-                <tr>
-                    <td>Location:</td>
-                    <td>Ingolstadt</td>
-                </tr>
-            </table>
-
-            <button class="btn btn-block outline" ng-click="giveFeedback()">
-                Give Feedback
-            </button>
-            <button class="btn btn-block outline" ng-click="inviteFriends()">
-                Invite Friends
-            </button>
-            <button class="btn btn-block outline" ng-click="logout()" ui-sref="login">
-                Logout
-            </button>
-        </div>
-
-        <div class="scrollable-footer">
-            <div class="tabbar" ng-controller="TabsCtrl">
-                <div class="container">
-                    <div class="row">
-                        <div id="tab-indicator"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4 tab" id="community-tab" ng-click="redirectTo('community')" onclick="$('#tab-indicator').css('margin-left','0')">
-                            Community
-                        </div>
-                        <div class="col-xs-4 tab" id="collection-tab" ng-click="redirectTo('collection')" onclick="$('#tab-indicator').css('margin-left','33.333%')">
-                            Collection
-                        </div>
-                        <div class="col-xs-4 tab" id="profile-tab" ng-click="redirectTo('profile')" onclick="$('#tab-indicator').css('margin-left','66.666%')">
-                            Profile
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    <button class="btn btn-block outline" ng-click="giveFeedback()">
+        Give Feedback
+    </button>
+    <button class="btn btn-block outline" ng-click="inviteFriends()">
+        Invite Friends
+    </button>
+    <button class="btn btn-block outline" ng-click="logout()" ui-sref="login">
+        Logout
+    </button>
 
 </div>

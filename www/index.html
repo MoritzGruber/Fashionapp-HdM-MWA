@@ -29,7 +29,7 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
-    <script src="js/script.js"></script>
+    <!--<script src="js/script.js"></script>-->
     <!--
         <script src="js/controller/CommunityCtrl.js"></script>
         <script src="js/controller/CollectionCtrl.js"></script>
@@ -58,7 +58,41 @@
 
 <div class="app">
     <div class="app-body">
-        <ng-view></ng-view>
+        <div class="scrollable" ng-controller="TabsCtrl">
+
+            <div class="scrollable-header" ng-if="showNavigation">
+                <div class="banner">
+                    <img src="{{bannerImage}}">
+                    <p>{{bannerHeadline}}</p>
+                </div>
+            </div>
+
+            <div class="scrollable-content">
+                <ng-view></ng-view>
+            </div>
+
+            <div class="scrollable-footer" ng-if="showNavigation">
+                <div class="tabbar">
+                    <div class="container">
+                        <div class="row">
+                            <div id="tab-indicator" ng-style="{'margin-left': indicatorMargin}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 tab" id="community-tab" ng-click="redirectTo('community')">
+                                Community
+                            </div>
+                            <div class="col-xs-4 tab" id="collection-tab" ng-click="redirectTo('collection')">
+                                Collection
+                            </div>
+                            <div class="col-xs-4 tab" id="profile-tab" ng-click="redirectTo('profile')">
+                                Profile
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 

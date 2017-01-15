@@ -1,95 +1,20 @@
 <!-- community detail view -->
-<ion-view hide-nav-bar="true" ng-click="goBack()">
-  <ion-nav-title class="header-title">
-    Community Details
-  </ion-nav-title>
-    <ion-content class="padding">
+<div class="tab-content tab-community-detail">
 
-      <!-- card with imagesFromOtherUsers from community repeating -->
-      <div class="card">
-
-        <div class="item item-royal">
-          <!-- image itself-->
-          <img class="communitySingleImg" ng-src="img/dress.jpg">
+    <div class="image-wrapper" ng-click="goBack()">
+        <img src="../img/dress.jpg">
+    </div>
+    <div class="vote-buttons">
+        <div class="vote-button col-xs-6 positive">
+            <button class="btn btn-block outline" ng-click="goBack()">
+                Yes
+            </button>
         </div>
-        <div class="item item-royal item-divider row">
-          <!-- button for voting -->
-            <div class="col col-50">
-              <button class="button button-balanced leftButton">NO</button>
-            </div>
-            <div class="col">
-              <button  class="button button-positive rightButton">YES</button>
-            </div>
-          </div>
-      </div>
-      <!-- card with imagesFromOtherUsers from community repeating -->
-      <div class="card">
-
-        <div class="item item-royal">
-          <!-- image itself-->
-          <img class="communitySingleImg" ng-src="img/dress.jpg">
+        <div class="vote-button col-xs-6 negative">
+            <button class="btn btn-block outline" ng-click="goBack()"   >
+                No
+            </button>
         </div>
-        <div class="item item-royal item-divider row">
-          <!-- button for voting -->
-            <div class="col col-50">
-              <button class="button button-balanced leftButton">NO</button>
-            </div>
-            <div class="col">
-              <button  class="button button-positive rightButton">YES</button>
-            </div>
-          </div>
-      </div>
-      <!-- card with imagesFromOtherUsers from community repeating -->
-      <div class="card">
+    </div>
 
-        <div class="item item-royal">
-          <!-- image itself-->
-          <img class="communitySingleImg" ng-src="img/dress.jpg">
-        </div>
-        <div class="item item-royal item-divider row">
-          <!-- button for voting -->
-            <div class="col col-50">
-              <button class="button button-balanced leftButton">NO</button>
-            </div>
-            <div class="col">
-              <button  class="button button-positive rightButton">YES</button>
-            </div>
-          </div>
-      </div>
-      <!-- card with imagesFromOtherUsers from community repeating -->
-      <div class="card">
-
-        <div class="item item-royal">
-          <!-- image itself-->
-          <img class="communitySingleImg" ng-src="img/dress.jpg">
-        </div>
-        <div class="item item-royal item-divider row">
-          <!-- button for voting -->
-            <div class="col col-50">
-              <button class="button button-balanced leftButton">NO</button>
-            </div>
-            <div class="col">
-              <button  class="button button-positive rightButton">YES</button>
-            </div>
-          </div>
-      </div>
-      <!-- card with imagesFromOtherUsers from community repeating -->
-      <div class="card">
-
-        <div class="item item-royal">
-          <!-- image itself-->
-          <img class="communitySingleImg" ng-src="img/dress.jpg">
-        </div>
-        <div class="item item-royal item-divider row">
-          <!-- button for voting -->
-            <div class="col col-50">
-              <button class="button button-balanced leftButton">NO</button>
-            </div>
-            <div class="col">
-              <button  class="button button-positive rightButton">YES</button>
-            </div>
-          </div>
-      </div>
-
-    </ion-content>
-</ion-view>
+</div>
