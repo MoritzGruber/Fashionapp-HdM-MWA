@@ -11,8 +11,10 @@ angular.module('fittshot.controllers').controller('CommunityCtrl', ['$scope', '$
   console.log($routeParams);
 
     $scope.cards = [
-        {name: 'foo'},
-        {name: 'bar'}
+        {name: 'clubs', src: '../img/dress.jpg'},
+        {name: 'diamonds', src: '../img/dress.jpg'},
+        {name: 'hearts', src: '../img/dress.jpg'},
+        {name: 'spades', src: '../img/dress.jpg'}
     ];
 
 }]);
