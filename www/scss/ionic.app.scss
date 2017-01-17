@@ -315,15 +315,14 @@ $border-width: 4px;
         //background: #C7433E;
         //border: 10px solid #ED5D52;
         position: relative;
-        .stack {
-            margin: 10vh auto;
-            width: 280px;
-            padding: 0;
-            height: 80%;
+
             li {
                 max-height: 80%;
                 position: absolute;
                 width: 280px;
+                top: 10vh;
+                left: 50%;
+                transform: translate(-50%,0);
                 list-style: none;
                 background: #fff;
                 box-shadow: 0 0 2px rgba(0, 0, 0, .2), 1px 1px 1px rgba(0, 0, 0, .2);
@@ -353,14 +352,13 @@ $border-width: 4px;
                     left: 50%;
                     transform: translate(-50%, 0);
                 }
-            }
         }
     }
     .vote-buttons {
         text-align: center;
         .vote-button {
             display: inline-block;
-            margin: 15px;
+            margin: 0 15px;
         }
         .like {
             text-align: right;
