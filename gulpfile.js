@@ -168,8 +168,23 @@ gulp.task('img', function () {
     .pipe(connect.reload());
 });
 
+gulp.task('pwa', function () {
+  var opts = {
+    empty: true,
+    spare: true
+  };
 
-gulp.task('watch', ['js', 'sass', 'html', 'img'], function () {
+  gulp.src(['./www/**/manifest.json', './www/manifest.json'])
+      .pipe(gulp.dest('./dist/'))
+      .pipe(connect.reload());
+
+  gulp.src(['./www/**/serviceWorker.js', './www/serviceWorker.js', './www/**/cache-polyfill.js', './www/cache-polyfill.js'])
+      .pipe(gulp.dest('./dist/'))
+      .pipe(connect.reload());
+});
+
+
+gulp.task('watch', ['js', 'sass', 'html', 'img', 'pwa'], function () {
   gulp.watch(['./www/*.js', './www/**/*.js'], ['js']);
   gulp.watch(['./www/**/*.scss', './www/*.scss', './www/**/*.css', './www/**/*.scss'], ['sass']);
   gulp.watch(['./www/*.html', './www/**/*.html'], ['html']);
@@ -193,7 +208,7 @@ gulp.task('debug', ['setdebug', 'default'], function() {
 
 });
 
-gulp.task('build', ['bower', 'pdf', 'js', 'ico', 'sass', 'html', 'img'], function() {
+gulp.task('build', ['bower', 'pdf', 'js', 'ico', 'sass', 'html', 'img', 'pwa'], function() {
 
 });
 

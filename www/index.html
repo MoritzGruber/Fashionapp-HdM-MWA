@@ -3,7 +3,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <title>Fittshot</title>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=description content="This web application will work in offline, has a splash screen add to home screen etc,.">
+    <meta name=viewport content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0288d1">
+    <meta name="msapplication-TileColor" content="#0288d1">
+    <meta name="msapplication-TileImage" content="./images/icons/mstile-150x150.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Fittshot">
+    <meta name="application-name" content="Fittshot">
+    <link rel="apple-touch-icon" href="./images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="./images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="./images/icons/favicon-16x16.png" sizes="16x16">
+    <!--manifest-->
+    <link rel="manifest" href="pwa/manifest.json">
+
     <!-- compiled css output -->
     <link href="css/style.css" rel="stylesheet">
 
@@ -43,6 +60,7 @@
         <script src="js/services/authService.js"></script>
     -->
 </head>
+
 <body ng-app="fittshot">
 
 <!-- Sidebars -->
@@ -98,10 +116,19 @@
     </div>
 </div>
 
-<!--<div class="mainview">-->
-
-<!--</div>-->
-<!-- tab ba-->
-
+<!--register service worker-->
+<!-- JS Files  -->
+<script type="text/javascript">
+    //If serviceWorker supports, then register it.
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register('./serviceWorker.js', { scope: "./" }) //setting scope of sw
+                .then(function(registration) {
+                    console.info('Service worker is registered!');
+                })
+                .catch(function(error) {
+                    console.error('Service worker register failed ', error);
+                });
+    }
+</script>
 </body>
 </html>
