@@ -2,7 +2,7 @@
   "name": "Fittshot",
   "short_name": "Fittshot",
   "description": "Mit Fittshot wird Mode zu deinem neuen Hobby. Lass deine Outfits von Freunden und unserer Community bewerten und finde deinen individuellen Style.",
-  "start_url": "./index.html?utm=homescreen",
+  "start_url": "./../index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#474D57",
