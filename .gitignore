@@ -9,3 +9,5 @@ resources/
 plugins/
 *.iml
 dist/
+dist/**/*
+./dist
