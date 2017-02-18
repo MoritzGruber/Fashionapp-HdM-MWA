@@ -1,4 +1,4 @@
-angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http', '$localStorage', '$location', function ($scope, $http, $localStorage, $location, authService) {
+angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http', '$localStorage', '$location', 'AuthService', function ($scope, $http, $localStorage, $location, AuthService) {
     //check if already loged in
     if ($localStorage.username != null && $localStorage.email != null) {
         $location.path('/community');
@@ -18,7 +18,7 @@ angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http
             nickname: $scope.form.username,
             password: $scope.form.password
         };
-        authService.login(user);
+        AuthService.login(user);
         $localStorage.username = $scope.form.username;
         $localStorage.email = "some@mail.fromserver";
 
@@ -29,11 +29,22 @@ angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http
 
     };
     $scope.register = function () {
-        console.log('register  with:  ' + $scope.form.username + ', ' + $scope.form.email + ' and password: ' + $scope.form.password);
         if ($scope.form.email != undefined && $scope.form.email != null) {
             //make sure all data is set correctly
 
-            $scope.from = null;
+            var user = {
+                email: $scope.form.email,
+                loginName: $scope.form.username,
+                nickname: $scope.form.username,
+                password: $scope.form.password
+            };
+
+            AuthService.register(user).then(function (result) {
+                console.log('api call successful');
+                console.log(result);
+
+                $scope.form = null;
+            });
 
         } else {
             //else we want a error to show up
@@ -41,6 +52,5 @@ angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http
             console.log("please provide a valid email");
         }
     }
-
 
 }]);

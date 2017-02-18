@@ -13,10 +13,10 @@
                    class="outline input-outline">
             <input type="password" placeholder="Password" ng-model="form.password" class="outline input-outline">
             <button type="submit" class="submit-btn btn outline uppercase" ng-if="registerMode==false"
-                    ng-click="login(form.username, form.password)">Login
+                    ng-click="login()">Login
             </button>
             <button type="submit" class="submit-btn btn outline uppercase" ng-if="registerMode==true"
-                    ng-click="register(form.username, form.password, form.email)">Register
+                    ng-click="register()">Register
             </button>
             <h5>{{form.error}}</h5>
             <h5 ng-click="toggleMode()" ng-if="registerMode==false" class="bright-text">Create a new account</h5>

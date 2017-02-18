@@ -1,10 +1,10 @@
-angular.module('fittshot.services').service('authService', function ($q, $http, API_ENDPOINT) {
+angular.module('fittshot.services').service('AuthService', function ($q, $http, API_ENDPOINT) {
 
     var LOCAL_TOKEN_KEY = 'myTokenKey';
     var isAuthenticated = false;
     var authToken;
 
-    this.login = function (user) {
+    var login = function (user) {
         return $q(function (resolve, reject) {
             $http.post(API_ENDPOINT.url + '/user/login', {
                 email: user.email,
@@ -23,22 +23,18 @@ angular.module('fittshot.services').service('authService', function ($q, $http, 
         });
     };
 
-    this.logout = function () {
+    var logout = function () {
         destroyUserCredentials();
     };
 
-    this.register = function (user) {
+    var register = function (user) {
         return $q(function (resolve, reject) {
-            $http.post(API_ENDPOINT.url + '/user/register', {
-                email: user.email,
-                loginName: user.loginName,
-                nickname: user.nickname,
-                password: user.password
-            }).then(function (res) {
-                if (res.data.success) {
-                    resolve(res.data.response);
+            $http.post(API_ENDPOINT.url + '/user/register', user).then(function (result) {
+                console.log(result.data);
+                if (result.data.success) {
+                    resolve(result.data.response);
                 } else {
-                    reject(res.data.response);
+                    reject(result.data.response);
                 }
             });
         });
