@@ -12,7 +12,7 @@ angular.module('fittshot.services').service('authService', function ($q, $http, 
                     storeUserCredentials(result.data, user);
                     resolve(result.data.user);
                 } else {
-                    reject(result.data.message);
+                    reject(result.data.response);
                 }
             });
         });
@@ -26,9 +26,9 @@ angular.module('fittshot.services').service('authService', function ($q, $http, 
         return $q(function (resolve, reject) {
             $http.post(API_ENDPOINT.url + '/register', user).then(function (res) {
                 if (res.data.success) {
-                    resolve(res.data.message);
+                    resolve(res.data.response);
                 } else {
-                    reject(res.data.message);
+                    reject(res.data.response);
                 }
             });
         });
