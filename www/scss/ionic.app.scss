@@ -41,6 +41,11 @@ $border-width: 4px;
     border: 0 !important;
 }
 
+.app {
+    max-width: 450px;
+    margin: 0 auto;
+}
+
 .app-body {
     font-family: 'Roboto', sans-serif !important;
     background: url(../img/backgrounds/dark2.png) no-repeat center center fixed;
@@ -92,8 +97,8 @@ $border-width: 4px;
 
 .tab-profile {
     .profile-data {
-        width: 80vw;
-        margin: 0.75em 10vw !important;
+        width: 80%;
+        margin: 0.75em 10% !important;
         font-size: 16px;
         color: white;
         td:last-child {
@@ -101,12 +106,12 @@ $border-width: 4px;
         }
     }
     .outline {
-        margin: 0.75em 10vw !important;
+        margin: 0.75em 10% !important;
         padding: 0.5em !important;
         background: transparent;
         color: white;
         outline: 2px solid white;
-        width: 80vw;
+        width: 80%;
         font-size: 18px;
         border-radius: 0;
         transition: background 0.2s ease, color 0.2s ease;
@@ -419,12 +424,12 @@ $border-width: 4px;
         margin: 5em auto;
     }
     .outline {
-        margin: 0.75em 10vw;
+        margin: 0.75em 10%;
         padding: 0.5em !important;
         background: transparent;
         color: white;
         outline: 2px solid white;
-        width: 80vw;
+        width: 80%;
         font-size: 18px;
         border-radius: 0;
         transition: background 0.2s ease, color 0.2s ease;
