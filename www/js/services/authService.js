@@ -6,7 +6,12 @@ angular.module('fittshot.services').service('authService', function ($q, $http, 
 
     this.login = function (user) {
         return $q(function (resolve, reject) {
-            $http.post(API_ENDPOINT.url + '/authenticate', user).then(function (result) {
+            $http.post(API_ENDPOINT.url + '/user/login', {
+                email: user.email,
+                loginName: user.loginName,
+                nickname: user.nickname,
+                password: user.password
+            }).then(function (result) {
                 console.log(result.data);
                 if (result.data.success) {
                     storeUserCredentials(result.data, user);
@@ -24,7 +29,12 @@ angular.module('fittshot.services').service('authService', function ($q, $http, 
 
     this.register = function (user) {
         return $q(function (resolve, reject) {
-            $http.post(API_ENDPOINT.url + '/register', user).then(function (res) {
+            $http.post(API_ENDPOINT.url + '/user/register', {
+                email: user.email,
+                loginName: user.loginName,
+                nickname: user.nickname,
+                password: user.password
+            }).then(function (res) {
                 if (res.data.success) {
                     resolve(res.data.response);
                 } else {
