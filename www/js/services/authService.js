@@ -67,4 +67,13 @@ angular.module('fittshot.services').service('authService', function ($q, $http, 
         window.localStorage.removeItem('user.password');
     }
 
+    return {
+        login: login,
+        register: register,
+        logout: logout,
+        isAuthenticated: function () {
+            return isAuthenticated;
+        }
+    };
+
 });
