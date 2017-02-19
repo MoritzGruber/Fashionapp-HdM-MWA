@@ -1,21 +1,14 @@
 {
-  "name": "Fittshot",
-  "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.2.4"
-  },
-  "dependencies": {
-    "angular-mocks": "^1.5.8",
-    "jquery": "^3.1.1",
-    "ngstorage": "^0.3.11",
-    "mobile-angular-ui": "^1.3.4",
-    "angular": "^1.6.0",
-    "angular-route": "^1.6.0",
-    "angular-ui-router": "0.3.1",
-    "angular-swing": "*"
-  },
-  "resolutions": {
-    "angular": "1.6.2",
-    "angular-ui-router": "0.3.1"
-  }
+    "name": "Fittshot",
+    "private": "true",
+    "dependencies": {
+        "angular-mocks": "^1.5.8",
+        "jquery": "^3.1.1",
+        "ngstorage": "^0.3.11",
+        "mobile-angular-ui": "^1.3.4",
+        "angular": "^1.6.0",
+        "angular-route": "^1.6.0",
+        "angular-ui-router": "0.3.1",
+        "angular-swing": "*"
+    }
 }

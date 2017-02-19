@@ -1,10 +1,11 @@
-angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http', '$localStorage', '$location', 'AuthService', function ($scope, $http, $localStorage, $location, AuthService) {
+angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$localStorage', '$location', 'AuthService', function ($scope, $rootScope, $http, $localStorage, $location, AuthService) {
 
     $scope.registerMode = false;
     $scope.form = {};
     $scope.form.text = "asdf";
     $scope.toggleMode = function () {
         $scope.registerMode = !$scope.registerMode;
+        $rootScope.modalContent = "";
     };
     $scope.login = function () {
 
@@ -19,12 +20,14 @@ angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http
             setTimeout(function () {
                 $scope.form = null;
             }, 0);
-            $location.path('/profile');
+            $location.path('/community');
 
             $localStorage.username = result.loginName;
             $localStorage.email = result.email;
+        }, function (error) {
+            $rootScope.modalContent = "Login data incorrect!";
+            $rootScope.Ui.turnOn('loginModal');
         });
-
 
 
     };
@@ -40,16 +43,25 @@ angular.module('fittshot.controllers').controller('LoginCtrl', ['$scope', '$http
             };
 
             AuthService.register(user).then(function (result) {
-                console.log('Registration ' + result);
-
-                $scope.form = null;
+                $scope.toggleMode();
+                $rootScope.modalContent = "Registration successful!";
+                $rootScope.Ui.turnOn('loginModal');
+            }, function (error) {
+                console.log('error');
+                console.log(error);
+                $rootScope.modalContent = "This username is not available any more!";
+                $rootScope.Ui.turnOn('loginModal');
             });
 
         } else {
             //else we want a error to show up
-            $scope.form.error = "Please provide a valid email";
-            console.log("please provide a valid email");
+            $rootScope.modalContent = "Please provide a valid email";
+            $rootScope.Ui.turnOn('loginModal');
         }
+    };
+
+    $scope.closeModal = function(modal) {
+        $rootScope.Ui.turnOff(modal);
     };
 
 }]);

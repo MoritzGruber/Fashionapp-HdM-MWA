@@ -42,7 +42,7 @@ $border-width: 4px;
 }
 
 .app {
-    max-width: 450px;
+    //max-width: 450px;
     margin: 0 auto;
 }
 
@@ -466,6 +466,12 @@ $border-width: 4px;
     .bright-text {
         color: white;
         cursor: pointer;
+    }
+    .bottom {
+        margin-top: 5em;
+        h5 {
+            padding: 2em 0;
+        }
     }
 }
 

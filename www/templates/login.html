@@ -18,12 +18,29 @@
             <button type="submit" class="submit-btn btn outline uppercase" ng-if="registerMode==true"
                     ng-click="register()">Register
             </button>
-            <h5>{{form.error}}</h5>
-            <h5 ng-click="toggleMode()" ng-if="registerMode==false" class="bright-text">Create a new account</h5>
-            <h5 ng-click="toggleMode()" ng-if="registerMode==true" class="bright-text">Login with existing account</h5>
-            {{errormsg}}
+            <div class="bottom">
+                <h5 ng-click="toggleMode()" ng-if="registerMode==false" class="bright-text">Create a new account</h5>
+                <h5 ng-click="toggleMode()" ng-if="registerMode==true" class="bright-text">Login with existing
+                    account</h5>
+                {{errormsg}}
+            </div>
         </div>
+
+        <div ui-yield-to="modals"></div>
 
     </div>
 
+</div>
+
+<div ui-content-for="modals">
+    <div class="modal" ui-if="loginModal" ui-shared-state='loginModal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="info">{{modalContent}}</h5>
+                    <button ui-turn-off="loginModal" ng-click="closeModal('loginModal')" class="btn btn-primary">Got it!</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
