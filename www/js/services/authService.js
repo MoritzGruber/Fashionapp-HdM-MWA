@@ -12,10 +12,9 @@ angular.module('fittshot.services').service('AuthService', function ($q, $http, 
                 nickname: user.nickname,
                 password: user.password
             }).then(function (result) {
-                console.log(result.data);
                 if (result.data.success) {
                     storeUserCredentials(result.data, user);
-                    resolve(result.data.user);
+                    resolve(result.data);
                 } else {
                     reject(result.data.response);
                 }
@@ -30,7 +29,6 @@ angular.module('fittshot.services').service('AuthService', function ($q, $http, 
     var register = function (user) {
         return $q(function (resolve, reject) {
             $http.post(API_ENDPOINT.url + '/user/register', user).then(function (result) {
-                console.log(result.data);
                 if (result.data.success) {
                     resolve(result.data.response);
                 } else {
@@ -47,11 +45,10 @@ angular.module('fittshot.services').service('AuthService', function ($q, $http, 
         }
     }
 
-    function storeUserCredentials(data, user) {
+    function storeUserCredentials(data) {
         window.localStorage.setItem(LOCAL_TOKEN_KEY, data.token);
-        window.localStorage.setItem('user._id', user._id);
-        window.localStorage.setItem('user.name', user.name);
-        window.localStorage.setItem('user.password', user.password);
+        window.localStorage.setItem('user._id', data.id);
+        window.localStorage.setItem('user.name', data.loginName);
         useCredentials(data.token);
     }
 
@@ -70,7 +67,6 @@ angular.module('fittshot.services').service('AuthService', function ($q, $http, 
         window.localStorage.removeItem(LOCAL_TOKEN_KEY);
         window.localStorage.removeItem('user._id');
         window.localStorage.removeItem('user.name');
-        window.localStorage.removeItem('user.password');
     }
 
     return {

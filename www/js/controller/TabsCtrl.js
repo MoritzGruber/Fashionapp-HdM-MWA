@@ -1,10 +1,6 @@
 angular.module('fittshot.controllers').controller('TabsCtrl', function ($scope, $rootScope, $location, $localStorage) {
-    if ($localStorage.username === null) {
-        $location.path('/login);');
 
-    }
     $scope.bannerImage = 'img/banners/community.png';
-    console.log($localStorage.username);
     $scope.showNavigation = false;
     $scope.redirectTo = function (dest) {
         $location.path('/' + dest);
