@@ -95,6 +95,7 @@ var onError = function(err) {
 gulp.task('bower', function() {
   return bower()
     .pipe(gulp.dest('./dist//lib'));
+    
 });
 
 
@@ -131,6 +132,11 @@ gulp.task('html', function () {
 gulp.task('pdf', function () {
   gulp.src(['./www/**/*.pdf', './www/*.pdf'])
     .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('node_modules', function() {
+    gulp.src(['./node_modules/*'])
+    .pipe(gulp.dest('./dist//lib'));
 });
 
 gulp.task('ico', function () {
@@ -208,7 +214,7 @@ gulp.task('debug', ['setdebug', 'default'], function() {
 
 });
 
-gulp.task('build', ['bower', 'pdf', 'js', 'ico', 'sass', 'html', 'img', 'pwa'], function() {
+gulp.task('build', ['bower', 'node_modules', 'pdf', 'js', 'ico', 'sass', 'html', 'img', 'pwa'], function() {
 
 });
 

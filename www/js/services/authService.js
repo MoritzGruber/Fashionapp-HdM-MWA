@@ -1,4 +1,4 @@
-angular.module('fittshot.services').service('AuthService', function ($q, $http, API_ENDPOINT) {
+angular.module('fittshot.services').service('AuthService', function ($q, $http, $localStorage, API_ENDPOINT) {
 
     var LOCAL_TOKEN_KEY = 'myTokenKey';
     var isAuthenticated = false;
@@ -47,8 +47,12 @@ angular.module('fittshot.services').service('AuthService', function ($q, $http, 
 
     function storeUserCredentials(data) {
         window.localStorage.setItem(LOCAL_TOKEN_KEY, data.token);
-        window.localStorage.setItem('user._id', data.id);
-        window.localStorage.setItem('user.name', data.loginName);
+        window.localStorage.setItem('user_id', data.id);
+        window.localStorage.setItem('username', data.loginName);
+        $localStorage.user_id = data.id;
+        $localStorage.token = data.token;
+        $localStorage.loginName = data.loginName;
+       
         useCredentials(data.token);
     }
 

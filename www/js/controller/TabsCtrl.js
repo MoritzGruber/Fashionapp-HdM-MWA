@@ -1,5 +1,6 @@
-angular.module('fittshot.controllers').controller('TabsCtrl', function ($scope, $rootScope, $location, $localStorage) {
+angular.module('fittshot.controllers').controller('TabsCtrl', function ($scope, $rootScope, $location, $localStorage, imageService) {
 
+    var aImageService = imageService;
     $scope.bannerImage = 'img/banners/community.png';
     $scope.showNavigation = false;
     $scope.redirectTo = function (dest) {

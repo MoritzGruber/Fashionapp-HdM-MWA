@@ -10,7 +10,7 @@ angular.module('fittshot.controllers').controller('ProfileCtrl', ['$scope', '$ht
         $scope.username = null;
         $scope.email = null;
 
-        $location.path('/login')
+        $location.path('/login');
     };
 
     $scope.giveFeedback = function () {
